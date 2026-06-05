@@ -1,168 +1,285 @@
+Berikut contoh **index.html** yang sesuai dengan keinginan terakhir Anda:
+
+* Tampilan putih dan formal.
+* Logo UIN di kiri atas.
+* Menu di atas.
+* Menampilkan informasi SIM-DBR.
+* Menampilkan statistik singkat.
+* Menampilkan daftar gedung.
+* Tombol Login Admin menuju `admin.html`.
+
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIM-DBR UIN Syekh Wasil Kediri</title>
+<title>SIM-DBR | UIN Syekh Wasil Kediri</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Segoe UI,sans-serif;
+    font-family:Segoe UI, Arial, sans-serif;
 }
 
 body{
-    background:#0f172a;
-    color:white;
+    background:#f8fafc;
+    color:#1e293b;
 }
 
-.sidebar{
-    position:fixed;
-    width:250px;
-    height:100vh;
-    background:#1e293b;
-    padding:20px;
+header{
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .logo{
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:30px;
+    display:flex;
+    align-items:center;
+    gap:15px;
 }
 
-.menu a{
-    display:block;
-    padding:12px;
-    margin-bottom:10px;
-    color:white;
+.logo img{
+    width:60px;
+}
+
+.logo-text h2{
+    color:#166534;
+}
+
+.logo-text p{
+    font-size:13px;
+    color:#64748b;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:25px;
+}
+
+nav a{
     text-decoration:none;
-    background:#334155;
+    color:#334155;
+    font-weight:600;
+}
+
+nav a:hover{
+    color:#15803d;
+}
+
+.hero{
+    text-align:center;
+    padding:80px 20px;
+    background:linear-gradient(to right,#166534,#15803d);
+    color:white;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    max-width:700px;
+    margin:auto;
+    line-height:1.7;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:25px;
+    padding:12px 24px;
+    background:white;
+    color:#166534;
+    text-decoration:none;
     border-radius:8px;
+    font-weight:bold;
 }
 
-.menu a:hover{
-    background:#2563eb;
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:50px 0;
 }
 
-.main{
-    margin-left:250px;
-    padding:20px;
+.section-title{
+    margin-bottom:25px;
+    color:#166534;
 }
 
-.cards{
+.stats{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
-    margin-top:20px;
 }
 
 .card{
-    background:#1e293b;
-    padding:20px;
+    background:white;
+    padding:25px;
     border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    text-align:center;
 }
 
 .card h2{
-    margin-top:10px;
-    font-size:32px;
+    color:#166534;
+    font-size:36px;
 }
 
-.table-box{
-    margin-top:30px;
-    background:#1e293b;
+.gedung{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.gedung-card{
+    background:white;
     padding:20px;
     border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
+footer{
+    background:#166534;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:50px;
 }
 
-th,td{
-    padding:10px;
-    border-bottom:1px solid #334155;
-    text-align:left;
-}
 </style>
 </head>
 
 <body>
 
-<div class="sidebar">
+<header>
 
 <div class="logo">
-📋 SIM-DBR
-</div>
 
-<div class="menu">
-<a href="#">📊 Dashboard</a>
-<a href="#">🏢 Gedung</a>
-<a href="#">🚪 Ruangan</a>
-<a href="#">📦 Master Aset</a>
-<a href="#">🔄 Mutasi</a>
-<a href="#">📄 DBR</a>
-<a href="#">📈 Statistik</a>
+<img src="images/logo-uin.png" alt="Logo UIN">
+
+<div class="logo-text">
+<h2>SIM-DBR</h2>
+<p>UIN Syekh Wasil Kediri</p>
 </div>
 
 </div>
 
-<div class="main">
+<nav>
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">Gedung</a></li>
+<li><a href="#">DBR</a></li>
+<li><a href="#">Statistik</a></li>
+<li><a href="#">Tentang</a></li>
+<li><a href="admin.html">Login Admin</a></li>
+</ul>
+</nav>
 
-<h1>SIM-DBR UIN Syekh Wasil Kediri</h1>
-<p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
+</header>
 
-<div class="cards">
+<section class="hero">
+
+<h1>SIM-DBR</h1>
+
+<p>
+Sistem Informasi Manajemen Daftar Barang Ruangan
+untuk pengelolaan aset, mutasi barang, DBR,
+dan statistik aset di lingkungan
+UIN Syekh Wasil Kediri.
+</p>
+
+<a href="admin.html" class="btn">
+Masuk Dashboard Admin
+</a>
+
+</section>
+
+<div class="container">
+
+<h2 class="section-title">
+Ringkasan Inventaris
+</h2>
+
+<div class="stats">
 
 <div class="card">
-<h3>Total Aset</h3>
-<h2>0</h2>
+<h2>6</h2>
+<p>Gedung</p>
 </div>
 
 <div class="card">
-<h3>Aset Baik</h3>
-<h2>0</h2>
+<h2>86</h2>
+<p>Ruangan</p>
 </div>
 
 <div class="card">
-<h3>Perbaikan</h3>
-<h2>0</h2>
+<h2>1250</h2>
+<p>Aset</p>
 </div>
 
 <div class="card">
-<h3>Rusak Berat</h3>
-<h2>0</h2>
+<h2>45 M</h2>
+<p>Nilai Aset</p>
 </div>
 
 </div>
 
-<div class="table-box">
+</div>
 
-<h3>Mutasi Terakhir</h3>
+<div class="container">
 
-<table>
+<h2 class="section-title">
+Daftar Gedung
+</h2>
 
-<tr>
-<th>ID Aset</th>
-<th>Nama Barang</th>
-<th>Dari</th>
-<th>Ke</th>
-</tr>
+<div class="gedung">
 
-<tr>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
+<div class="gedung-card">
+<h3>Gedung Rektorat</h3>
+<p>Pusat Administrasi Universitas</p>
+</div>
 
-</table>
+<div class="gedung-card">
+<h3>Gedung Fakultas Syariah</h3>
+<p>Fakultas Syariah</p>
+</div>
 
+<div class="gedung-card">
+<h3>Gedung Fakultas Tarbiyah</h3>
+<p>Fakultas Tarbiyah</p>
+</div>
+
+<div class="gedung-card">
+<h3>Gedung Pascasarjana</h3>
+<p>Pascasarjana</p>
 </div>
 
 </div>
+
+</div>
+
+<footer>
+
+Bagian Umum dan BMN<br>
+UIN Syekh Wasil Kediri
+
+</footer>
 
 </body>
 </html>
+```
+
+Saran saya:
+
+* `index.html` = halaman publik seperti di atas.
+* Nanti buat `admin.html` dengan dashboard gelap seperti screenshot yang Anda sukai.
+* Tombol **Login Admin** dan **Masuk Dashboard Admin** mengarah ke `admin.html`.
