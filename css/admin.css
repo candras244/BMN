@@ -242,3 +242,14 @@ tr:hover{
     color:white;
     cursor:pointer;
 }
+button{
+    padding:8px 14px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:5px;
+}
+
+button:hover{
+    opacity:.9;
+}
