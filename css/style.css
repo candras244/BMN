@@ -57,3 +57,10 @@ nav a{
     color:#2196f3;
     font-weight:bold;
 }
+.card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-bottom:15px;
+}
