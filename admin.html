@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,70 +9,233 @@
 <link rel="stylesheet" href="css/admin.css">
 
 </head>
+
 <body>
+
+<!-- SIDEBAR -->
 
 <div class="sidebar">
 
-<h2>SIM-DBR</h2>
+<div class="logo">
+📋 SIM-DBR
+</div>
 
-<ul>
+<div class="menu">
 
-<li>📊 Dashboard</li>
+<div class="menu-title">Utama</div>
 
-<li>🏢 Gedung</li>
+<a href="#" class="active">📊 Dashboard</a>
 
-<li>🚪 Ruangan</li>
+<div class="menu-title">Master Data</div>
 
-<li>📦 Master Aset</li>
+<a href="#">🏢 Gedung</a>
+<a href="#">🚪 Ruangan</a>
+<a href="#">📦 Master Aset</a>
 
-<li>🔄 Mutasi</li>
+<div class="menu-title">Transaksi</div>
 
-<li>🛠 Kondisi Aset</li>
+<a href="#">🔄 Mutasi</a>
+<a href="#">🛠 Kondisi Aset</a>
 
-<li>📄 DBR</li>
+<div class="menu-title">Laporan</div>
 
-<li>📈 Statistik</li>
-
-</ul>
+<a href="#">📄 DBR</a>
+<a href="#">📈 Statistik</a>
 
 </div>
 
+<div class="user-box">
+
+<strong>Bag. Umum</strong>
+<span>Super Admin</span>
+
+<button class="logout">
+Keluar
+</button>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
 <div class="main">
 
-<h1>Dashboard Admin</h1>
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<h2>Dashboard</h2>
+
+<div class="date">
+05 Juni 2026
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<div class="welcome">
+
+<h1>Selamat Datang 👋</h1>
+
+<p>
+Sistem Informasi Manajemen Daftar Barang Ruangan
+</p>
+
+</div>
+
+<!-- CARD -->
 
 <div class="cards">
 
 <div class="card">
-<h3>Total Aset</h3>
-<p>1.250</p>
+
+<div class="card-title">
+TOTAL ASET
+</div>
+
+<div class="card-value">
+1250
+</div>
+
+<div class="card-sub">
+Total aset aktif
+</div>
+
 </div>
 
 <div class="card">
-<h3>Gedung</h3>
-<p>6</p>
+
+<div class="card-title">
+GEDUNG
+</div>
+
+<div class="card-value">
+6
+</div>
+
+<div class="card-sub">
+Gedung terdaftar
+</div>
+
 </div>
 
 <div class="card">
-<h3>Ruangan</h3>
-<p>86</p>
+
+<div class="card-title">
+RUANGAN
+</div>
+
+<div class="card-value">
+86
+</div>
+
+<div class="card-sub">
+Ruangan aktif
+</div>
+
 </div>
 
 <div class="card">
-<h3>Nilai Aset</h3>
-<p>Rp 45 M</p>
+
+<div class="card-title">
+NILAI ASET
+</div>
+
+<div class="card-value">
+45 M
+</div>
+
+<div class="card-sub">
+Estimasi nilai aset
 </div>
 
 </div>
 
-<h2>Aktivitas Terbaru</h2>
+</div>
 
-<div class="aktivitas">
+<!-- PANEL -->
 
-<p>08:00 - Menambah Gedung Rektorat</p>
-<p>08:15 - Menambah Ruangan ULP</p>
-<p>08:30 - Mutasi Laptop Dell</p>
-<p>08:45 - Generate DBR ULP</p>
+<div class="grid-2">
+
+<div class="panel">
+
+<div class="panel-header">
+Distribusi Aset per Unit
+</div>
+
+<div class="panel-body">
+
+<p>
+Grafik aset per unit akan ditampilkan di sini.
+</p>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-header">
+Kondisi Keseluruhan
+</div>
+
+<div class="panel-body">
+
+<p class="good">
+95% Baik
+</p>
+
+<p class="warning">
+3% Perbaikan
+</p>
+
+<p class="danger">
+2% Rusak
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TABEL -->
+
+<div class="panel">
+
+<div class="panel-header">
+Rekapitulasi per Unit
+</div>
+
+<div class="panel-body">
+
+<table>
+
+<tr>
+<th>Unit</th>
+<th>Ruangan</th>
+<th>Total Aset</th>
+<th>Baik</th>
+<th>Rusak</th>
+</tr>
+
+<tr>
+<td>Rektorat</td>
+<td>21</td>
+<td>1250</td>
+<td class="good">1200</td>
+<td class="danger">50</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
 
 </div>
 
