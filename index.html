@@ -1,19 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>SIM-DBR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIM-DBR UIN Syekh Wasil Kediri</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+}
+
+.sidebar{
+    position:fixed;
+    width:250px;
+    height:100vh;
+    background:#1e293b;
+    padding:20px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.menu a{
+    display:block;
+    padding:12px;
+    margin-bottom:10px;
+    color:white;
+    text-decoration:none;
+    background:#334155;
+    border-radius:8px;
+}
+
+.menu a:hover{
+    background:#2563eb;
+}
+
+.main{
+    margin-left:250px;
+    padding:20px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:12px;
+}
+
+.card h2{
+    margin-top:10px;
+    font-size:32px;
+}
+
+.table-box{
+    margin-top:30px;
+    background:#1e293b;
+    padding:20px;
+    border-radius:12px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:10px;
+    border-bottom:1px solid #334155;
+    text-align:left;
+}
+</style>
 </head>
+
 <body>
 
-<h1>SIM-DBR UIN Syekh Wasil Kediri</h1>
+<div class="sidebar">
 
-<ul>
-  <li>Dashboard</li>
-  <li>Master Aset</li>
-  <li>Mutasi</li>
-  <li>DBR</li>
-  <li>Statistik</li>
-</ul>
+<div class="logo">
+📋 SIM-DBR
+</div>
+
+<div class="menu">
+<a href="#">📊 Dashboard</a>
+<a href="#">🏢 Gedung</a>
+<a href="#">🚪 Ruangan</a>
+<a href="#">📦 Master Aset</a>
+<a href="#">🔄 Mutasi</a>
+<a href="#">📄 DBR</a>
+<a href="#">📈 Statistik</a>
+</div>
+
+</div>
+
+<div class="main">
+
+<h1>SIM-DBR UIN Syekh Wasil Kediri</h1>
+<p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Aset</h3>
+<h2>0</h2>
+</div>
+
+<div class="card">
+<h3>Aset Baik</h3>
+<h2>0</h2>
+</div>
+
+<div class="card">
+<h3>Perbaikan</h3>
+<h2>0</h2>
+</div>
+
+<div class="card">
+<h3>Rusak Berat</h3>
+<h2>0</h2>
+</div>
+
+</div>
+
+<div class="table-box">
+
+<h3>Mutasi Terakhir</h3>
+
+<table>
+
+<tr>
+<th>ID Aset</th>
+<th>Nama Barang</th>
+<th>Dari</th>
+<th>Ke</th>
+</tr>
+
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
 
 </body>
 </html>
