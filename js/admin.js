@@ -1,72 +1,41 @@
-function logout(){
-
-```
+function logout() {
 localStorage.removeItem("login");
-
-window.location.href =
-"login.html";
-```
-
+window.location.href = "login.html";
 }
 
-async function loadPage(page){
+async function loadPage(page) {
 
 ```
-const content =
-document.getElementById("content");
+const content = document.getElementById("content");
 
-if(page === "dashboard"){
+switch(page) {
 
-    content.innerHTML =
-    "<h2>Dashboard</h2><p>Dashboard berhasil dimuat.</p>";
+    case "dashboard":
+        content.innerHTML = "<h2>Dashboard</h2><p>Dashboard berhasil dimuat.</p>";
+        break;
 
-    return;
+    case "gedung":
+        content.innerHTML = "<h2>Gedung</h2><p>Menu Gedung berhasil dimuat.</p>";
+        break;
 
-}
+    case "ruang":
+        content.innerHTML = "<h2>Ruang</h2><p>Menu Ruang berhasil dimuat.</p>";
+        break;
 
-if(page === "gedung"){
+    case "aset":
+        content.innerHTML = "<h2>Master Aset</h2><p>Menu Master Aset berhasil dimuat.</p>";
+        break;
 
-    content.innerHTML =
-    "<h2>Gedung</h2><p>Menu Gedung berhasil dimuat.</p>";
+    case "dbr":
+        content.innerHTML = "<h2>DBR</h2><p>Menu DBR berhasil dimuat.</p>";
+        break;
 
-    return;
+    case "statistik":
+        content.innerHTML = "<h2>Statistik</h2><p>Menu Statistik berhasil dimuat.</p>";
+        break;
 
-}
-
-if(page === "ruang"){
-
-    content.innerHTML =
-    "<h2>Ruang</h2><p>Menu Ruang berhasil dimuat.</p>";
-
-    return;
-
-}
-
-if(page === "aset"){
-
-    content.innerHTML =
-    "<h2>Master Aset</h2><p>Menu Master Aset berhasil dimuat.</p>";
-
-    return;
-
-}
-
-if(page === "dbr"){
-
-    content.innerHTML =
-    "<h2>DBR</h2><p>Menu DBR berhasil dimuat.</p>";
-
-    return;
-
-}
-
-if(page === "statistik"){
-
-    content.innerHTML =
-    "<h2>Statistik</h2><p>Menu Statistik berhasil dimuat.</p>";
-
-    return;
-
+    default:
+        content.innerHTML = "<h2>SIM-DBR</h2>";
 }
 ```
 
