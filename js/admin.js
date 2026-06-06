@@ -9,9 +9,67 @@ async function loadPage(page) {
 
     switch(page) {
 
-        case "dashboard":
-            content.innerHTML = "<h2>Dashboard</h2><p>Dashboard berhasil dimuat.</p>";
-            break;
+       case "dashboard":
+
+    try{
+
+        const data =
+        await getData("getDashboard");
+
+        content.innerHTML = `
+
+        <h2>Dashboard SIM-DBR</h2>
+
+        <br>
+
+        <div class="ringkasan">
+
+            <div class="card">
+                <h3>${data.totalGedung || 0}</h3>
+                <p>Total Gedung</p>
+            </div>
+
+            <div class="card">
+                <h3>${data.totalRuang || 0}</h3>
+                <p>Total Ruangan</p>
+            </div>
+
+            <div class="card">
+                <h3>${data.totalAset || 0}</h3>
+                <p>Total Aset</p>
+            </div>
+
+            <div class="card">
+                <h3>${data.baik || 0}</h3>
+                <p>Kondisi Baik</p>
+            </div>
+
+            <div class="card">
+                <h3>${data.rusakRingan || 0}</h3>
+                <p>Rusak Ringan</p>
+            </div>
+
+            <div class="card">
+                <h3>${data.rusakBerat || 0}</h3>
+                <p>Rusak Berat</p>
+            </div>
+
+        </div>
+
+        `;
+
+    }catch(error){
+
+        content.innerHTML = `
+        <h2>Dashboard</h2>
+        <p>Gagal membaca API</p>
+        `;
+
+        console.error(error);
+
+    }
+
+    break;
 
         case "gedung":
             content.innerHTML = "<h2>Gedung</h2><p>Menu Gedung berhasil dimuat.</p>";
