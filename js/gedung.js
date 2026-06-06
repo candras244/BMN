@@ -1,40 +1,38 @@
-const API = "URL_API_ANDA";
+const API = "https://script.google.com/macros/s/AKfycbxxkkCc8yKm8qE2_jMZnXcTomj08U__PPPYInhqKWJCVhayRCTspt-QLtbkrEkv5HKUXw/exec";
 
-async function loadGedung(){
+async function loadGedung() {
 
-    try{
+    const tbody = document.getElementById("dataGedung");
 
-        const gedungRes =
-            await fetch(API + "?action=gedung");
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="5">Memuat data...</td>
+        </tr>
+    `;
 
-        const gedung =
-            await gedungRes.json();
+    try {
 
-        const ruangRes =
-            await fetch(API + "?action=ruangan");
+        const [gedungRes, ruanganRes, asetRes] = await Promise.all([
+            fetch(API + "?action=gedung"),
+            fetch(API + "?action=ruangan"),
+            fetch(API + "?action=master")
+        ]);
 
-        const ruangan =
-            await ruangRes.json();
-
-        const asetRes =
-            await fetch(API + "?action=master");
-
-        const aset =
-            await asetRes.json();
+        const gedung = await gedungRes.json();
+        const ruangan = await ruanganRes.json();
+        const aset = await asetRes.json();
 
         let html = "";
 
         gedung.forEach(g => {
 
-            const jumlahRuangan =
-                ruangan.filter(
-                    r => r.Gedung === g["ID Gedung"]
-                ).length;
+            const jumlahRuangan = ruangan.filter(r =>
+                r["Gedung"] === g["ID Gedung"]
+            ).length;
 
-            const jumlahAset =
-                aset.filter(
-                    a => a.Gedung === g["ID Gedung"]
-                ).length;
+            const jumlahAset = aset.filter(a =>
+                a["Gedung"] === g["ID Gedung"]
+            ).length;
 
             html += `
             <tr>
@@ -43,33 +41,43 @@ async function loadGedung(){
                 <td>${jumlahRuangan}</td>
                 <td>${jumlahAset}</td>
                 <td>
-                    <button onclick="
-                    location.href='ruangan.html?gedung=${g["ID Gedung"]}'
-                    ">
-                    Detail
+                    <button onclick="lihatRuangan('${g["ID Gedung"]}')">
+                        Detail
                     </button>
                 </td>
             </tr>
             `;
         });
 
-        document.getElementById("dataGedung").innerHTML = html;
+        if (html === "") {
+            html = `
+            <tr>
+                <td colspan="5">
+                    Tidak ada data gedung
+                </td>
+            </tr>
+            `;
+        }
 
-    }catch(err){
+        tbody.innerHTML = html;
 
-        document.getElementById("dataGedung").innerHTML =
-        `
+    } catch (error) {
+
+        console.error(error);
+
+        tbody.innerHTML = `
         <tr>
             <td colspan="5">
-                Gagal memuat data
+                Gagal memuat data dari API
             </td>
         </tr>
         `;
-
-        console.error(err);
-
     }
+}
 
+function lihatRuangan(idGedung) {
+    window.location.href =
+        "ruangan.html?gedung=" + encodeURIComponent(idGedung);
 }
 
 loadGedung();
