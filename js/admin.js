@@ -1,4 +1,3 @@
-:::writing{variant="document" id="81452"}
 function logout() {
     localStorage.removeItem("login");
     window.location.href = "login.html";
