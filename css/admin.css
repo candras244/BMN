@@ -74,3 +74,25 @@ body{
 .gedung-info{
     padding:15px;
 }
+.ringkasan{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.card h3{
+    font-size:32px;
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#64748b;
+}
