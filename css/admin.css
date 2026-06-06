@@ -51,3 +51,26 @@ body{
 #content{
     padding:25px;
 }
+.gedung-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.gedung-card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.gedung-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.gedung-info{
+    padding:15px;
+}
