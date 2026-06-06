@@ -1,58 +1,75 @@
-const API =
-"https://script.google.com/macros/s/XXXXXXXXXXXX/exec";
+const API = "URL_API_ANDA";
 
 async function loadGedung(){
 
-    const gedungRes =
-    await fetch(API + "?action=gedung");
+    try{
 
-    const gedung =
-    await gedungRes.json();
+        const gedungRes =
+            await fetch(API + "?action=gedung");
 
-    const ruangRes =
-    await fetch(API + "?action=ruangan");
+        const gedung =
+            await gedungRes.json();
 
-    const ruangan =
-    await ruangRes.json();
+        const ruangRes =
+            await fetch(API + "?action=ruangan");
 
-    const asetRes =
-    await fetch(API + "?action=master");
+        const ruangan =
+            await ruangRes.json();
 
-    const aset =
-    await asetRes.json();
+        const asetRes =
+            await fetch(API + "?action=master");
 
-    let html = "";
+        const aset =
+            await asetRes.json();
 
-    gedung.forEach(g => {
+        let html = "";
 
-        const jumlahRuangan =
-        ruangan.filter(r =>
-            r.Gedung === g["ID Gedung"]
-        ).length;
+        gedung.forEach(g => {
 
-        const jumlahAset =
-        aset.filter(a =>
-            a.Gedung === g["ID Gedung"]
-        ).length;
+            const jumlahRuangan =
+                ruangan.filter(
+                    r => r.Gedung === g["ID Gedung"]
+                ).length;
 
-        html += `
+            const jumlahAset =
+                aset.filter(
+                    a => a.Gedung === g["ID Gedung"]
+                ).length;
+
+            html += `
+            <tr>
+                <td>${g["ID Gedung"]}</td>
+                <td>${g["Nama Gedung"]}</td>
+                <td>${jumlahRuangan}</td>
+                <td>${jumlahAset}</td>
+                <td>
+                    <button onclick="
+                    location.href='ruangan.html?gedung=${g["ID Gedung"]}'
+                    ">
+                    Detail
+                    </button>
+                </td>
+            </tr>
+            `;
+        });
+
+        document.getElementById("dataGedung").innerHTML = html;
+
+    }catch(err){
+
+        document.getElementById("dataGedung").innerHTML =
+        `
         <tr>
-            <td>${g["ID Gedung"]}</td>
-            <td>${g["Nama Gedung"]}</td>
-            <td>${jumlahRuangan}</td>
-            <td>${jumlahAset}</td>
-            <td>
-              <a href="ruangan.html?gedung=${g["ID Gedung"]}">
-                Detail
-              </a>
+            <td colspan="5">
+                Gagal memuat data
             </td>
         </tr>
         `;
-    });
 
-    document
-      .getElementById("dataGedung")
-      .innerHTML = html;
+        console.error(err);
+
+    }
+
 }
 
 loadGedung();
