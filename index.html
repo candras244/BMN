@@ -1,46 +1,75 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Halaman Utama</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SIM-DBR</title>
+
+<link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
-<h2>Selamat Datang di Sistem</h2>
-<button id="loginBtn">Login</button>
 
-<h3 id="welcomeMsg"></h3>
-<div id="adminFeatures" style="display:none;">
-    <h4>Fitur Admin</h4>
-    <button id="tambahUserBtn">Tambah Pengguna</button>
-    <!-- fitur tambahan bisa disini -->
+<div class="sidebar">
+
+    <div class="logo">
+        SIM-DBR
+    </div>
+
+    <ul>
+
+        <li onclick="loadPage('dashboard')">
+            Dashboard
+        </li>
+
+        <li onclick="loadPage('gedung')">
+            Gedung
+        </li>
+
+        <li onclick="loadPage('ruang')">
+            Ruang
+        </li>
+
+        <li onclick="loadPage('aset')">
+            Master Aset
+        </li>
+
+        <li onclick="loadPage('dbr')">
+            DBR
+        </li>
+
+        <li onclick="loadPage('statistik')">
+            Statistik
+        </li>
+
+        <li onclick="loadPage('tentang')">
+            Tentang
+        </li>
+
+    </ul>
+
 </div>
 
-<script>
-    // Cek status login
-    function checkLogin() {
-        const loggedIn = localStorage.getItem('login');
-        if (loggedIn === 'true') {
-            const username = localStorage.getItem('username');
-            document.getElementById('welcomeMsg').textContent = 'Selamat datang, ' + username;
-            const role = localStorage.getItem('role');
-            if (role === 'superadmin') {
-                document.getElementById('adminFeatures').style.display = 'block';
-            } else {
-                document.getElementById('adminFeatures').style.display = 'none';
-            }
-        } else {
-            document.getElementById('welcomeMsg').textContent = '';
-            document.getElementById('adminFeatures').style.display = 'none';
-        }
-    }
+<div class="main">
 
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        window.location.href = 'login.html'; // Arahkan ke halaman login
-    });
+    <div class="topbar">
 
-    // Panggil check login saat halaman dimuat
-    window.onload = checkLogin;
-</script>
+        <h2>
+            Sistem Informasi Manajemen Daftar Barang Ruangan
+        </h2>
+
+    </div>
+
+    <div id="content">
+
+    </div>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+
 </body>
 </html>
