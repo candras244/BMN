@@ -1,80 +1,238 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard - Sistem</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SIM-DBR | UIN Syekh Wasil Kediri</title>
+
+<link rel="stylesheet" href="css/public.css">
+
 </head>
 <body>
-<script>
-    // Periksa login
-    if (localStorage.getItem("login") !== "true") {
-        window.location.href = "login.html";
-    }
 
-    // Tampilkan info pengguna
-    const username = localStorage.getItem('username');
-    const role = localStorage.getItem('role');
+<!-- HEADER -->
 
-    document.body.innerHTML = `
-        <h2>Selamat datang, ${username} (${role})</h2>
-        <button id="logoutBtn">Keluar</button>
-        <hr />
-        <h3>Manajemen Pengguna (Hanya Super Admin)</h3>
-        <div id="adminSection"></div>
-        <script>
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                localStorage.removeItem('login');
-                localStorage.removeItem('role');
-                localStorage.removeItem('username');
-                window.location.href = 'login.html';
-            });
+<header class="header">
 
-            // Cek role
-            if ('${role}' !== 'superadmin') {
-                document.getElementById('adminSection').innerHTML = '<p>Hanya Super Admin yang dapat mengakses bagian ini.</p>';
-            } else {
-                // Tampilkan form tambah pengguna
-                document.getElementById('adminSection').innerHTML = \`
-                    <h4>Tambah Pengguna Baru</h4>
-                    <form id="addUserForm">
-                        <label>Username:</label>
-                        <input type="text" id="newUsername" required /><br />
-                        <label>Password:</label>
-                        <input type="password" id="newPassword" required /><br />
-                        <label>Role:</label>
-                        <select id="newRole">
-                            <option value="user">User</option>
-                            <option value="superadmin">Super Admin</option>
-                        </select><br />
-                        <button type="submit">Tambah Pengguna</button>
-                    </form>
-                \`;
+    <div class="brand">
+        <h2>SIM-DBR</h2>
+        <span>UIN Syekh Wasil Kediri</span>
+    </div>
 
-                // Handle tambah pengguna
-                document.getElementById('addUserForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const newUsername = document.getElementById('newUsername').value;
-                    const newPassword = document.getElementById('newPassword').value;
-                    const newRole = document.getElementById('newRole').value;
+    <nav>
 
-                    let users = JSON.parse(localStorage.getItem('users')) || [];
+        <a href="#home">Home</a>
+        <a href="#gedung">Gedung</a>
+        <a href="#dbr">DBR</a>
+        <a href="#statistik">Statistik</a>
+        <a href="#tentang">Tentang</a>
 
-                    // Cek duplikasi username
-                    if (users.find(u => u.username === newUsername)) {
-                        alert('Username sudah digunakan!');
-                        return;
-                    }
+    </nav>
 
-                    users.push({ username: newUsername, password: newPassword, role: newRole });
-                    localStorage.setItem('users', JSON.stringify(users));
-                    alert('Pengguna berhasil ditambahkan!');
-                    // Reset form
-                    document.getElementById('addUserForm').reset();
-                });
-            }
-        <\/script>
-    `;
-</script>
+    <a href="login.html" class="btn-login">
+        Login
+    </a>
+
+</header>
+
+<!-- HERO -->
+
+<section id="home" class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Sistem Informasi Manajemen
+            Daftar Barang Ruangan
+        </h1>
+
+        <p>
+
+            Sistem Monitoring Aset
+            berbasis Google Spreadsheet,
+            Google Apps Script,
+            dan GitHub Pages.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- RINGKASAN -->
+
+<section class="ringkasan">
+
+    <div class="card">
+        <h3 id="totalGedung">0</h3>
+        <p>Gedung</p>
+    </div>
+
+    <div class="card">
+        <h3 id="totalRuang">0</h3>
+        <p>Ruang</p>
+    </div>
+
+    <div class="card">
+        <h3 id="totalAset">0</h3>
+        <p>Aset</p>
+    </div>
+
+    <div class="card">
+        <h3 id="nilaiAset">0</h3>
+        <p>Nilai Aset</p>
+    </div>
+
+</section>
+
+<!-- GEDUNG -->
+
+<section id="gedung">
+
+    <div class="section-title">
+        <h2>Gedung</h2>
+    </div>
+
+    <div id="listGedung"
+         class="gedung-grid">
+
+    </div>
+
+</section>
+
+<!-- DBR -->
+
+<section id="dbr">
+
+    <div class="section-title">
+        <h2>Daftar Barang Ruangan</h2>
+    </div>
+
+    <div class="filter-box">
+
+        <select id="filterRuang">
+
+            <option value="">
+                Pilih Ruangan
+            </option>
+
+        </select>
+
+        <button onclick="loadDBR()">
+            Tampilkan
+        </button>
+
+    </div>
+
+    <div id="infoDBR"
+         class="ringkasan">
+
+    </div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Kode Barang</th>
+                    <th>NUP</th>
+                    <th>Nama Barang</th>
+                    <th>Tahun</th>
+                    <th>Kondisi</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tabelDBR">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<!-- STATISTIK -->
+
+<section id="statistik">
+
+    <div class="section-title">
+        <h2>Kondisi Aset</h2>
+    </div>
+
+    <div class="ringkasan">
+
+        <div class="card">
+            <h3 id="baik">0</h3>
+            <p>Baik</p>
+        </div>
+
+        <div class="card">
+            <h3 id="rusakRingan">0</h3>
+            <p>Rusak Ringan</p>
+        </div>
+
+        <div class="card">
+            <h3 id="rusakBerat">0</h3>
+            <p>Rusak Berat</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- TENTANG -->
+
+<section id="tentang">
+
+    <div class="section-title">
+        <h2>Tentang SIM-DBR</h2>
+    </div>
+
+    <div class="tentang-box">
+
+        <p>
+
+            SIM-DBR merupakan sistem
+            monitoring inventaris dan
+            daftar barang ruangan yang
+            membaca data langsung dari
+            Google Spreadsheet.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <h3>SIM-DBR</h3>
+
+    <p>
+        Sistem Informasi Manajemen
+        Daftar Barang Ruangan
+    </p>
+
+    <p>
+        UIN Syekh Wasil Kediri
+    </p>
+
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/public.js"></script>
+
 </body>
 </html>
