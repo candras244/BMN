@@ -1,120 +1,91 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SIM-DBR UIN Syekh Wasil Kediri</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css" />
 
 </head>
 <body>
+<script>
+    // Validasi login: Jika belum login, redirect ke login.html
+    if (localStorage.getItem("login") !== "true") {
+        window.location.href = "login.html";
+    }
+</script>
 
 <header>
-
 <div class="logo">
-SIM-DBR
+    SIM-DBR
 </div>
-
 <nav>
-<a href="#">Home</a>
-<a href="#">Gedung</a>
-<a href="#">DBR</a>
-<a href="#">Statistik</a>
-<a href="#">Tentang</a>
-<a href="admin.html">Login Admin</a>
+    <a href="#">Home</a>
+    <a href="#">Gedung</a>
+    <a href="#">DBR</a>
+    <a href="#">Statistik</a>
+    <a href="#">Tentang</a>
+    <a href="admin.html">Login Admin</a>
 </nav>
-
 </header>
 
 <section class="hero">
-
 <h1>SIM-DBR</h1>
-
 <p>
-Sistem Informasi Manajemen Daftar Barang Ruangan<br>
-UIN Syekh Wasil Kediri
+    Sistem Informasi Manajemen Daftar Barang Ruangan<br />
+    UIN Syekh Wasil Kediri
 </p>
-
 </section>
 
 <section class="statistik">
-
 <div class="stat-box">
 <h3>Gedung</h3>
 <p>6</p>
 </div>
-
 <div class="stat-box">
 <h3>Ruangan</h3>
 <p>86</p>
 </div>
-
 <div class="stat-box">
 <h3>Aset</h3>
 <p>1250</p>
 </div>
-
 <div class="stat-box">
 <h3>Nilai Aset</h3>
 <p>45 M</p>
 </div>
-
 </section>
 
 <section class="gedung">
-
 <h2>Gedung UIN Syekh Wasil Kediri</h2>
-
 <div class="card-grid">
-
 <div class="card">
-
-<div class="badge">
-Rektorat
-</div>
-
+<div class="badge">Rektorat</div>
 <a href="gedung-rektorat.html">
-<img src="image/rektorat.jpeg" alt="Gedung Rektorat">
+<img src="image/rektorat.jpeg" alt="Gedung Rektorat" />
 </a>
-
 <div class="card-content">
-
 <h3>Gedung Rektorat</h3>
-
 <p>
 Gedung pusat administrasi kampus tempat berbagai kegiatan tata kelola dan pelayanan akademik berlangsung.
 </p>
-
 <p>
-<b>Penanggung Jawab :</b> Kabag Umum<br>
-<b>Jumlah Ruangan :</b> 32<br>
+<b>Penanggung Jawab :</b> Kabag Umum<br />
+<b>Jumlah Ruangan :</b> 32<br />
 <b>Jumlah Aset :</b> 1.250
 </p>
-
 </div>
-
 </div>
-
 </div>
-
 </section>
 
 <footer>
-
 <h3>SIM-DBR</h3>
-
-<p>
-Sistem Informasi Manajemen Daftar Barang Ruangan
-</p>
-
-<p>
-UIN Syekh Wasil Kediri
-</p>
-
+<p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
+<p>UIN Syekh Wasil Kediri</p>
 </footer>
 
 <script src="js/app.js"></script>
-
 </body>
 </html>
