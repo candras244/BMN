@@ -3,89 +3,78 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SIM-DBR UIN Syekh Wasil Kediri</title>
-
-<link rel="stylesheet" href="css/style.css" />
-
+<title>Dashboard - Sistem</title>
 </head>
 <body>
 <script>
-    // Validasi login: Jika belum login, redirect ke login.html
+    // Periksa login
     if (localStorage.getItem("login") !== "true") {
         window.location.href = "login.html";
     }
+
+    // Tampilkan info pengguna
+    const username = localStorage.getItem('username');
+    const role = localStorage.getItem('role');
+
+    document.body.innerHTML = `
+        <h2>Selamat datang, ${username} (${role})</h2>
+        <button id="logoutBtn">Keluar</button>
+        <hr />
+        <h3>Manajemen Pengguna (Hanya Super Admin)</h3>
+        <div id="adminSection"></div>
+        <script>
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('login');
+                localStorage.removeItem('role');
+                localStorage.removeItem('username');
+                window.location.href = 'login.html';
+            });
+
+            // Cek role
+            if ('${role}' !== 'superadmin') {
+                document.getElementById('adminSection').innerHTML = '<p>Hanya Super Admin yang dapat mengakses bagian ini.</p>';
+            } else {
+                // Tampilkan form tambah pengguna
+                document.getElementById('adminSection').innerHTML = \`
+                    <h4>Tambah Pengguna Baru</h4>
+                    <form id="addUserForm">
+                        <label>Username:</label>
+                        <input type="text" id="newUsername" required /><br />
+                        <label>Password:</label>
+                        <input type="password" id="newPassword" required /><br />
+                        <label>Role:</label>
+                        <select id="newRole">
+                            <option value="user">User</option>
+                            <option value="superadmin">Super Admin</option>
+                        </select><br />
+                        <button type="submit">Tambah Pengguna</button>
+                    </form>
+                \`;
+
+                // Handle tambah pengguna
+                document.getElementById('addUserForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const newUsername = document.getElementById('newUsername').value;
+                    const newPassword = document.getElementById('newPassword').value;
+                    const newRole = document.getElementById('newRole').value;
+
+                    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+                    // Cek duplikasi username
+                    if (users.find(u => u.username === newUsername)) {
+                        alert('Username sudah digunakan!');
+                        return;
+                    }
+
+                    users.push({ username: newUsername, password: newPassword, role: newRole });
+                    localStorage.setItem('users', JSON.stringify(users));
+                    alert('Pengguna berhasil ditambahkan!');
+                    // Reset form
+                    document.getElementById('addUserForm').reset();
+                });
+            }
+        <\/script>
+    `;
 </script>
-
-<header>
-<div class="logo">
-    SIM-DBR
-</div>
-<nav>
-    <a href="#">Home</a>
-    <a href="#">Gedung</a>
-    <a href="#">DBR</a>
-    <a href="#">Statistik</a>
-    <a href="#">Tentang</a>
-    <a href="admin.html">Login Admin</a>
-</nav>
-</header>
-
-<section class="hero">
-<h1>SIM-DBR</h1>
-<p>
-    Sistem Informasi Manajemen Daftar Barang Ruangan<br />
-    UIN Syekh Wasil Kediri
-</p>
-</section>
-
-<section class="statistik">
-<div class="stat-box">
-<h3>Gedung</h3>
-<p>6</p>
-</div>
-<div class="stat-box">
-<h3>Ruangan</h3>
-<p>86</p>
-</div>
-<div class="stat-box">
-<h3>Aset</h3>
-<p>1250</p>
-</div>
-<div class="stat-box">
-<h3>Nilai Aset</h3>
-<p>45 M</p>
-</div>
-</section>
-
-<section class="gedung">
-<h2>Gedung UIN Syekh Wasil Kediri</h2>
-<div class="card-grid">
-<div class="card">
-<div class="badge">Rektorat</div>
-<a href="gedung-rektorat.html">
-<img src="image/rektorat.jpeg" alt="Gedung Rektorat" />
-</a>
-<div class="card-content">
-<h3>Gedung Rektorat</h3>
-<p>
-Gedung pusat administrasi kampus tempat berbagai kegiatan tata kelola dan pelayanan akademik berlangsung.
-</p>
-<p>
-<b>Penanggung Jawab :</b> Kabag Umum<br />
-<b>Jumlah Ruangan :</b> 32<br />
-<b>Jumlah Aset :</b> 1.250
-</p>
-</div>
-</div>
-</div>
-</section>
-
-<footer>
-<h3>SIM-DBR</h3>
-<p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
-<p>UIN Syekh Wasil Kediri</p>
-</footer>
-
-<script src="js/app.js"></script>
 </body>
 </html>
