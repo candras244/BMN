@@ -186,6 +186,46 @@ if(page === "aset"){
     content.innerHTML = html;
 
 }
+function filterAset(){
+
+    const input =
+    document.getElementById(
+    "searchAset"
+    );
+
+    const filter =
+    input.value.toUpperCase();
+
+    const table =
+    document.getElementById(
+    "tableAset"
+    );
+
+    const tr =
+    table.getElementsByTagName("tr");
+
+    for(let i=1;i<tr.length;i++){
+
+        const td =
+        tr[i].getElementsByTagName("td")[2];
+
+        if(td){
+
+            const txt =
+            td.textContent ||
+            td.innerText;
+
+            tr[i].style.display =
+            txt.toUpperCase()
+            .indexOf(filter) > -1
+            ? ""
+            : "none";
+
+        }
+
+    }
+
+}
 function logout(){
 
     localStorage.removeItem(
