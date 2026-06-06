@@ -1,161 +1,51 @@
 <!DOCTYPE html>
-
 <html lang="id">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login SIM-DBR</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-
-body{
-    background:#071229;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.login-box{
-    width:400px;
-    background:#16233d;
-    padding:35px;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.logo{
-    text-align:center;
-    font-size:32px;
-    margin-bottom:10px;
-    color:white;
-}
-
-.subtitle{
-    text-align:center;
-    color:#9fb0cf;
-    margin-bottom:30px;
-}
-
-.form-group{
-    margin-bottom:18px;
-}
-
-label{
-    display:block;
-    color:white;
-    margin-bottom:6px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#0f1b34;
-    color:white;
-}
-
-button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    background:#29457a;
-    color:white;
-    cursor:pointer;
-    font-size:16px;
-}
-
-button:hover{
-    opacity:.9;
-}
-
-.error{
-    margin-top:15px;
-    color:#ff5f6d;
-    text-align:center;
-}
-
-</style>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login - Sistem</title>
 </head>
-
 <body>
-
-<div class="login-box">
-
-```
-<div class="logo">
-    📋 SIM-DBR
-</div>
-
-<div class="subtitle">
-    Login Administrator
-</div>
-
-<div class="form-group">
-    <label>Username</label>
-    <input type="text" id="username">
-</div>
-
-<div class="form-group">
-    <label>Password</label>
-    <input type="password" id="password">
-</div>
-
-<button onclick="login()">
-    Masuk
-</button>
-
-<div id="error" class="error"></div>
-```
-
-</div>
+<h2>Login Sistem</h2>
+<form id="loginForm">
+    <label for="username">Username:</label><br />
+    <input type="text" id="username" required /><br /><br />
+    <label for="password">Password:</label><br />
+    <input type="password" id="password" required /><br /><br />
+    <button type="submit">Login</button>
+</form>
 
 <script>
+    // Data pengguna default jika belum ada
+    const defaultUsers = [
+        { username: 'Candra', password: 'admin123', role: 'superadmin' }
+    ];
 
-function login(){
-
-    const username =
-        document.getElementById("username").value;
-
-    const password =
-        document.getElementById("password").value;
-
-    if(username==="admin" &&
-       password==="123456"){
-
-        localStorage.setItem(
-            "login",
-            "true"
-        );
-
-        localStorage.setItem(
-            "role",
-            "Super Admin"
-        );
-
-        window.location.href="admin.html";
-
-    }else{
-
-        document.getElementById("error")
-        .innerHTML="Username atau Password salah";
-
+    // Cek dan inisialisasi data pengguna di localStorage
+    let users = JSON.parse(localStorage.getItem('users'));
+    if (!users) {
+        localStorage.setItem('users', JSON.stringify(defaultUsers));
     }
 
-}
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            localStorage.setItem('login', 'true');
+            localStorage.setItem('role', user.role);
+            localStorage.setItem('username', user.username);
+            window.location.href = 'index.html'; // Halaman utama
+        } else {
+            alert('Username atau password salah!');
+        }
+    });
 </script>
-
 </body>
 </html>
