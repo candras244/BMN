@@ -3,78 +3,44 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard - Sistem</title>
+<title>Halaman Utama</title>
 </head>
 <body>
+<h2>Selamat Datang di Sistem</h2>
+<button id="loginBtn">Login</button>
+
+<h3 id="welcomeMsg"></h3>
+<div id="adminFeatures" style="display:none;">
+    <h4>Fitur Admin</h4>
+    <button id="tambahUserBtn">Tambah Pengguna</button>
+    <!-- fitur tambahan bisa disini -->
+</div>
+
 <script>
-    // Periksa login
-    if (localStorage.getItem("login") !== "true") {
-        window.location.href = "login.html";
+    // Cek status login
+    function checkLogin() {
+        const loggedIn = localStorage.getItem('login');
+        if (loggedIn === 'true') {
+            const username = localStorage.getItem('username');
+            document.getElementById('welcomeMsg').textContent = 'Selamat datang, ' + username;
+            const role = localStorage.getItem('role');
+            if (role === 'superadmin') {
+                document.getElementById('adminFeatures').style.display = 'block';
+            } else {
+                document.getElementById('adminFeatures').style.display = 'none';
+            }
+        } else {
+            document.getElementById('welcomeMsg').textContent = '';
+            document.getElementById('adminFeatures').style.display = 'none';
+        }
     }
 
-    // Tampilkan info pengguna
-    const username = localStorage.getItem('username');
-    const role = localStorage.getItem('role');
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        window.location.href = 'login.html'; // Arahkan ke halaman login
+    });
 
-    document.body.innerHTML = `
-        <h2>Selamat datang, ${username} (${role})</h2>
-        <button id="logoutBtn">Keluar</button>
-        <hr />
-        <h3>Manajemen Pengguna (Hanya Super Admin)</h3>
-        <div id="adminSection"></div>
-        <script>
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                localStorage.removeItem('login');
-                localStorage.removeItem('role');
-                localStorage.removeItem('username');
-                window.location.href = 'login.html';
-            });
-
-            // Cek role
-            if ('${role}' !== 'superadmin') {
-                document.getElementById('adminSection').innerHTML = '<p>Hanya Super Admin yang dapat mengakses bagian ini.</p>';
-            } else {
-                // Tampilkan form tambah pengguna
-                document.getElementById('adminSection').innerHTML = \`
-                    <h4>Tambah Pengguna Baru</h4>
-                    <form id="addUserForm">
-                        <label>Username:</label>
-                        <input type="text" id="newUsername" required /><br />
-                        <label>Password:</label>
-                        <input type="password" id="newPassword" required /><br />
-                        <label>Role:</label>
-                        <select id="newRole">
-                            <option value="user">User</option>
-                            <option value="superadmin">Super Admin</option>
-                        </select><br />
-                        <button type="submit">Tambah Pengguna</button>
-                    </form>
-                \`;
-
-                // Handle tambah pengguna
-                document.getElementById('addUserForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const newUsername = document.getElementById('newUsername').value;
-                    const newPassword = document.getElementById('newPassword').value;
-                    const newRole = document.getElementById('newRole').value;
-
-                    let users = JSON.parse(localStorage.getItem('users')) || [];
-
-                    // Cek duplikasi username
-                    if (users.find(u => u.username === newUsername)) {
-                        alert('Username sudah digunakan!');
-                        return;
-                    }
-
-                    users.push({ username: newUsername, password: newPassword, role: newRole });
-                    localStorage.setItem('users', JSON.stringify(users));
-                    alert('Pengguna berhasil ditambahkan!');
-                    // Reset form
-                    document.getElementById('addUserForm').reset();
-                });
-            }
-        <\/script>
-    `;
+    // Panggil check login saat halaman dimuat
+    window.onload = checkLogin;
 </script>
 </body>
 </html>
