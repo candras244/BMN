@@ -1,4 +1,60 @@
 loadPage("dashboard");
+
+function logout(){
+
+```
+localStorage.removeItem("login");
+
+window.location.href = "login.html";
+```
+
+}
+
+async function loadPage(page){
+
+```
+const content =
+document.getElementById("content");
+
+/* ==========================
+   DASHBOARD
+========================== */
+
+if(page === "dashboard"){
+
+    const data =
+    await getData("getDashboard");
+
+    content.innerHTML = `
+
+    <h2>Dashboard</h2>
+
+    <br>
+
+    <div class="ringkasan">
+
+        <div class="card">
+            <h3>${data.totalGedung || 0}</h3>
+            <p>Gedung</p>
+        </div>
+
+        <div class="card">
+            <h3>${data.totalRuang || 0}</h3>
+            <p>Ruang</p>
+        </div>
+
+        <div class="card">
+            <h3>${data.totalAset || 0}</h3>
+            <p>Aset</p>
+        </div>
+
+    </div>
+
+    `;
+
+    return;
+}
+
 /* ==========================
    GEDUNG
 ========================== */
@@ -46,7 +102,9 @@ if(page === "gedung"){
 
     content.innerHTML = html;
 
+    return;
 }
+
 /* ==========================
    RUANG
 ========================== */
@@ -107,7 +165,9 @@ if(page === "ruang"){
 
     content.innerHTML = html;
 
+    return;
 }
+
 /* ==========================
    MASTER ASET
 ========================== */
@@ -180,119 +240,53 @@ if(page === "aset"){
     html += `
         </tbody>
     </table>
+
     </div>
     `;
 
     content.innerHTML = html;
 
+    return;
+}
+```
+
 }
 function filterAset(){
 
-    const input =
-    document.getElementById(
-    "searchAset"
-    );
+```
+const input =
+document.getElementById("searchAset");
 
-    const filter =
-    input.value.toUpperCase();
+if(!input) return;
 
-    const table =
-    document.getElementById(
-    "tableAset"
-    );
+const filter =
+input.value.toUpperCase();
 
-    const tr =
-    table.getElementsByTagName("tr");
+const table =
+document.getElementById("tableAset");
 
-    for(let i=1;i<tr.length;i++){
+const tr =
+table.getElementsByTagName("tr");
 
-        const td =
-        tr[i].getElementsByTagName("td")[2];
+for(let i=1;i<tr.length;i++){
 
-        if(td){
+    const td =
+    tr[i].getElementsByTagName("td")[2];
 
-            const txt =
-            td.textContent ||
-            td.innerText;
+    if(td){
 
-            tr[i].style.display =
-            txt.toUpperCase()
-            .indexOf(filter) > -1
-            ? ""
-            : "none";
+        const txt =
+        td.textContent ||
+        td.innerText;
 
-        }
+        tr[i].style.display =
+        txt.toUpperCase().indexOf(filter) > -1
+        ? ""
+        : "none";
 
     }
 
 }
-function logout(){
-
-    localStorage.removeItem(
-    "login"
-    );
-
-    window.location.href =
-    "login.html";
-
-}
-
-async function loadPage(page){
-
-    const content =
-    document.getElementById(
-    "content"
-    );
-
-    if(page === "dashboard"){
-
-        const data =
-        await getData(
-        "getDashboard"
-        );
-
-        content.innerHTML = `
-
-        <h2>Dashboard</h2>
-
-        <br>
-
-        <div class="ringkasan">
-
-            <div class="card">
-
-                <h3>
-                ${data.totalGedung}
-                </h3>
-
-                <p>Gedung</p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>
-                ${data.totalRuang}
-                </h3>
-
-                <p>Ruang</p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>
-                ${data.totalAset}
-                </h3>
-
-                <p>Aset</p>
-
-            </div>
-
-        </div>
-
-        `;
-
-    }
+```
 
 }
