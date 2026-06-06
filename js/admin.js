@@ -108,6 +108,84 @@ if(page === "ruang"){
     content.innerHTML = html;
 
 }
+/* ==========================
+   MASTER ASET
+========================== */
+
+if(page === "aset"){
+
+    const aset =
+    await getData("getAset");
+
+    let html = `
+
+    <h2>Master Aset</h2>
+
+    <br>
+
+    <input
+    type="text"
+    id="searchAset"
+    placeholder="Cari Barang..."
+    onkeyup="filterAset()">
+
+    <br><br>
+
+    <div class="table-wrapper">
+
+    <table id="tableAset">
+
+        <thead>
+
+            <tr>
+
+                <th>Kode</th>
+                <th>NUP</th>
+                <th>Nama Barang</th>
+                <th>Tahun</th>
+                <th>Kondisi</th>
+                <th>Status</th>
+                <th>Gedung</th>
+                <th>Ruang</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+    `;
+
+    aset.forEach(item=>{
+
+        html += `
+
+        <tr>
+
+            <td>${item.kodeBarang}</td>
+            <td>${item.nup}</td>
+            <td>${item.namaBarang}</td>
+            <td>${item.tahunPerolehan}</td>
+            <td>${item.kondisi}</td>
+            <td>${item.status}</td>
+            <td>${item.gedung}</td>
+            <td>${item.ruang}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    html += `
+        </tbody>
+    </table>
+    </div>
+    `;
+
+    content.innerHTML = html;
+
+}
 function logout(){
 
     localStorage.removeItem(
