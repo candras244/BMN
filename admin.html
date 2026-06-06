@@ -1,215 +1,172 @@
-<script>
-
-if(localStorage.getItem("login")!=="true"){
-
-    window.location.href="login.html";
-
-}
-
-</script>
 <!DOCTYPE html>
-
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SIM-DBR Admin</title>
-
-```
-<link rel="stylesheet" href="css/admin.css">
-```
-
+    <link rel="stylesheet" href="css/admin.css" />
 </head>
-
 <body>
+<script>
+    // Validasi login
+    if (localStorage.getItem("login") !== "true") {
+        window.location.href = "login.html";
+    }
+</script>
 
-```
 <!-- SIDEBAR -->
-
 <div class="sidebar">
-
     <div class="logo">
         📋 SIM-DBR
     </div>
-
     <div class="menu">
-
         <div class="menu-title">Dashboard</div>
-        <a href="#" class="active">📊 Dashboard</a>
+        <a href="#" class="active" id="menu-dashboard">📊 Dashboard</a>
 
         <div class="menu-title">Master Data</div>
-        <a href="#">🏢 Gedung</a>
-        <a href="#">🚪 Ruangan</a>
-        <a href="#">📦 Master Aset</a>
+        <a href="#" id="menu-gedung">🏢 Gedung</a>
+        <a href="#" id="menu-ruangan">🚪 Ruangan</a>
+        <a href="#" id="menu-aset">📦 Master Aset</a>
 
         <div class="menu-title">Transaksi</div>
-        <a href="#">🔄 Mutasi</a>
-        <a href="#">🛠 Kondisi Aset</a>
+        <a href="#" id="menu-mutasi">🔄 Mutasi</a>
+        <a href="#" id="menu-kondisi">🛠 Kondisi Aset</a>
 
         <div class="menu-title">Laporan</div>
-        <a href="#">📄 DBR</a>
-        <a href="#">📈 Statistik</a>
+        <a href="#" id="menu-dbr">📄 DBR</a>
+        <a href="#" id="menu-statistik">📈 Statistik</a>
 
         <div class="menu-title">Sistem</div>
-        <a href="#">👤 Admin</a>
-        <a href="#">🔐 Hak Akses</a>
-        <a href="#">⚙ Pengaturan</a>
-
+        <a href="#" id="menu-admin">👤 Admin</a>
+        <a href="#" id="menu-hakakses">🔐 Hak Akses</a>
+        <a href="#" id="menu-pengaturan">⚙ Pengaturan</a>
     </div>
-
     <div class="user-box">
         <strong>Bag. Umum</strong>
         <span>Super Admin</span>
-
-        <button class="logout">
-            🔓 Keluar
-        </button>
+        <button class="logout" id="btn-logout">🔓 Keluar</button>
     </div>
-
 </div>
 
 <!-- MAIN -->
-
 <div class="main">
-
     <!-- TOPBAR -->
-
     <div class="topbar">
-
-        <h2>Dashboard</h2>
-
-        <div class="date">
-            06 Juni 2026
-        </div>
-
+        <h2 id="page-title">Dashboard</h2>
+        <div class="date" id="current-date">06 Juni 2026</div>
     </div>
 
     <!-- CONTENT -->
-
-    <div class="content">
-
+    <div class="content" id="page-content">
+        <!-- Default content: Dashboard -->
         <div class="welcome">
-
             <h1>Selamat Datang 👋</h1>
-
-            <p>
-                Sistem Informasi Manajemen Daftar Barang Ruangan
-            </p>
-
+            <p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
         </div>
-
-        <!-- CARD -->
-
-        <div class="cards">
-
-            <div class="card">
-                <div class="card-title">TOTAL ASET</div>
-                <div class="card-value">1250</div>
-                <div class="card-sub">Total aset aktif</div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">GEDUNG</div>
-                <div class="card-value">6</div>
-                <div class="card-sub">Gedung terdaftar</div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">RUANGAN</div>
-                <div class="card-value">86</div>
-                <div class="card-sub">Ruangan aktif</div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">NILAI ASET</div>
-                <div class="card-value">45 M</div>
-                <div class="card-sub">Estimasi nilai aset</div>
-            </div>
-
-        </div>
-
-        <!-- GRID -->
-
-        <div class="grid-2">
-
-            <div class="panel">
-
-                <div class="panel-header">
-                    Distribusi Aset per Unit
-                </div>
-
-                <div class="panel-body">
-                    Grafik aset per unit akan ditampilkan di sini.
-                </div>
-
-            </div>
-
-            <div class="panel">
-
-                <div class="panel-header">
-                    Kondisi Keseluruhan
-                </div>
-
-                <div class="panel-body">
-
-                    <p class="good">95% Baik</p>
-                    <p class="warning">3% Perbaikan</p>
-                    <p class="danger">2% Rusak</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- TABEL -->
-
-        <div class="panel">
-
-            <div class="panel-header">
-                Rekapitulasi per Unit
-            </div>
-
-            <div class="panel-body">
-
-                <div class="table-wrapper">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>Unit</th>
-                                <th>Ruangan</th>
-                                <th>Total Aset</th>
-                                <th>Baik</th>
-                                <th>Rusak</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>Rektorat</td>
-                                <td>21</td>
-                                <td>1250</td>
-                                <td class="good">1200</td>
-                                <td class="danger">50</td>
-                            </tr>
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </div>
-
     </div>
-
 </div>
-```
 
+<script>
+    // Fungsi untuk mengatur tanggal hari ini
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString('id-ID', {
+        day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    // Logout
+    document.getElementById('btn-logout').addEventListener('click', () => {
+        localStorage.removeItem('login');
+        window.location.href = 'login.html';
+    });
+
+    // Navigasi menu
+    const pageTitle = document.getElementById('page-title');
+    const pageContent = document.getElementById('page-content');
+
+    // Fungsi untuk mengubah konten halaman
+    function loadPage(title, contentHTML) {
+        pageTitle.textContent = title;
+        pageContent.innerHTML = contentHTML;
+    }
+
+    // Event listener menu
+    document.getElementById('menu-dashboard').addEventListener('click', () => {
+        loadPage('Dashboard', `
+            <div class="welcome">
+                <h1>Selamat Datang 👋</h1>
+                <p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
+            </div>
+        `);
+    });
+
+    document.getElementById('menu-gedung').addEventListener('click', () => {
+        loadPage('Master Data - Gedung', `
+            <h3>Data Gedung</h3>
+            <p>Fitur untuk mengelola data gedung akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-ruangan').addEventListener('click', () => {
+        loadPage('Master Data - Ruangan', `
+            <h3>Data Ruangan</h3>
+            <p>Fitur untuk mengelola data ruangan akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-aset').addEventListener('click', () => {
+        loadPage('Master Data - Aset', `
+            <h3>Data Aset</h3>
+            <p>Fitur untuk mengelola data aset akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-mutasi').addEventListener('click', () => {
+        loadPage('Transaksi - Mutasi', `
+            <h3>Mutasi Aset</h3>
+            <p>Fitur untuk mutasi aset akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-kondisi').addEventListener('click', () => {
+        loadPage('Transaksi - Kondisi Aset', `
+            <h3>Perbaikan Kondisi Aset</h3>
+            <p>Fitur untuk kondisi aset akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-dbr').addEventListener('click', () => {
+        loadPage('Laporan - DBR', `
+            <h3>Laporan DBR</h3>
+            <p>Fitur laporan DBR akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-statistik').addEventListener('click', () => {
+        loadPage('Laporan - Statistik', `
+            <h3>Statistik</h3>
+            <p>Fitur statistik akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-admin').addEventListener('click', () => {
+        loadPage('Sistem - Admin', `
+            <h3>Pengelolaan Admin</h3>
+            <p>Fitur pengelolaan admin akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-hakakses').addEventListener('click', () => {
+        loadPage('Sistem - Hak Akses', `
+            <h3>Hak Akses Pengguna</h3>
+            <p>Fitur pengelolaan hak akses akan ditampilkan di sini.</p>
+        `);
+    });
+
+    document.getElementById('menu-pengaturan').addEventListener('click', () => {
+        loadPage('Sistem - Pengaturan', `
+            <h3>Pengaturan Sistem</h3>
+            <p>Fitur pengaturan sistem akan ditampilkan di sini.</p>
+        `);
+    });
+</script>
 </body>
-
 </html>
