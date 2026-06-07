@@ -8,9 +8,12 @@ function renderHomepage(content){
 
             <h2>Homepage Management</h2>
 
-            <button class="btn btn-primary"
+            <button
+            class="btn btn-primary"
             onclick="showFormHomepage()">
+
                 Tambah Konten
+
             </button>
 
         </div>
@@ -24,21 +27,31 @@ function renderHomepage(content){
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>No</th>
                     <th>Judul</th>
                     <th>Urutan</th>
                     <th>Status</th>
                     <th>Aksi</th>
+
                 </tr>
+
             </thead>
 
             <tbody id="homepageTable">
+
                 <tr>
+
                     <td colspan="5">
+
                         Memuat data...
+
                     </td>
+
                 </tr>
+
             </tbody>
 
         </table>
@@ -48,40 +61,50 @@ function renderHomepage(content){
     `;
 
     loadHomepage();
+
 }
 
 async function loadHomepage(){
 
     const result =
-        await apiGet("getHomepage");
+        await apiGet(
+            "homepage"
+        );
 
     const tbody =
         document.getElementById(
             "homepageTable"
         );
 
-    if(!result.success){
+    if(!Array.isArray(result)){
 
         tbody.innerHTML = `
+
         <tr>
+
             <td colspan="5">
+
                 Data tidak ditemukan
+
             </td>
+
         </tr>
+
         `;
 
         return;
+
     }
 
     let html = "";
 
-    result.data.forEach((item,index)=>{
+    result.forEach((item,index)=>{
 
         html += `
 
         <tr>
 
-            <td>${index + 1}</td>
+            <td>${index+1}</td>
 
             <td>${item.judul}</td>
 
@@ -92,15 +115,11 @@ async function loadHomepage(){
             <td>
 
                 <button
-                class="btn btn-warning"
-                onclick="editHomepage('${item.id}')">
-                Edit
-                </button>
-
-                <button
                 class="btn btn-danger"
                 onclick="hapusHomepage('${item.id}')">
-                Hapus
+
+                    Hapus
+
                 </button>
 
             </td>
@@ -108,9 +127,11 @@ async function loadHomepage(){
         </tr>
 
         `;
+
     });
 
     tbody.innerHTML = html;
+
 }
 
 function showFormHomepage(){
@@ -120,7 +141,8 @@ function showFormHomepage(){
             "modalContainer"
         );
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 
     modal.innerHTML = `
 
@@ -131,43 +153,66 @@ function showFormHomepage(){
         <br>
 
         <div class="form-group">
+
+            <label>ID</label>
+
+            <input
+            type="text"
+            id="id"
+            class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
             <label>Judul</label>
+
             <input
             type="text"
-            id="homepageJudul"
+            id="judul"
             class="form-control">
+
         </div>
 
         <div class="form-group">
-            <label>Isi Konten</label>
+
+            <label>Konten</label>
+
             <textarea
-            id="homepageIsi"
-            rows="6"
+            id="konten"
+            rows="5"
             class="form-control"></textarea>
+
         </div>
 
         <div class="form-group">
-            <label>URL Gambar</label>
+
+            <label>Gambar</label>
+
             <input
             type="text"
-            id="homepageGambar"
+            id="gambar"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Urutan</label>
+
             <input
             type="number"
-            id="homepageUrutan"
-            value="1"
+            id="urutan"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Status</label>
 
             <select
-            id="homepageStatus"
+            id="status"
             class="form-control">
 
                 <option value="Aktif">
@@ -187,89 +232,125 @@ function showFormHomepage(){
         <button
         class="btn btn-success"
         onclick="simpanHomepage()">
-        Simpan
+
+            Simpan
+
         </button>
 
         <button
         class="btn btn-secondary"
         onclick="tutupModal()">
-        Tutup
+
+            Tutup
+
         </button>
 
     </div>
 
     `;
-}
 
-function tutupModal(){
-
-    const modal =
-        document.getElementById(
-            "modalContainer"
-        );
-
-    modal.style.display = "none";
-
-    modal.innerHTML = "";
 }
 
 async function simpanHomepage(){
 
-    const data = {
-
-        action:"saveHomepage",
-
-        judul:
-        document.getElementById(
-            "homepageJudul"
-        ).value,
-
-        isi:
-        document.getElementById(
-            "homepageIsi"
-        ).value,
-
-        gambar:
-        document.getElementById(
-            "homepageGambar"
-        ).value,
-
-        urutan:
-        document.getElementById(
-            "homepageUrutan"
-        ).value,
-
-        status:
-        document.getElementById(
-            "homepageStatus"
-        ).value
-    };
-
     const result =
-        await apiPost(data);
+        await apiPost({
+
+            action:"saveHomepage",
+
+            payload:{
+
+                id:
+                document.getElementById(
+                    "id"
+                ).value,
+
+                judul:
+                document.getElementById(
+                    "judul"
+                ).value,
+
+                konten:
+                document.getElementById(
+                    "konten"
+                ).value,
+
+                gambar:
+                document.getElementById(
+                    "gambar"
+                ).value,
+
+                urutan:
+                document.getElementById(
+                    "urutan"
+                ).value,
+
+                status:
+                document.getElementById(
+                    "status"
+                ).value
+
+            }
+
+        });
 
     if(result.success){
 
         showToast(
-            "Data berhasil disimpan"
+            "Konten berhasil disimpan"
         );
 
         tutupModal();
 
         loadHomepage();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
     }
+
 }
 
-function editHomepage(id){
+async function hapusHomepage(id){
 
-    showToast(
-        "Fitur edit akan aktif setelah API selesai dibuat"
-    );
-}
+    if(
+        !confirm(
+            "Hapus konten homepage?"
+        )
+    ){
+        return;
+    }
 
-function hapusHomepage(id){
+    const result =
+        await apiPost({
 
-    showToast(
-        "Fitur hapus akan aktif setelah API selesai dibuat"
-    );
+            action:"deleteHomepage",
+
+            payload:{
+
+                id:id
+
+            }
+
+        });
+
+    if(result.success){
+
+        showToast(
+            "Data berhasil dihapus"
+        );
+
+        loadHomepage();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
+    }
+
 }
