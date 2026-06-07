@@ -25,23 +25,31 @@ function renderRuangan(content){
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>No</th>
-                    <th>Kode Ruangan</th>
-                    <th>Nama Ruangan</th>
+                    <th>Kode Ruang</th>
+                    <th>Nama Ruang</th>
                     <th>Gedung</th>
                     <th>Lantai</th>
                     <th>Status</th>
                     <th>Aksi</th>
+
                 </tr>
+
             </thead>
 
             <tbody id="ruanganTable">
+
                 <tr>
+
                     <td colspan="7">
                         Memuat data...
                     </td>
+
                 </tr>
+
             </tbody>
 
         </table>
@@ -51,42 +59,50 @@ function renderRuangan(content){
     `;
 
     loadRuangan();
+
 }
 
 async function loadRuangan(){
 
     const result =
-        await apiGet("getRuangan");
+        await apiGet("ruangan");
 
     const tbody =
-        document.getElementById("ruanganTable");
+        document.getElementById(
+            "ruanganTable"
+        );
 
-    if(!result.success){
+    if(!Array.isArray(result)){
 
         tbody.innerHTML = `
+
         <tr>
+
             <td colspan="7">
                 Data tidak ditemukan
             </td>
+
         </tr>
+
         `;
 
         return;
+
     }
 
     let html = "";
 
-    result.data.forEach((item,index)=>{
+    result.forEach((item,index)=>{
 
         html += `
 
         <tr>
 
-            <td>${index + 1}</td>
+            <td>${index+1}</td>
 
-            <td>${item.kodeRuangan}</td>
+            <td>${item.kodeRuang}</td>
 
-            <td>${item.namaRuangan}</td>
+            <td>${item.namaRuang}</td>
 
             <td>${item.namaGedung}</td>
 
@@ -97,15 +113,11 @@ async function loadRuangan(){
             <td>
 
                 <button
-                class="btn btn-warning"
-                onclick="editRuangan('${item.id}')">
-                Edit
-                </button>
-
-                <button
                 class="btn btn-danger"
-                onclick="hapusRuangan('${item.id}')">
-                Hapus
+                onclick="hapusRuangan('${item.kodeRuang}')">
+
+                    Hapus
+
                 </button>
 
             </td>
@@ -113,36 +125,44 @@ async function loadRuangan(){
         </tr>
 
         `;
+
     });
 
     tbody.innerHTML = html;
+
 }
 
 async function showFormRuangan(){
 
     const modal =
-        document.getElementById("modalContainer");
+        document.getElementById(
+            "modalContainer"
+        );
 
     modal.style.display = "flex";
 
-    const gedungResult =
-        await apiGet("getGedung");
+    const gedung =
+        await apiGet("gedung");
 
-    let gedungOptions = "";
+    let optionGedung = "";
 
-    if(
-        gedungResult.success &&
-        gedungResult.data
-    ){
+    if(Array.isArray(gedung)){
 
-        gedungResult.data.forEach(item=>{
+        gedung.forEach(item=>{
 
-            gedungOptions += `
-            <option value="${item.kodeGedung}">
+            optionGedung += `
+
+            <option
+            value="${item.kodeGedung}">
+
                 ${item.namaGedung}
+
             </option>
+
             `;
+
         });
+
     }
 
     modal.innerHTML = `
@@ -154,66 +174,80 @@ async function showFormRuangan(){
         <br>
 
         <div class="form-group">
-            <label>Kode Ruangan</label>
+
+            <label>Kode Ruang</label>
+
             <input
             type="text"
-            id="kodeRuangan"
+            id="kodeRuang"
             class="form-control">
+
         </div>
 
         <div class="form-group">
-            <label>Nama Ruangan</label>
+
+            <label>Nama Ruang</label>
+
             <input
             type="text"
-            id="namaRuangan"
+            id="namaRuang"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Gedung</label>
 
             <select
             id="kodeGedung"
             class="form-control">
 
-                ${gedungOptions}
+                ${optionGedung}
 
             </select>
 
         </div>
 
         <div class="form-group">
-            <label>Jenis Ruangan</label>
+
+            <label>Jenis Ruang</label>
 
             <input
             type="text"
-            id="jenisRuangan"
+            id="jenisRuang"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Lantai</label>
 
             <input
             type="number"
-            id="lantaiRuangan"
+            id="lantai"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Penanggung Jawab</label>
 
             <input
             type="text"
             id="penanggungJawab"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Status</label>
 
             <select
-            id="statusRuangan"
+            id="status"
             class="form-control">
 
                 <option value="Aktif">
@@ -233,64 +267,72 @@ async function showFormRuangan(){
         <button
         class="btn btn-success"
         onclick="simpanRuangan()">
+
             Simpan
+
         </button>
 
         <button
         class="btn btn-secondary"
         onclick="tutupModal()">
+
             Tutup
+
         </button>
 
     </div>
 
     `;
+
 }
 
 async function simpanRuangan(){
 
-    const data = {
-
-        action:"saveRuangan",
-
-        kodeRuangan:
-        document.getElementById(
-            "kodeRuangan"
-        ).value,
-
-        namaRuangan:
-        document.getElementById(
-            "namaRuangan"
-        ).value,
-
-        kodeGedung:
-        document.getElementById(
-            "kodeGedung"
-        ).value,
-
-        jenisRuangan:
-        document.getElementById(
-            "jenisRuangan"
-        ).value,
-
-        lantai:
-        document.getElementById(
-            "lantaiRuangan"
-        ).value,
-
-        penanggungJawab:
-        document.getElementById(
-            "penanggungJawab"
-        ).value,
-
-        status:
-        document.getElementById(
-            "statusRuangan"
-        ).value
-    };
-
     const result =
-        await apiPost(data);
+        await apiPost({
+
+            action:"saveRuangan",
+
+            payload:{
+
+                kodeRuang:
+                document.getElementById(
+                    "kodeRuang"
+                ).value,
+
+                namaRuang:
+                document.getElementById(
+                    "namaRuang"
+                ).value,
+
+                kodeGedung:
+                document.getElementById(
+                    "kodeGedung"
+                ).value,
+
+                jenisRuang:
+                document.getElementById(
+                    "jenisRuang"
+                ).value,
+
+                lantai:
+                document.getElementById(
+                    "lantai"
+                ).value,
+
+                penanggungJawab:
+                document.getElementById(
+                    "penanggungJawab"
+                ).value,
+
+                status:
+                document.getElementById(
+                    "status"
+                ).value
+
+            }
+
+        });
 
     if(result.success){
 
@@ -301,19 +343,55 @@ async function simpanRuangan(){
         tutupModal();
 
         loadRuangan();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
     }
+
 }
 
-function editRuangan(id){
+async function hapusRuangan(kodeRuang){
 
-    showToast(
-        "Fitur edit akan aktif setelah API selesai dibuat"
-    );
-}
+    if(
+        !confirm(
+            "Hapus data ruangan?"
+        )
+    ){
+        return;
+    }
 
-function hapusRuangan(id){
+    const result =
+        await apiPost({
 
-    showToast(
-        "Fitur hapus akan aktif setelah API selesai dibuat"
-    );
+            action:"deleteRuangan",
+
+            payload:{
+
+                kodeRuang:
+                kodeRuang
+
+            }
+
+        });
+
+    if(result.success){
+
+        showToast(
+            "Data berhasil dihapus"
+        );
+
+        loadRuangan();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
+    }
+
 }
