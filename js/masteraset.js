@@ -11,7 +11,9 @@ function renderMasterAset(content){
             <button
             class="btn btn-primary"
             onclick="showFormMasterAset()">
+
                 Tambah Aset
+
             </button>
 
         </div>
@@ -25,25 +27,35 @@ function renderMasterAset(content){
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>No</th>
-                    <th>Kode Barang</th>
-                    <th>NUP</th>
+                    <th>ID Aset</th>
                     <th>Nama Barang</th>
+                    <th>Merk</th>
                     <th>Gedung</th>
                     <th>Ruangan</th>
-                    <th>Tahun</th>
                     <th>Kondisi</th>
+                    <th>Status</th>
                     <th>Aksi</th>
+
                 </tr>
+
             </thead>
 
             <tbody id="masterAsetTable">
+
                 <tr>
+
                     <td colspan="9">
+
                         Memuat data...
+
                     </td>
+
                 </tr>
+
             </tbody>
 
         </table>
@@ -53,65 +65,135 @@ function renderMasterAset(content){
     `;
 
     loadMasterAset();
+
 }
 
 async function loadMasterAset(){
 
-    const result =
-        await apiGet("getMasterAset");
+    const aset =
+        await apiGet(
+            "masterAset"
+        );
+
+    const ruangan =
+        await apiGet(
+            "ruangan"
+        );
+
+    const gedung =
+        await apiGet(
+            "gedung"
+        );
 
     const tbody =
-        document.getElementById("masterAsetTable");
+        document.getElementById(
+            "masterAsetTable"
+        );
 
-    if(!result.success){
+    if(
+        !Array.isArray(aset)
+    ){
 
         tbody.innerHTML = `
+
         <tr>
+
             <td colspan="9">
+
                 Data tidak ditemukan
+
             </td>
+
         </tr>
+
         `;
 
         return;
+
+    }
+
+    const mapRuang = {};
+
+    if(
+        Array.isArray(ruangan)
+    ){
+
+        ruangan.forEach(item=>{
+
+            mapRuang[
+                item.kodeRuang
+            ] = item;
+
+        });
+
+    }
+
+    const mapGedung = {};
+
+    if(
+        Array.isArray(gedung)
+    ){
+
+        gedung.forEach(item=>{
+
+            mapGedung[
+                item.kodeGedung
+            ] = item.namaGedung;
+
+        });
+
     }
 
     let html = "";
 
-    result.data.forEach((item,index)=>{
+    aset.forEach((item,index)=>{
+
+        const ruang =
+            mapRuang[
+                item.kodeRuang
+            ];
+
+        let namaGedung = "";
+
+        if(
+            ruang
+        ){
+
+            namaGedung =
+                mapGedung[
+                    ruang.kodeGedung
+                ] || "";
+
+        }
 
         html += `
 
         <tr>
 
-            <td>${index + 1}</td>
+            <td>${index+1}</td>
 
-            <td>${item.kodeBarang}</td>
-
-            <td>${item.nup}</td>
+            <td>${item.idAset}</td>
 
             <td>${item.namaBarang}</td>
 
-            <td>${item.namaGedung}</td>
+            <td>${item.merk}</td>
 
-            <td>${item.namaRuangan}</td>
+            <td>${namaGedung}</td>
 
-            <td>${item.tahunPerolehan}</td>
+            <td>${item.namaRuang}</td>
 
             <td>${item.kondisi}</td>
+
+            <td>${item.status}</td>
 
             <td>
 
                 <button
-                class="btn btn-warning"
-                onclick="editAset('${item.id}')">
-                Edit
-                </button>
-
-                <button
                 class="btn btn-danger"
-                onclick="hapusAset('${item.id}')">
-                Hapus
+                onclick="hapusAset('${item.idAset}')">
+
+                    Hapus
+
                 </button>
 
             </td>
@@ -119,49 +201,51 @@ async function loadMasterAset(){
         </tr>
 
         `;
+
     });
 
     tbody.innerHTML = html;
+
 }
 
 async function showFormMasterAset(){
 
     const modal =
-        document.getElementById("modalContainer");
+        document.getElementById(
+            "modalContainer"
+        );
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 
-    const gedungResult =
-        await apiGet("getGedung");
+    const ruangan =
+        await apiGet(
+            "ruangan"
+        );
 
-    const ruanganResult =
-        await apiGet("getRuangan");
+    let optionRuang = "";
 
-    let gedungOptions = "";
-    let ruanganOptions = "";
+    if(
+        Array.isArray(
+            ruangan
+        )
+    ){
 
-    if(gedungResult.success){
+        ruangan.forEach(item=>{
 
-        gedungResult.data.forEach(item=>{
+            optionRuang += `
 
-            gedungOptions += `
-            <option value="${item.kodeGedung}">
-                ${item.namaGedung}
+            <option
+            value="${item.kodeRuang}">
+
+                ${item.namaRuang}
+
             </option>
+
             `;
+
         });
-    }
 
-    if(ruanganResult.success){
-
-        ruanganResult.data.forEach(item=>{
-
-            ruanganOptions += `
-            <option value="${item.kodeRuangan}">
-                ${item.namaRuangan}
-            </option>
-            `;
-        });
     }
 
     modal.innerHTML = `
@@ -173,69 +257,91 @@ async function showFormMasterAset(){
         <br>
 
         <div class="form-group">
+
             <label>Kode Barang</label>
-            <input type="text"
+
+            <input
+            type="text"
             id="kodeBarang"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>NUP</label>
-            <input type="text"
+
+            <input
+            type="number"
             id="nup"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
+            <label>Tahun</label>
+
+            <input
+            type="number"
+            id="tahun"
+            class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
             <label>Nama Barang</label>
-            <input type="text"
+
+            <input
+            type="text"
             id="namaBarang"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Merk</label>
-            <input type="text"
-            id="merkBarang"
+
+            <input
+            type="text"
+            id="merk"
             class="form-control">
+
         </div>
 
         <div class="form-group">
-            <label>Tahun Perolehan</label>
-            <input type="number"
-            id="tahunPerolehan"
-            class="form-control">
+
+            <label>Spesifikasi</label>
+
+            <textarea
+            id="spesifikasi"
+            rows="3"
+            class="form-control"></textarea>
+
         </div>
 
         <div class="form-group">
-            <label>Nilai Perolehan</label>
-            <input type="number"
-            id="nilaiPerolehan"
-            class="form-control">
-        </div>
 
-        <div class="form-group">
-            <label>Gedung</label>
-            <select
-            id="gedungAset"
-            class="form-control">
-                ${gedungOptions}
-            </select>
-        </div>
-
-        <div class="form-group">
             <label>Ruangan</label>
+
             <select
-            id="ruanganAset"
+            id="kodeRuang"
             class="form-control">
-                ${ruanganOptions}
+
+                ${optionRuang}
+
             </select>
+
         </div>
 
-        <div class="form-group">
+                <div class="form-group">
+
             <label>Kondisi</label>
+
             <select
-            id="kondisiAset"
+            id="kondisi"
             class="form-control">
 
                 <option value="Baik">
@@ -251,13 +357,26 @@ async function showFormMasterAset(){
                 </option>
 
             </select>
+
         </div>
 
         <div class="form-group">
+
+            <label>Harga Perolehan</label>
+
+            <input
+            type="number"
+            id="hargaPerolehan"
+            class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
             <label>Status</label>
 
             <select
-            id="statusAset"
+            id="status"
             class="form-control">
 
                 <option value="Aktif">
@@ -277,59 +396,87 @@ async function showFormMasterAset(){
         <button
         class="btn btn-success"
         onclick="simpanAset()">
+
             Simpan
+
         </button>
 
         <button
         class="btn btn-secondary"
         onclick="tutupModal()">
+
             Tutup
+
         </button>
 
     </div>
 
     `;
+
 }
 
 async function simpanAset(){
 
-    const data = {
-
-        action:"saveMasterAset",
-
-        kodeBarang:
-        document.getElementById("kodeBarang").value,
-
-        nup:
-        document.getElementById("nup").value,
-
-        namaBarang:
-        document.getElementById("namaBarang").value,
-
-        merk:
-        document.getElementById("merkBarang").value,
-
-        tahunPerolehan:
-        document.getElementById("tahunPerolehan").value,
-
-        nilaiPerolehan:
-        document.getElementById("nilaiPerolehan").value,
-
-        gedung:
-        document.getElementById("gedungAset").value,
-
-        ruangan:
-        document.getElementById("ruanganAset").value,
-
-        kondisi:
-        document.getElementById("kondisiAset").value,
-
-        status:
-        document.getElementById("statusAset").value
-    };
-
     const result =
-        await apiPost(data);
+        await apiPost({
+
+            action:"saveAset",
+
+            payload:{
+
+                kodeBarang:
+                document.getElementById(
+                    "kodeBarang"
+                ).value,
+
+                nup:
+                document.getElementById(
+                    "nup"
+                ).value,
+
+                tahun:
+                document.getElementById(
+                    "tahun"
+                ).value,
+
+                namaBarang:
+                document.getElementById(
+                    "namaBarang"
+                ).value,
+
+                merk:
+                document.getElementById(
+                    "merk"
+                ).value,
+
+                spesifikasi:
+                document.getElementById(
+                    "spesifikasi"
+                ).value,
+
+                kodeRuang:
+                document.getElementById(
+                    "kodeRuang"
+                ).value,
+
+                kondisi:
+                document.getElementById(
+                    "kondisi"
+                ).value,
+
+                hargaPerolehan:
+                document.getElementById(
+                    "hargaPerolehan"
+                ).value,
+
+                status:
+                document.getElementById(
+                    "status"
+                ).value
+
+            }
+
+        });
 
     if(result.success){
 
@@ -340,19 +487,56 @@ async function simpanAset(){
         tutupModal();
 
         loadMasterAset();
+
+    }else{
+
+        showToast(
+            result.message ||
+            "Gagal menyimpan aset"
+        );
+
     }
+
 }
 
-function editAset(id){
+async function hapusAset(idAset){
 
-    showToast(
-        "Fitur edit akan aktif setelah API selesai dibuat"
-    );
-}
+    if(
+        !confirm(
+            "Hapus aset ini?"
+        )
+    ){
+        return;
+    }
 
-function hapusAset(id){
+    const result =
+        await apiPost({
 
-    showToast(
-        "Fitur hapus akan aktif setelah API selesai dibuat"
-    );
+            action:"deleteAset",
+
+            payload:{
+
+                idAset:
+                idAset
+
+            }
+
+        });
+
+    if(result.success){
+
+        showToast(
+            "Aset berhasil dihapus"
+        );
+
+        loadMasterAset();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
+    }
+
 }
