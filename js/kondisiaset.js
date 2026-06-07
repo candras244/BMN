@@ -6,12 +6,14 @@ function renderKondisiAset(content){
 
         <div style="display:flex;justify-content:space-between;align-items:center;">
 
-            <h2>Kondisi Aset</h2>
+            <h2>Riwayat Kondisi Aset</h2>
 
             <button
             class="btn btn-primary"
-            onclick="showFormKondisiAset()">
-                Update Kondisi
+            onclick="showFormKondisi()">
+
+                Ubah Kondisi
+
             </button>
 
         </div>
@@ -25,23 +27,33 @@ function renderKondisiAset(content){
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>No</th>
                     <th>Tanggal</th>
-                    <th>Kode Barang</th>
-                    <th>Nama Barang</th>
+                    <th>ID Aset</th>
                     <th>Kondisi Lama</th>
                     <th>Kondisi Baru</th>
                     <th>Keterangan</th>
+                    <th>Petugas</th>
+
                 </tr>
+
             </thead>
 
-            <tbody id="kondisiAsetTable">
+            <tbody id="kondisiTable">
+
                 <tr>
+
                     <td colspan="7">
+
                         Memuat data...
+
                     </td>
+
                 </tr>
+
             </tbody>
 
         </table>
@@ -51,44 +63,56 @@ function renderKondisiAset(content){
     `;
 
     loadKondisiAset();
+
 }
 
 async function loadKondisiAset(){
 
     const result =
-        await apiGet("getKondisiAset");
+        await apiGet(
+            "kondisiAset"
+        );
 
     const tbody =
-        document.getElementById("kondisiAsetTable");
+        document.getElementById(
+            "kondisiTable"
+        );
 
-    if(!result.success){
+    if(
+        !Array.isArray(result)
+    ){
 
         tbody.innerHTML = `
+
         <tr>
+
             <td colspan="7">
+
                 Data tidak ditemukan
+
             </td>
+
         </tr>
+
         `;
 
         return;
+
     }
 
     let html = "";
 
-    result.data.forEach((item,index)=>{
+    result.forEach((item,index)=>{
 
         html += `
 
         <tr>
 
-            <td>${index + 1}</td>
+            <td>${index+1}</td>
 
             <td>${item.tanggal}</td>
 
-            <td>${item.kodeBarang}</td>
-
-            <td>${item.namaBarang}</td>
+            <td>${item.idAset}</td>
 
             <td>${item.kondisiLama}</td>
 
@@ -96,57 +120,82 @@ async function loadKondisiAset(){
 
             <td>${item.keterangan}</td>
 
+            <td>${item.petugas}</td>
+
         </tr>
 
         `;
+
     });
 
     tbody.innerHTML = html;
+
 }
 
-async function showFormKondisiAset(){
+async function showFormKondisi(){
 
     const modal =
-        document.getElementById("modalContainer");
+        document.getElementById(
+            "modalContainer"
+        );
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 
-    const asetResult =
-        await apiGet("getMasterAset");
+    const aset =
+        await apiGet(
+            "masterAset"
+        );
 
-    let asetOptions = "";
+    let optionAset = "";
 
-    if(asetResult.success){
+    if(
+        Array.isArray(aset)
+    ){
 
-        asetResult.data.forEach(item=>{
+        aset.forEach(item=>{
 
-            asetOptions += `
-            <option value="${item.id}">
-                ${item.kodeBarang} - ${item.namaBarang}
+            optionAset += `
+
+            <option
+            value="${item.idAset}">
+
+                ${item.idAset}
+                -
+                ${item.namaBarang}
+
             </option>
+
             `;
+
         });
+
     }
 
     modal.innerHTML = `
 
     <div class="modal">
 
-        <h2>Update Kondisi Aset</h2>
+        <h2>Ubah Kondisi Aset</h2>
 
         <br>
 
         <div class="form-group">
+
             <label>Pilih Aset</label>
 
             <select
-            id="asetKondisi"
+            id="idAset"
             class="form-control">
-                ${asetOptions}
+
+                ${optionAset}
+
             </select>
+
         </div>
 
         <div class="form-group">
+
             <label>Kondisi Baru</label>
 
             <select
@@ -166,60 +215,71 @@ async function showFormKondisiAset(){
                 </option>
 
             </select>
+
         </div>
 
         <div class="form-group">
+
             <label>Keterangan</label>
 
             <textarea
-            id="keteranganKondisi"
+            id="keterangan"
             rows="4"
             class="form-control"></textarea>
+
         </div>
 
         <br>
 
         <button
         class="btn btn-success"
-        onclick="simpanKondisiAset()">
+        onclick="simpanKondisi()">
+
             Simpan
+
         </button>
 
         <button
         class="btn btn-secondary"
         onclick="tutupModal()">
+
             Tutup
+
         </button>
 
     </div>
 
     `;
+
 }
 
-async function simpanKondisiAset(){
-
-    const data = {
-
-        action:"saveKondisiAset",
-
-        asetId:
-        document.getElementById(
-            "asetKondisi"
-        ).value,
-
-        kondisiBaru:
-        document.getElementById(
-            "kondisiBaru"
-        ).value,
-
-        keterangan:
-        document.getElementById(
-            "keteranganKondisi"
-        ).value
-    };
+async function simpanKondisi(){
 
     const result =
-        await apiPost(data);
+        await apiPost({
+
+            action:"saveKondisi",
+
+            payload:{
+
+                idAset:
+                document.getElementById(
+                    "idAset"
+                ).value,
+
+                kondisiBaru:
+                document.getElementById(
+                    "kondisiBaru"
+                ).value,
+
+                keterangan:
+                document.getElementById(
+                    "keterangan"
+                ).value
+
+            }
+
+        });
 
     if(result.success){
 
@@ -230,5 +290,15 @@ async function simpanKondisiAset(){
         tutupModal();
 
         loadKondisiAset();
+
+        loadMasterAset();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
     }
+
 }
