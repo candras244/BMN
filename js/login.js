@@ -149,9 +149,15 @@ async function prosesLogin(){
 
     localStorage.setItem(
         "simdbr_user",
-        JSON.stringify(
-            result.user
-        )
+        JSON.stringify({
+
+            nama: result.nama,
+
+            username: username,
+
+            role: resukt.role
+            
+        })
     );
 
     document.getElementById(
