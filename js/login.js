@@ -127,9 +127,14 @@ async function prosesLogin(){
 
             action:"login",
 
-            username:username,
+            payload: {
+            
+                username:username,
 
-            password:password
+                password:password
+
+            }
+            
         });
 
     if(!result.success){
