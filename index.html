@@ -1,146 +1,171 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIM-DBR</title>
 
-<link rel="stylesheet" href="css/admin.css">
+<title>SIM-DBR UIN Syekh Wasil Kediri</title>
+
+<link rel="stylesheet" href="css/public.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
 
-<div id="loadingOverlay" class="loading-overlay">
-    <div class="spinner"></div>
-</div>
+<header class="header">
 
-<div id="toastContainer"></div>
+    <div class="logo-area">
 
-<div id="modalContainer"></div>
+        <img
+        src="assets/logo.png"
+        alt="Logo UIN"
+        class="logo">
 
-<div class="app-container">
+        <div>
 
-    <aside class="sidebar">
+            <h1>
+                SIM-DBR
+            </h1>
 
-        <div class="logo">
-            <i class="fas fa-building"></i>
-            <span>SIM-DBR</span>
+            <p>
+                UIN Syekh Wasil Kediri
+            </p>
+
         </div>
 
-        <nav class="menu">
+    </div>
 
-            <a href="#dashboard" data-page="dashboard">
-                <i class="fas fa-chart-line"></i>
-                Dashboard
-            </a>
+    <nav class="menu">
 
-            <a href="#homepage" data-page="homepage">
-                <i class="fas fa-house"></i>
-                Homepage
-            </a>
+        <a href="#home">Home</a>
+        <a href="#gedung">Gedung</a>
+        <a href="#ruangan">Ruangan</a>
+        <a href="#dbr">DBR</a>
+        <a href="#statistik">Statistik</a>
 
-            <a href="#gedung" data-page="gedung">
-                <i class="fas fa-building"></i>
-                Gedung
-            </a>
+        <a
+        href="admin.html"
+        class="login-btn">
 
-            <a href="#ruangan" data-page="ruangan">
-                <i class="fas fa-door-open"></i>
-                Ruangan
-            </a>
+            Login
 
-            <a href="#masteraset" data-page="masteraset">
-                <i class="fas fa-boxes"></i>
-                Master Aset
-            </a>
+        </a>
 
-            <a href="#mutasi" data-page="mutasi">
-                <i class="fas fa-right-left"></i>
-                Mutasi
-            </a>
+    </nav>
 
-            <a href="#kondisiaset" data-page="kondisiaset">
-                <i class="fas fa-screwdriver-wrench"></i>
-                Kondisi Aset
-            </a>
+</header>
 
-            <a href="#dbr" data-page="dbr">
-                <i class="fas fa-file-pdf"></i>
-                DBR
-            </a>
+<section class="hero">
 
-            <a href="#statistik" data-page="statistik">
-                <i class="fas fa-chart-pie"></i>
-                Statistik
-            </a>
+    <div class="hero-content">
 
-            <a href="#login" data-page="login">
-                <i class="fas fa-user-lock"></i>
-                Login
-            </a>
+        <h1>
+            Sistem Informasi Manajemen
+            Daftar Barang Ruangan
+        </h1>
 
-        </nav>
+        <p>
 
-    </aside>
+            Monitoring aset,
+            gedung,
+            ruangan,
+            dan DBR secara online.
 
-    <main class="main-content">
+        </p>
 
-        <header class="topbar">
+    </div>
 
-            <div class="breadcrumb" id="breadcrumb">
-                Dashboard
-            </div>
+</section>
 
-            <div class="user-box">
+<section class="statistik">
 
-                <div class="user-info">
-                    <div id="userName">Guest</div>
-                    <small id="userRole">Public User</small>
-                </div>
+    <div class="stat-card">
 
-                <button id="logoutBtn" class="btn-logout">
-                    Logout
-                </button>
+        <h2 id="totalGedung">
+            0
+        </h2>
 
-            </div>
+        <p>
+            Gedung
+        </p>
 
-        </header>
+    </div>
 
-        <section id="content" class="content-area">
+    <div class="stat-card">
 
-            <div class="welcome-card">
-                <h2>Selamat Datang di SIM-DBR</h2>
-                <p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
-            </div>
+        <h2 id="totalRuangan">
+            0
+        </h2>
 
-        </section>
+        <p>
+            Ruangan
+        </p>
 
-        <footer class="footer">
-            © 2026 SIM-DBR
-        </footer>
+    </div>
 
-    </main>
+    <div class="stat-card">
 
-</div>
+        <h2 id="totalAset">
+            0
+        </h2>
+
+        <p>
+            Aset
+        </p>
+
+    </div>
+
+</section>
+
+<section id="gedung">
+
+    <div class="section-title">
+
+        Gedung
+
+    </div>
+
+    <div
+    id="gedungContainer"
+    class="card-grid">
+
+    </div>
+
+</section>
+
+<section id="dbr">
+
+    <div class="section-title">
+
+        Daftar Barang Ruangan
+
+    </div>
+
+    <div
+    id="dbrContainer">
+
+    </div>
+
+</section>
+
+<footer>
+
+    <p>
+
+        © 2026 SIM-DBR
+        UIN Syekh Wasil Kediri
+
+    </p>
+
+</footer>
 
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/router.js"></script>
-
-<script src="js/dashboard.js"></script>
-<script src="js/homepage.js"></script>
-<script src="js/gedung.js"></script>
-<script src="js/ruangan.js"></script>
-<script src="js/masteraset.js"></script>
-<script src="js/mutasi.js"></script>
-<script src="js/kondisiaset.js"></script>
-<script src="js/dbr.js"></script>
-<script src="js/statistik.js"></script>
-<script src="js/login.js"></script>
+<script src="js/public.js"></script>
 
 </body>
 </html>
