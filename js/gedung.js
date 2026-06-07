@@ -25,22 +25,30 @@ function renderGedung(content){
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>No</th>
                     <th>Kode Gedung</th>
                     <th>Nama Gedung</th>
                     <th>Alamat</th>
                     <th>Status</th>
                     <th>Aksi</th>
+
                 </tr>
+
             </thead>
 
             <tbody id="gedungTable">
+
                 <tr>
+
                     <td colspan="6">
                         Memuat data...
                     </td>
+
                 </tr>
+
             </tbody>
 
         </table>
@@ -50,38 +58,48 @@ function renderGedung(content){
     `;
 
     loadGedung();
+
 }
 
 async function loadGedung(){
 
     const result =
-        await apiGet("getGedung");
+        await apiGet("gedung");
 
     const tbody =
-        document.getElementById("gedungTable");
+        document.getElementById(
+            "gedungTable"
+        );
 
-    if(!result.success){
+    if(!Array.isArray(result)){
 
         tbody.innerHTML = `
+
         <tr>
+
             <td colspan="6">
+
                 Data tidak ditemukan
+
             </td>
+
         </tr>
+
         `;
 
         return;
+
     }
 
     let html = "";
 
-    result.data.forEach((item,index)=>{
+    result.forEach((item,index)=>{
 
         html += `
 
         <tr>
 
-            <td>${index + 1}</td>
+            <td>${index+1}</td>
 
             <td>${item.kodeGedung}</td>
 
@@ -94,15 +112,11 @@ async function loadGedung(){
             <td>
 
                 <button
-                class="btn btn-warning"
-                onclick="editGedung('${item.id}')">
-                Edit
-                </button>
-
-                <button
                 class="btn btn-danger"
-                onclick="hapusGedung('${item.id}')">
-                Hapus
+                onclick="hapusGedung('${item.kodeGedung}')">
+
+                    Hapus
+
                 </button>
 
             </td>
@@ -110,15 +124,19 @@ async function loadGedung(){
         </tr>
 
         `;
+
     });
 
     tbody.innerHTML = html;
+
 }
 
 function showFormGedung(){
 
     const modal =
-        document.getElementById("modalContainer");
+        document.getElementById(
+            "modalContainer"
+        );
 
     modal.style.display = "flex";
 
@@ -131,58 +149,77 @@ function showFormGedung(){
         <br>
 
         <div class="form-group">
+
             <label>Kode Gedung</label>
+
             <input
             type="text"
             id="kodeGedung"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Nama Gedung</label>
+
             <input
             type="text"
             id="namaGedung"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Alamat</label>
+
             <textarea
-            id="alamatGedung"
+            id="alamat"
             rows="3"
             class="form-control"></textarea>
+
         </div>
 
         <div class="form-group">
+
             <label>Deskripsi Singkat</label>
+
             <textarea
             id="deskripsiSingkat"
             rows="3"
             class="form-control"></textarea>
+
         </div>
 
         <div class="form-group">
+
             <label>Deskripsi Lengkap</label>
+
             <textarea
             id="deskripsiLengkap"
             rows="5"
             class="form-control"></textarea>
+
         </div>
 
         <div class="form-group">
-            <label>URL Foto Gedung</label>
+
+            <label>URL Foto</label>
+
             <input
             type="text"
-            id="fotoGedung"
+            id="foto"
             class="form-control">
+
         </div>
 
         <div class="form-group">
+
             <label>Status</label>
 
             <select
-            id="statusGedung"
+            id="status"
             class="form-control">
 
                 <option value="Aktif">
@@ -202,64 +239,72 @@ function showFormGedung(){
         <button
         class="btn btn-success"
         onclick="simpanGedung()">
+
             Simpan
+
         </button>
 
         <button
         class="btn btn-secondary"
         onclick="tutupModal()">
+
             Tutup
+
         </button>
 
     </div>
 
     `;
+
 }
 
 async function simpanGedung(){
 
-    const data = {
-
-        action:"saveGedung",
-
-        kodeGedung:
-        document.getElementById(
-            "kodeGedung"
-        ).value,
-
-        namaGedung:
-        document.getElementById(
-            "namaGedung"
-        ).value,
-
-        alamat:
-        document.getElementById(
-            "alamatGedung"
-        ).value,
-
-        deskripsiSingkat:
-        document.getElementById(
-            "deskripsiSingkat"
-        ).value,
-
-        deskripsiLengkap:
-        document.getElementById(
-            "deskripsiLengkap"
-        ).value,
-
-        fotoGedung:
-        document.getElementById(
-            "fotoGedung"
-        ).value,
-
-        status:
-        document.getElementById(
-            "statusGedung"
-        ).value
-    };
-
     const result =
-        await apiPost(data);
+        await apiPost({
+
+            action:"saveGedung",
+
+            payload:{
+
+                kodeGedung:
+                document.getElementById(
+                    "kodeGedung"
+                ).value,
+
+                namaGedung:
+                document.getElementById(
+                    "namaGedung"
+                ).value,
+
+                alamat:
+                document.getElementById(
+                    "alamat"
+                ).value,
+
+                deskripsiSingkat:
+                document.getElementById(
+                    "deskripsiSingkat"
+                ).value,
+
+                deskripsiLengkap:
+                document.getElementById(
+                    "deskripsiLengkap"
+                ).value,
+
+                foto:
+                document.getElementById(
+                    "foto"
+                ).value,
+
+                status:
+                document.getElementById(
+                    "status"
+                ).value
+
+            }
+
+        });
 
     if(result.success){
 
@@ -270,19 +315,55 @@ async function simpanGedung(){
         tutupModal();
 
         loadGedung();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
     }
+
 }
 
-function editGedung(id){
+async function hapusGedung(kodeGedung){
 
-    showToast(
-        "Fitur edit akan aktif setelah API selesai dibuat"
-    );
-}
+    if(
+        !confirm(
+            "Hapus data gedung?"
+        )
+    ){
+        return;
+    }
 
-function hapusGedung(id){
+    const result =
+        await apiPost({
 
-    showToast(
-        "Fitur hapus akan aktif setelah API selesai dibuat"
-    );
+            action:"deleteGedung",
+
+            payload:{
+
+                kodeGedung:
+                kodeGedung
+
+            }
+
+        });
+
+    if(result.success){
+
+        showToast(
+            "Data berhasil dihapus"
+        );
+
+        loadGedung();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
+    }
+
 }
