@@ -1,120 +1,141 @@
 function renderDashboard(content){
 
     content.innerHTML = `
-    
-    <div class="grid">
 
-        <div class="stat-card">
-            <h3>Total Gedung</h3>
-            <h2 id="totalGedung">0</h2>
-        </div>
+    <div id="dashboardContainer">
 
-        <div class="stat-card">
-            <h3>Total Ruangan</h3>
-            <h2 id="totalRuangan">0</h2>
-        </div>
+        <div class="card">
 
-        <div class="stat-card">
-            <h3>Total Aset</h3>
-            <h2 id="totalAset">0</h2>
-        </div>
+            <h2>Dashboard SIM-DBR</h2>
 
-        <div class="stat-card">
-            <h3>Nilai Aset</h3>
-            <h2 id="nilaiAset">Rp 0</h2>
-        </div>
+            <p>
+                Memuat data...
+            </p>
 
-    </div>
-
-    <br>
-
-    <div class="card">
-
-        <h2>Dashboard SIM-DBR</h2>
-
-        <br>
-
-        <p>
-            Sistem Informasi Manajemen Daftar Barang Ruangan.
-        </p>
-
-        <br>
-
-        <p>
-            Dashboard menampilkan ringkasan data aset,
-            gedung, ruangan, dan statistik inventaris.
-        </p>
-
-    </div>
-
-    <br>
-
-    <div class="card">
-
-        <h3>Aktivitas Terakhir</h3>
-
-        <br>
-
-        <div id="aktivitasTerakhir">
-            Belum ada aktivitas.
         </div>
 
     </div>
 
     `;
 
-    loadDashboardData();
+    loadDashboard();
+
 }
 
-async function loadDashboardData(){
+async function loadDashboard(){
 
-    try{
+    const result =
+        await apiGet(
+            "dashboard"
+        );
 
-        const result =
-            await apiGet("getDashboard");
+    const container =
+        document.getElementById(
+            "dashboardContainer"
+        );
 
-        if(result.success){
+    if(!result){
 
-            document.getElementById("totalGedung")
-                .textContent =
-                result.totalGedung || 0;
+        container.innerHTML = `
 
-            document.getElementById("totalRuangan")
-                .textContent =
-                result.totalRuangan || 0;
+        <div class="card">
 
-            document.getElementById("totalAset")
-                .textContent =
-                result.totalAset || 0;
+            <h3>
+                Data dashboard tidak tersedia
+            </h3>
 
-            document.getElementById("nilaiAset")
-                .textContent =
-                formatRupiah(
-                    result.nilaiAset || 0
-                );
+        </div>
 
-            if(result.aktivitas){
+        `;
 
-                let html = "";
-
-                result.aktivitas.forEach(item => {
-
-                    html += `
-                    <p>
-                        ${item}
-                    </p>
-                    `;
-                });
-
-                document.getElementById(
-                    "aktivitasTerakhir"
-                ).innerHTML = html;
-            }
-        }
-
-    }catch(error){
-
-        console.error(error);
+        return;
 
     }
+
+    container.innerHTML = `
+
+    <div class="stats-grid">
+
+        <div class="card stat-card">
+
+            <h3>Total Gedung</h3>
+
+            <h1>
+                ${result.totalGedung || 0}
+            </h1>
+
+        </div>
+
+        <div class="card stat-card">
+
+            <h3>Total Ruangan</h3>
+
+            <h1>
+                ${result.totalRuangan || 0}
+            </h1>
+
+        </div>
+
+        <div class="card stat-card">
+
+            <h3>Total Aset</h3>
+
+            <h1>
+                ${result.totalAset || 0}
+            </h1>
+
+        </div>
+
+        <div class="card stat-card">
+
+            <h3>Nilai Aset</h3>
+
+            <h1>
+                Rp ${Number(
+                    result.totalNilai || 0
+                ).toLocaleString("id-ID")}
+            </h1>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="stats-grid">
+
+        <div class="card">
+
+            <h3>Kondisi Baik</h3>
+
+            <h1>
+                ${result.baik || 0}
+            </h1>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Rusak Ringan</h3>
+
+            <h1>
+                ${result.rusakRingan || 0}
+            </h1>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Rusak Berat</h3>
+
+            <h1>
+                ${result.rusakBerat || 0}
+            </h1>
+
+        </div>
+
+    </div>
+
+    `;
+
 }
