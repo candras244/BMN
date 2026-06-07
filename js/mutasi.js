@@ -11,7 +11,9 @@ function renderMutasi(content){
             <button
             class="btn btn-primary"
             onclick="showFormMutasi()">
-                Tambah Mutasi
+
+                Mutasi Aset
+
             </button>
 
         </div>
@@ -25,23 +27,33 @@ function renderMutasi(content){
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>No</th>
                     <th>Tanggal</th>
-                    <th>Kode Barang</th>
-                    <th>Nama Barang</th>
-                    <th>Dari</th>
-                    <th>Ke</th>
+                    <th>ID Aset</th>
+                    <th>Dari Ruang</th>
+                    <th>Ke Ruang</th>
                     <th>Keterangan</th>
+                    <th>Petugas</th>
+
                 </tr>
+
             </thead>
 
             <tbody id="mutasiTable">
+
                 <tr>
+
                     <td colspan="7">
+
                         Memuat data...
+
                     </td>
+
                 </tr>
+
             </tbody>
 
         </table>
@@ -51,97 +63,140 @@ function renderMutasi(content){
     `;
 
     loadMutasi();
+
 }
 
 async function loadMutasi(){
 
     const result =
-        await apiGet("getMutasi");
+        await apiGet(
+            "mutasi"
+        );
 
     const tbody =
-        document.getElementById("mutasiTable");
+        document.getElementById(
+            "mutasiTable"
+        );
 
-    if(!result.success){
+    if(
+        !Array.isArray(result)
+    ){
 
         tbody.innerHTML = `
+
         <tr>
+
             <td colspan="7">
+
                 Data tidak ditemukan
+
             </td>
+
         </tr>
+
         `;
 
         return;
+
     }
 
     let html = "";
 
-    result.data.forEach((item,index)=>{
+    result.forEach((item,index)=>{
 
         html += `
 
         <tr>
 
-            <td>${index + 1}</td>
+            <td>${index+1}</td>
 
             <td>${item.tanggal}</td>
 
-            <td>${item.kodeBarang}</td>
+            <td>${item.idAset}</td>
 
-            <td>${item.namaBarang}</td>
+            <td>${item.dariRuang}</td>
 
-            <td>${item.dariRuangan}</td>
-
-            <td>${item.keRuangan}</td>
+            <td>${item.keRuang}</td>
 
             <td>${item.keterangan}</td>
+
+            <td>${item.petugas}</td>
 
         </tr>
 
         `;
+
     });
 
     tbody.innerHTML = html;
+
 }
 
 async function showFormMutasi(){
 
     const modal =
-        document.getElementById("modalContainer");
+        document.getElementById(
+            "modalContainer"
+        );
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 
-    const asetResult =
-        await apiGet("getMasterAset");
+    const aset =
+        await apiGet(
+            "masterAset"
+        );
 
-    const ruanganResult =
-        await apiGet("getRuangan");
+    const ruangan =
+        await apiGet(
+            "ruangan"
+        );
 
-    let asetOptions = "";
-    let ruanganOptions = "";
+    let optionAset = "";
+    let optionRuang = "";
 
-    if(asetResult.success){
+    if(
+        Array.isArray(aset)
+    ){
 
-        asetResult.data.forEach(item=>{
+        aset.forEach(item=>{
 
-            asetOptions += `
-            <option value="${item.id}">
-                ${item.kodeBarang} - ${item.namaBarang}
+            optionAset += `
+
+            <option
+            value="${item.idAset}">
+
+                ${item.idAset}
+                -
+                ${item.namaBarang}
+
             </option>
+
             `;
+
         });
+
     }
 
-    if(ruanganResult.success){
+    if(
+        Array.isArray(ruangan)
+    ){
 
-        ruanganResult.data.forEach(item=>{
+        ruangan.forEach(item=>{
 
-            ruanganOptions += `
-            <option value="${item.kodeRuangan}">
-                ${item.namaRuangan}
+            optionRuang += `
+
+            <option
+            value="${item.kodeRuang}">
+
+                ${item.namaRuang}
+
             </option>
+
             `;
+
         });
+
     }
 
     modal.innerHTML = `
@@ -153,32 +208,42 @@ async function showFormMutasi(){
         <br>
 
         <div class="form-group">
+
             <label>Pilih Aset</label>
 
             <select
-            id="asetMutasi"
+            id="idAset"
             class="form-control">
-                ${asetOptions}
+
+                ${optionAset}
+
             </select>
+
         </div>
 
         <div class="form-group">
+
             <label>Ruangan Tujuan</label>
 
             <select
-            id="ruanganTujuan"
+            id="keRuang"
             class="form-control">
-                ${ruanganOptions}
+
+                ${optionRuang}
+
             </select>
+
         </div>
 
         <div class="form-group">
+
             <label>Keterangan</label>
 
             <textarea
-            id="keteranganMutasi"
+            id="keterangan"
             rows="4"
             class="form-control"></textarea>
+
         </div>
 
         <br>
@@ -186,44 +251,52 @@ async function showFormMutasi(){
         <button
         class="btn btn-success"
         onclick="simpanMutasi()">
+
             Simpan
+
         </button>
 
         <button
         class="btn btn-secondary"
         onclick="tutupModal()">
+
             Tutup
+
         </button>
 
     </div>
 
     `;
+
 }
 
 async function simpanMutasi(){
 
-    const data = {
-
-        action:"saveMutasi",
-
-        asetId:
-        document.getElementById(
-            "asetMutasi"
-        ).value,
-
-        ruanganTujuan:
-        document.getElementById(
-            "ruanganTujuan"
-        ).value,
-
-        keterangan:
-        document.getElementById(
-            "keteranganMutasi"
-        ).value
-    };
-
     const result =
-        await apiPost(data);
+        await apiPost({
+
+            action:"saveMutasi",
+
+            payload:{
+
+                idAset:
+                document.getElementById(
+                    "idAset"
+                ).value,
+
+                keRuang:
+                document.getElementById(
+                    "keRuang"
+                ).value,
+
+                keterangan:
+                document.getElementById(
+                    "keterangan"
+                ).value
+
+            }
+
+        });
 
     if(result.success){
 
@@ -234,5 +307,15 @@ async function simpanMutasi(){
         tutupModal();
 
         loadMutasi();
+
+        loadMasterAset();
+
+    }else{
+
+        showToast(
+            result.message
+        );
+
     }
+
 }
