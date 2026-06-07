@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIM-DBR</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+</div>
+
+<div id="toastContainer"></div>
+
+<div id="modalContainer"></div>
+
+<div class="app-container">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fas fa-building"></i>
+            <span>SIM-DBR</span>
+        </div>
+
+        <nav class="menu">
+
+            <a href="#dashboard" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="#homepage" data-page="homepage">
+                <i class="fas fa-house"></i>
+                Homepage
+            </a>
+
+            <a href="#gedung" data-page="gedung">
+                <i class="fas fa-building"></i>
+                Gedung
+            </a>
+
+            <a href="#ruangan" data-page="ruangan">
+                <i class="fas fa-door-open"></i>
+                Ruangan
+            </a>
+
+            <a href="#masteraset" data-page="masteraset">
+                <i class="fas fa-boxes"></i>
+                Master Aset
+            </a>
+
+            <a href="#mutasi" data-page="mutasi">
+                <i class="fas fa-right-left"></i>
+                Mutasi
+            </a>
+
+            <a href="#kondisiaset" data-page="kondisiaset">
+                <i class="fas fa-screwdriver-wrench"></i>
+                Kondisi Aset
+            </a>
+
+            <a href="#dbr" data-page="dbr">
+                <i class="fas fa-file-pdf"></i>
+                DBR
+            </a>
+
+            <a href="#statistik" data-page="statistik">
+                <i class="fas fa-chart-pie"></i>
+                Statistik
+            </a>
+
+            <a href="#login" data-page="login">
+                <i class="fas fa-user-lock"></i>
+                Login
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div class="breadcrumb" id="breadcrumb">
+                Dashboard
+            </div>
+
+            <div class="user-box">
+
+                <div class="user-info">
+                    <div id="userName">Guest</div>
+                    <small id="userRole">Public User</small>
+                </div>
+
+                <button id="logoutBtn" class="btn-logout">
+                    Logout
+                </button>
+
+            </div>
+
+        </header>
+
+        <section id="content" class="content-area">
+
+            <div class="welcome-card">
+                <h2>Selamat Datang di SIM-DBR</h2>
+                <p>Sistem Informasi Manajemen Daftar Barang Ruangan</p>
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            © 2026 SIM-DBR
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/router.js"></script>
+
+<script src="js/dashboard.js"></script>
+<script src="js/homepage.js"></script>
+<script src="js/gedung.js"></script>
+<script src="js/ruangan.js"></script>
+<script src="js/masteraset.js"></script>
+<script src="js/mutasi.js"></script>
+<script src="js/kondisiaset.js"></script>
+<script src="js/dbr.js"></script>
+<script src="js/statistik.js"></script>
+<script src="js/login.js"></script>
+
+</body>
+</html>
