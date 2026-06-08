@@ -3,105 +3,101 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyltMhjE6gH7QKAfQfG4qvs
 document.addEventListener("DOMContentLoaded", () => {
     loadAdminPage("dashboard");
 });
-<!DOCTYPE html>
-<html lang="id">
-<head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+function loadAdminPage(page){
 
-<title>SIM-DBR Admin</title>
+    document.getElementById("pageTitle").innerText = page;
 
-<link rel="stylesheet" href="style.css">
+    switch(page){
 
-</head>
-<body>
+        case "dashboard":
+            loadDashboard();
+            break;
 
-<div class="admin-layout">
+        case "masteraset":
+            loadMasterAset();
+            break;
 
-    <aside class="sidebar">
+        case "gedung":
+            loadGedungAdmin();
+            break;
 
-        <div class="sidebar-header">
+        case "dbr":
+            loadDBRAdmin();
+            break;
 
-            <h2>SIM-DBR</h2>
+        case "statistik":
+            loadStatistikAdmin();
+            break;
 
-            <p>Admin Panel</p>
+        case "pengaturan":
+            loadPengaturan();
+            break;
 
+        default:
+            loadDashboard();
+
+    }
+
+}
+
+function loadDashboard(){
+
+    document.getElementById("contentArea").innerHTML = `
+        <div class="card">
+            <h2>Dashboard SIM-DBR</h2>
+            <p>Selamat datang di Sistem Informasi Daftar Barang Ruangan</p>
         </div>
+    `;
 
-        <ul class="sidebar-menu">
+}
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('dashboard')">
-                   Dashboard
-                </a>
-            </li>
+function loadMasterAset(){
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('masteraset')">
-                   Master Aset
-                </a>
-            </li>
+    document.getElementById("contentArea").innerHTML = `
+        <div class="card">
+            <h2>Master Aset</h2>
+        </div>
+    `;
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('gedung')">
-                   Gedung
-                </a>
-            </li>
+}
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('dbr')">
-                   DBR
-                </a>
-            </li>
+function loadGedungAdmin(){
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('statistik')">
-                   Statistik
-                </a>
-            </li>
+    document.getElementById("contentArea").innerHTML = `
+        <div class="card">
+            <h2>Gedung</h2>
+        </div>
+    `;
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('pengaturan')">
-                   Pengaturan
-                </a>
-            </li>
+}
 
-            <li>
-                <a href="index.html">
-                   Logout
-                </a>
-            </li>
+function loadDBRAdmin(){
 
-        </ul>
+    document.getElementById("contentArea").innerHTML = `
+        <div class="card">
+            <h2>DBR</h2>
+        </div>
+    `;
 
-    </aside>
+}
 
-    <main class="main-content">
+function loadStatistikAdmin(){
 
-        <header class="topbar">
+    document.getElementById("contentArea").innerHTML = `
+        <div class="card">
+            <h2>Statistik</h2>
+        </div>
+    `;
 
-            <h2 id="pageTitle">
-                Dashboard
-            </h2>
+}
 
-        </header>
+function loadPengaturan(){
 
-        <section id="contentArea">
+    document.getElementById("contentArea").innerHTML = `
+        <div class="card">
+            <h2>Pengaturan</h2>
+        </div>
+    `;
 
-        </section>
-
-    </main>
-
-</div>
-
-<script src="admin.js"></script>
-
-</body>
-</html>
+}
