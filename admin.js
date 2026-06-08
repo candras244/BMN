@@ -1,4 +1,4 @@
-const API_URL = "...";
+const API_URL = "https://script.google.com/macros/s/AKfycbyltMhjE6gH7QKAfQfG4qvswthIZiOlgcEDIMznbpVA-zqD-iQnEbSX3hU492lp5vYbjg/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
     loadAdminPage("dashboard");
