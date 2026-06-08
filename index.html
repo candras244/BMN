@@ -1,171 +1,50 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIM-DBR</title>
 
-<title>SIM-DBR UIN Syekh Wasil Kediri</title>
-
-<link rel="stylesheet" href="css/public.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="header">
+    <!-- HEADER / KOP -->
+    <header class="header">
 
-    <div class="logo-area">
-
-        <img
-        src="assets/logo.png"
-        alt="Logo UIN"
-        class="logo">
-
-        <div>
-
-            <h1>
-                SIM-DBR
-            </h1>
-
-            <p>
-                UIN Syekh Wasil Kediri
-            </p>
-
+        <div class="logo-section">
+            <img id="logoInstansi" src="" alt="Logo">
+            <div class="title-section">
+                <h1>SIM-DBR</h1>
+                <p>Sistem Informasi Daftar Barang Ruangan</p>
+            </div>
         </div>
 
-    </div>
+        <nav class="navbar">
+            <a href="#" onclick="loadPage('home')">Home</a>
+            <a href="#" onclick="loadPage('gedung')">Gedung</a>
+            <a href="#" onclick="loadPage('dbr')">DBR</a>
+            <a href="#" onclick="loadPage('statistik')">Statistik</a>
+            <a href="admin.html" class="btn-login">Login</a>
+        </nav>
 
-    <nav class="menu">
+    </header>
 
-        <a href="#home">Home</a>
-        <a href="#gedung">Gedung</a>
-        <a href="#ruangan">Ruangan</a>
-        <a href="#dbr">DBR</a>
-        <a href="#statistik">Statistik</a>
+    <!-- KONTEN -->
+    <main id="content">
 
-        <a
-        href="admin.html"
-        class="login-btn">
+        <section class="hero">
 
-            Login
+            <h2>Selamat Datang di SIM-DBR</h2>
 
-        </a>
+            <p>
+                Sistem Informasi Daftar Barang Ruangan
+            </p>
 
-    </nav>
+        </section>
 
-</header>
+    </main>
 
-<section class="hero">
-
-    <div class="hero-content">
-
-        <h1>
-            Sistem Informasi Manajemen
-            Daftar Barang Ruangan
-        </h1>
-
-        <p>
-
-            Monitoring aset,
-            gedung,
-            ruangan,
-            dan DBR secara online.
-
-        </p>
-
-    </div>
-
-</section>
-
-<section class="statistik">
-
-    <div class="stat-card">
-
-        <h2 id="totalGedung">
-            0
-        </h2>
-
-        <p>
-            Gedung
-        </p>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h2 id="totalRuangan">
-            0
-        </h2>
-
-        <p>
-            Ruangan
-        </p>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h2 id="totalAset">
-            0
-        </h2>
-
-        <p>
-            Aset
-        </p>
-
-    </div>
-
-</section>
-
-<section id="gedung">
-
-    <div class="section-title">
-
-        Gedung
-
-    </div>
-
-    <div
-    id="gedungContainer"
-    class="card-grid">
-
-    </div>
-
-</section>
-
-<section id="dbr">
-
-    <div class="section-title">
-
-        Daftar Barang Ruangan
-
-    </div>
-
-    <div
-    id="dbrContainer">
-
-    </div>
-
-</section>
-
-<footer>
-
-    <p>
-
-        © 2026 SIM-DBR
-        UIN Syekh Wasil Kediri
-
-    </p>
-
-</footer>
-
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
-<script src="js/public.js"></script>
-
+<script src="public.js"></script>
 </body>
 </html>
