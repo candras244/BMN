@@ -523,3 +523,71 @@ textarea{
     padding:10px 15px;
     border-radius:8px;
 }
+/* =========================
+   ADMIN
+========================= */
+
+.admin-layout{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:#1e293b;
+    color:#ffffff;
+    padding:20px;
+}
+
+.sidebar-header{
+    margin-bottom:25px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    padding-bottom:15px;
+}
+
+.sidebar-header h2{
+    color:#ffffff;
+}
+
+.sidebar-header p{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+.sidebar-menu{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.sidebar-menu li{
+    margin-bottom:8px;
+}
+
+.sidebar-menu a{
+    display:block;
+    color:#ffffff;
+    text-decoration:none;
+    padding:12px 15px;
+    border-radius:8px;
+    transition:.2s;
+}
+
+.sidebar-menu a:hover{
+    background:#334155;
+}
+
+.main-content{
+    flex:1;
+    background:#f5f7fa;
+}
+
+.topbar{
+    background:#ffffff;
+    padding:20px;
+    border-bottom:1px solid #ddd;
+}
+
+#contentArea{
+    padding:20px;
+}
