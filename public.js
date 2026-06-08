@@ -49,43 +49,52 @@ async function loadHome(){
 
     setContent(`
 
-        <section class="hero">
+    <section class="hero">
 
-            <h2>Selamat Datang di SIM-DBR</h2>
+        <h2>
+            Sistem Informasi Daftar Barang Ruangan
+        </h2>
 
-            <p>
-                Sistem Informasi Daftar Barang Ruangan
-            </p>
+        <p>
+            Monitoring aset, gedung,
+            ruangan, dan DBR secara
+            terintegrasi.
+        </p>
 
-        </section>
+    </section>
 
-        <div class="stats-grid">
+    <div class="stats-grid">
 
-            <div class="stat-card">
+        <div class="stat-card">
 
-                <h3>Total Aset</h3>
+            <h3>Total Aset</h3>
 
-                <h2>${result.totalAset || 0}</h2>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h3>Total Nilai Aset</h3>
-
-                <h2>
-                    Rp ${(result.totalNilai || 0)
-                        .toLocaleString("id-ID")}
-                </h2>
-
-            </div>
+            <h2>
+                ${result.totalAset || 0}
+            </h2>
 
         </div>
+
+        <div class="stat-card">
+
+            <h3>Total Nilai Aset</h3>
+
+            <h2>
+
+                Rp
+
+                ${(result.totalNilai || 0)
+                .toLocaleString("id-ID")}
+
+            </h2>
+
+        </div>
+
+    </div>
 
     `);
 
 }
-
 /* =====================================
    GEDUNG
 ===================================== */
