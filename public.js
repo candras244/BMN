@@ -26,6 +26,7 @@ function loadPage(page){
 
         default:
             loadHome();
+
     }
 
 }
@@ -34,267 +35,113 @@ function setContent(html){
     document.getElementById("content").innerHTML = html;
 }
 
-/* ==========================
+/* =====================================
    HOME
-========================== */
+===================================== */
 
-function loadHome(){
+async function loadHome(){
+
+    const response = await fetch(
+        `${API_URL}?action=getStatistik`
+    );
+
+    const result = await response.json();
 
     setContent(`
-        <div class="card">
-            <h2>SIM-DBR</h2>
-            <p>Sistem Informasi Daftar Barang Ruangan</p>
+
+        <section class="hero">
+
+            <h2>Selamat Datang di SIM-DBR</h2>
+
+            <p>
+                Sistem Informasi Daftar Barang Ruangan
+            </p>
+
+        </section>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <h3>Total Aset</h3>
+
+                <h2>${result.totalAset || 0}</h2>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>Total Nilai Aset</h3>
+
+                <h2>
+                    Rp ${(result.totalNilai || 0)
+                        .toLocaleString("id-ID")}
+                </h2>
+
+            </div>
+
         </div>
+
     `);
 
 }
 
-/* ==========================
+/* =====================================
    GEDUNG
-========================== */
+===================================== */
 
 async function loadGedung(){
 
-    const res = await fetch(
+    const response = await fetch(
         `${API_URL}?action=getGedung`
     );
 
-    const result = await res.json();
+    const result = await response.json();
 
     let html = `
-        <div class="card">
-            <h2>Data Gedung</h2>
-        </div>
-
         <div class="gedung-grid">
     `;
 
-    result.data.forEach(g=>{
+    result.data.forEach(g => {
 
         html += `
-            <div class="gedung-card">
+
+        <div class="gedung-card">
+
+            <div class="gedung-image">
 
                 <img
-                src="https://placehold.co/600x300"
-                class="gedung-img">
-
-                <div class="gedung-body">
-
-                    <h3>${g.NAMA_GEDUNG}</h3>
-
-                    <p>
-                        Kode :
-                        ${g.KODE_GEDUNG}
-                    </p>
-
-                    <button
-                    class="btn btn-primary"
-                    onclick="showGedungDetail('${g.KODE_GEDUNG}')">
-
-                    Lihat Detail
-
-                    </button>
-
-                </div>
+                    src="https://placehold.co/600x300"
+                    alt="${g.NAMA_GEDUNG}">
 
             </div>
-        `;
 
-    });
-
-    html += `</div>`;
-
-    setContent(html);
-
-}
-
-/* ==========================
-   DETAIL GEDUNG
-========================== */
-
-async function showGedungDetail(kodeGedung){
-
-    const gedungRes =
-    await fetch(`${API_URL}?action=getGedung`);
-
-    const ruanganRes =
-    await fetch(`${API_URL}?action=getRuangan`);
-
-    const asetRes =
-    await fetch(`${API_URL}?action=getAset`);
-
-    const gedungData =
-    await gedungRes.json();
-
-    const ruanganData =
-    await ruanganRes.json();
-
-    const asetData =
-    await asetRes.json();
-
-    const gedung =
-    gedungData.data.find(
-        x=>x.KODE_GEDUNG===kodeGedung
-    );
-
-    const ruangan =
-    ruanganData.data.filter(
-        x=>x.KODE_GEDUNG===kodeGedung
-    );
-
-    const jumlahAset =
-    asetData.data.filter(
-        x=>x.KODE_GEDUNG===kodeGedung &&
-        x.STATUS_ASET!=="Dihapus"
-    ).length;
-
-    let html = `
-
-        <div class="card">
-
-            <button
-            class="btn"
-            onclick="loadGedung()">
-            Kembali
-            </button>
-
-            <h2>
-                ${gedung.NAMA_GEDUNG}
-            </h2>
-
-            <p>
-                Jumlah Ruangan :
-                ${ruangan.length}
-            </p>
-
-            <p>
-                Jumlah Aset :
-                ${jumlahAset}
-            </p>
-
-        </div>
-
-    `;
-
-    ruangan.forEach(r=>{
-
-        const asetRuangan =
-        asetData.data.filter(
-            a=>
-            a.KODE_RUANGAN===r.KODE_RUANGAN &&
-            a.STATUS_ASET!=="Dihapus"
-        ).length;
-
-        html += `
-
-            <div class="card">
+            <div class="gedung-body">
 
                 <h3>
-                    ${r.NAMA_RUANGAN}
+                    ${g.NAMA_GEDUNG}
                 </h3>
 
-                <p>
-                    Kode :
-                    ${r.KODE_RUANGAN}
-                </p>
-
-                <p>
-                    Jumlah Aset :
-                    ${asetRuangan}
-                </p>
-
                 <button
-                class="btn btn-primary"
-                onclick="showRuanganDetail('${r.KODE_RUANGAN}')">
+                    onclick="
+                    showGedungDetail(
+                    '${g.KODE_GEDUNG}',
+                    '${g.NAMA_GEDUNG}'
+                    )">
 
-                Lihat Aset
+                    Lihat Detail
 
                 </button>
 
             </div>
 
-        `;
-
-    });
-
-    setContent(html);
-
-}
-
-/* ==========================
-   DETAIL RUANGAN
-========================== */
-
-async function showRuanganDetail(kodeRuangan){
-
-    const asetRes =
-    await fetch(
-        `${API_URL}?action=getAset`
-    );
-
-    const result =
-    await asetRes.json();
-
-    const aset =
-    result.data.filter(
-        x=>
-        x.KODE_RUANGAN===kodeRuangan &&
-        x.STATUS_ASET!=="Dihapus"
-    );
-
-    let html = `
-
-        <div class="card">
-
-            <button
-            class="btn"
-            onclick="loadGedung()">
-            Kembali
-            </button>
-
-            <h2>
-                Data Aset Ruangan
-            </h2>
-
         </div>
 
-        <div class="table-container">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>ID</th>
-                    <th>Barang</th>
-                    <th>Kondisi</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-    aset.forEach(a=>{
-
-        html += `
-            <tr>
-
-                <td>${a.ID_ASET}</td>
-                <td>${a.NAMA_BARANG}</td>
-                <td>${a.KONDISI}</td>
-
-            </tr>
         `;
 
     });
 
     html += `
-            </tbody>
-        </table>
         </div>
     `;
 
@@ -302,31 +149,80 @@ async function showRuanganDetail(kodeRuangan){
 
 }
 
-/* ==========================
-   DBR
-========================== */
+async function showGedungDetail(
+    kodeGedung,
+    namaGedung
+){
 
-async function loadDBR(){
-
-    const res =
-    await fetch(
-        `${API_URL}?action=getAset`
+    const response = await fetch(
+        `${API_URL}?action=getRuanganByGedung&kodeGedung=${kodeGedung}`
     );
 
-    const result =
-    await res.json();
+    const result = await response.json();
 
     let html = `
 
+    <div class="card">
+
+        <h2>${namaGedung}</h2>
+
+        <p>
+            Daftar Ruangan
+        </p>
+
+    </div>
+
+    `;
+
+    result.data.forEach(r => {
+
+        html += `
+
         <div class="card">
 
-            <h2>
-                Daftar Barang Ruangan
-            </h2>
+            <h3>
+                ${r.NAMA_RUANGAN}
+            </h3>
+
+            <button
+                onclick="
+                showRuanganDetail(
+                '${r.KODE_RUANGAN}',
+                '${r.NAMA_RUANGAN}'
+                )">
+
+                Lihat DBR
+
+            </button>
 
         </div>
 
-        <div class="table-container">
+        `;
+
+    });
+
+    setContent(html);
+
+}
+
+async function showRuanganDetail(
+    kodeRuangan,
+    namaRuangan
+){
+
+    const response = await fetch(
+        `${API_URL}?action=getAsetByRuangan&kodeRuangan=${kodeRuangan}`
+    );
+
+    const result = await response.json();
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+            ${namaRuangan}
+        </h2>
 
         <table>
 
@@ -336,8 +232,6 @@ async function loadDBR(){
 
                     <th>ID</th>
                     <th>Barang</th>
-                    <th>Gedung</th>
-                    <th>Ruangan</th>
                     <th>Kondisi</th>
 
                 </tr>
@@ -348,107 +242,170 @@ async function loadDBR(){
 
     `;
 
-    result.data.forEach(a=>{
+    result.data.forEach(a => {
 
-        if(a.STATUS_ASET!=="Dihapus"){
+        html += `
 
-            html += `
-                <tr>
+        <tr>
 
-                    <td>${a.ID_ASET}</td>
-                    <td>${a.NAMA_BARANG}</td>
-                    <td>${a.NAMA_GEDUNG}</td>
-                    <td>${a.NAMA_RUANGAN}</td>
-                    <td>${a.KONDISI}</td>
+            <td>${a.ID_ASET}</td>
 
-                </tr>
-            `;
+            <td>${a.NAMA_BARANG}</td>
 
+            <td>${a.KONDISI}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `;
+
+    setContent(html);
+
+}
+
+/* =====================================
+   DBR
+===================================== */
+
+async function loadDBR(){
+
+    const response = await fetch(
+        `${API_URL}?action=getGedung`
+    );
+
+    const result = await response.json();
+
+    let html = `
+
+    <div class="card">
+
+        <h2>DBR</h2>
+
+        <p>
+            Pilih Gedung
+        </p>
+
+    </div>
+
+    `;
+
+    result.data.forEach(g => {
+
+        html += `
+
+        <div class="card">
+
+            <h3>
+                ${g.NAMA_GEDUNG}
+            </h3>
+
+            <button
+                onclick="
+                showGedungDetail(
+                '${g.KODE_GEDUNG}',
+                '${g.NAMA_GEDUNG}'
+                )">
+
+                Buka
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    setContent(html);
+
+}
+
+/* =====================================
+   STATISTIK
+===================================== */
+
+async function loadStatistik(){
+
+    const response = await fetch(
+        `${API_URL}?action=getAset`
+    );
+
+    const result = await response.json();
+
+    let total = 0;
+    let baik = 0;
+    let rusakRingan = 0;
+    let rusakBerat = 0;
+
+    result.data.forEach(a => {
+
+        if(
+            a.STATUS_ASET === "Dihapus"
+        ){
+            return;
+        }
+
+        total++;
+
+        if(a.KONDISI === "Baik"){
+            baik++;
+        }
+
+        if(a.KONDISI === "Rusak Ringan"){
+            rusakRingan++;
+        }
+
+        if(a.KONDISI === "Rusak Berat"){
+            rusakBerat++;
         }
 
     });
 
-    html += `
-            </tbody>
-
-        </table>
-
-        </div>
-    `;
-
-    setContent(html);
-
-}
-
-/* ==========================
-   STATISTIK
-========================== */
-
-async function loadStatistik(){
-
-    const res =
-    await fetch(
-        `${API_URL}?action=getAset`
-    );
-
-    const result =
-    await res.json();
-
-    const aktif =
-    result.data.filter(
-        x=>x.STATUS_ASET!=="Dihapus"
-    );
-
-    const totalAset =
-    aktif.length;
-
-    let totalNilai = 0;
-
-    aktif.forEach(a=>{
-
-        totalNilai +=
-        Number(a.NILAI_PEROLEHAN || 0);
-
-    });
-
-    const totalGedung =
-    new Set(
-        aktif.map(
-            x=>x.KODE_GEDUNG
-        )
-    ).size;
-
-    const totalRuangan =
-    new Set(
-        aktif.map(
-            x=>x.KODE_RUANGAN
-        )
-    ).size;
-
     setContent(`
 
-        <div class="stats">
+        <div class="stats-grid">
 
-            <div class="stat-box">
+            <div class="stat-card">
+
                 <h3>Total Aset</h3>
-                <h2>${totalAset}</h2>
+
+                <h2>${total}</h2>
+
             </div>
 
-            <div class="stat-box">
-                <h3>Total Gedung</h3>
-                <h2>${totalGedung}</h2>
+            <div class="stat-card">
+
+                <h3>Baik</h3>
+
+                <h2>${baik}</h2>
+
             </div>
 
-            <div class="stat-box">
-                <h3>Total Ruangan</h3>
-                <h2>${totalRuangan}</h2>
+            <div class="stat-card">
+
+                <h3>Rusak Ringan</h3>
+
+                <h2>${rusakRingan}</h2>
+
             </div>
 
-            <div class="stat-box">
-                <h3>Nilai Aset</h3>
-                <h2>
-                    Rp ${totalNilai.toLocaleString("id-ID")}
-                </h2>
+            <div class="stat-card">
+
+                <h3>Rusak Berat</h3>
+
+                <h2>${rusakBerat}</h2>
+
             </div>
 
         </div>
