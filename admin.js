@@ -923,3 +923,785 @@ async function deleteRuangan(kode){
         selectedGedung
     );
 }
+async function loadDashboard() {
+
+    const asetRes = await fetch(
+        `${API_URL}?action=getAset`
+    );
+
+    const gedungRes = await fetch(
+        `${API_URL}?action=getGedung`
+    );
+
+    const ruanganRes = await fetch(
+        `${API_URL}?action=getRuangan`
+    );
+
+    const asetData =
+        await asetRes.json();
+
+    const gedungData =
+        await gedungRes.json();
+
+    const ruanganData =
+        await ruanganRes.json();
+
+    const asetAktif =
+        asetData.data.filter(
+            x => x.STATUS_ASET !== "Dihapus"
+        );
+
+    const totalAset =
+        asetAktif.length;
+
+    const totalGedung =
+        gedungData.data.length;
+
+    const totalRuangan =
+        ruanganData.data.length;
+
+    let totalNilai = 0;
+
+    let baik = 0;
+    let rusakRingan = 0;
+    let rusakBerat = 0;
+
+    asetAktif.forEach(a => {
+
+        totalNilai += Number(
+            a.NILAI_PEROLEHAN || 0
+        );
+
+        if (
+            a.KONDISI === "Baik"
+        ) {
+            baik++;
+        }
+
+        if (
+            a.KONDISI === "Rusak Ringan"
+        ) {
+            rusakRingan++;
+        }
+
+        if (
+            a.KONDISI === "Rusak Berat"
+        ) {
+            rusakBerat++;
+        }
+
+    });
+
+    document.getElementById(
+        "contentArea"
+    ).innerHTML = `
+
+    <div class="stats">
+
+        <div class="stat-box">
+            <h3>Total Aset</h3>
+            <h2>${totalAset}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Total Gedung</h3>
+            <h2>${totalGedung}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Total Ruangan</h3>
+            <h2>${totalRuangan}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Nilai Aset</h3>
+            <h2>
+                Rp ${totalNilai.toLocaleString("id-ID")}
+            </h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Baik</h3>
+            <h2>${baik}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Rusak Ringan</h3>
+            <h2>${rusakRingan}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Rusak Berat</h3>
+            <h2>${rusakBerat}</h2>
+        </div>
+
+    </div>
+
+    `;
+}
+async function loadDBRAdmin() {
+
+    const gedungRes = await fetch(
+        `${API_URL}?action=getGedung`
+    );
+
+    const gedungData =
+        await gedungRes.json();
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+            Daftar Barang Ruangan
+        </h2>
+
+    </div>
+
+    `;
+
+    gedungData.data.forEach(g => {
+
+        html += `
+
+        <div class="card">
+
+            <h3>
+                ${g.NAMA_GEDUNG}
+            </h3>
+
+            <button
+                class="btn btn-primary"
+                onclick="
+                loadDBRGedung(
+                '${g.KODE_GEDUNG}'
+                )">
+
+                Lihat Ruangan
+
+            </button>
+
+        </div>
+
+        `;
+    });
+
+    html += `
+
+    <div id="dbrArea"></div>
+
+    `;
+
+    document.getElementById(
+        "contentArea"
+    ).innerHTML = html;
+}
+async function loadDBRGedung(kodeGedung){
+
+    const ruanganRes =
+        await fetch(
+            `${API_URL}?action=getRuangan`
+        );
+
+    const ruanganData =
+        await ruanganRes.json();
+
+    const ruangan =
+        ruanganData.data.filter(
+            x =>
+            x.KODE_GEDUNG === kodeGedung
+        );
+
+    let html = "";
+
+    ruangan.forEach(r => {
+
+        html += `
+
+        <div class="card">
+
+            <h4>
+                ${r.NAMA_RUANGAN}
+            </h4>
+
+            <button
+                class="btn btn-primary"
+                onclick="
+                viewDBR(
+                '${r.KODE_RUANGAN}'
+                )">
+
+                Lihat DBR
+
+            </button>
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById(
+        "dbrArea"
+    ).innerHTML = html;
+}
+async function viewDBR(kodeRuangan){
+
+    const asetRes =
+        await fetch(
+            `${API_URL}?action=getAset`
+        );
+
+    const asetData =
+        await asetRes.json();
+
+    const aset =
+        asetData.data.filter(
+            x =>
+            x.KODE_RUANGAN === kodeRuangan &&
+            x.STATUS_ASET !== "Dihapus"
+        );
+
+    let html = `
+
+    <div class="card">
+
+        <h3>
+            DBR Ruangan
+        </h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Barang</th>
+
+                    <th>Kondisi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+    aset.forEach(a => {
+
+        html += `
+
+        <tr>
+
+            <td>
+                ${a.ID_ASET}
+            </td>
+
+            <td>
+                ${a.NAMA_BARANG}
+            </td>
+
+            <td>
+                ${a.KONDISI}
+            </td>
+
+        </tr>
+
+        `;
+    });
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `;
+
+    document.getElementById(
+        "dbrArea"
+    ).innerHTML = html;
+}
+async function viewDBR(kodeRuangan){
+
+    const asetRes =
+        await fetch(
+            `${API_URL}?action=getAset`
+        );
+
+    const asetData =
+        await asetRes.json();
+
+    const aset =
+        asetData.data.filter(
+            x =>
+            x.KODE_RUANGAN === kodeRuangan &&
+            x.STATUS_ASET !== "Dihapus"
+        );
+
+    let html = `
+
+    <div class="card">
+
+        <h3>
+            DBR Ruangan
+        </h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Barang</th>
+
+                    <th>Kondisi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+    aset.forEach(a => {
+
+        html += `
+
+        <tr>
+
+            <td>
+                ${a.ID_ASET}
+            </td>
+
+            <td>
+                ${a.NAMA_BARANG}
+            </td>
+
+            <td>
+                ${a.KONDISI}
+            </td>
+
+        </tr>
+
+        `;
+    });
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `;
+
+    document.getElementById(
+        "dbrArea"
+    ).innerHTML = html;
+}
+async function loadStatistikAdmin() {
+
+    const response = await fetch(
+        `${API_URL}?action=getAset`
+    );
+
+    const result = await response.json();
+
+    const aset =
+        result.data.filter(
+            x => x.STATUS_ASET !== "Dihapus"
+        );
+
+    let totalNilai = 0;
+
+    let baik = 0;
+    let rusakRingan = 0;
+    let rusakBerat = 0;
+
+    const gedungMap = {};
+    const ruanganMap = {};
+    const barangMap = {};
+    const tahunMap = {};
+
+    aset.forEach(a => {
+
+        totalNilai += Number(
+            a.NILAI_PEROLEHAN || 0
+        );
+
+        if (a.KONDISI === "Baik")
+            baik++;
+
+        if (a.KONDISI === "Rusak Ringan")
+            rusakRingan++;
+
+        if (a.KONDISI === "Rusak Berat")
+            rusakBerat++;
+
+        gedungMap[a.NAMA_GEDUNG] =
+            (gedungMap[a.NAMA_GEDUNG] || 0) + 1;
+
+        ruanganMap[a.NAMA_RUANGAN] =
+            (ruanganMap[a.NAMA_RUANGAN] || 0) + 1;
+
+        barangMap[a.NAMA_BARANG] =
+            (barangMap[a.NAMA_BARANG] || 0) + 1;
+
+        tahunMap[a.TAHUN_PEROLEHAN] =
+            (tahunMap[a.TAHUN_PEROLEHAN] || 0) + 1;
+
+    });
+
+    let html = `
+
+    <div class="stats">
+
+        <div class="stat-box">
+            <h3>Total Aset</h3>
+            <h2>${aset.length}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Total Nilai</h3>
+            <h2>
+                Rp ${totalNilai.toLocaleString("id-ID")}
+            </h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Baik</h3>
+            <h2>${baik}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Rusak Ringan</h3>
+            <h2>${rusakRingan}</h2>
+        </div>
+
+        <div class="stat-box">
+            <h3>Rusak Berat</h3>
+            <h2>${rusakBerat}</h2>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Statistik Gedung</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Gedung</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+    Object.keys(gedungMap).forEach(key => {
+
+        html += `
+        <tr>
+            <td>${key}</td>
+            <td>${gedungMap[key]}</td>
+        </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Statistik Ruangan</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Ruangan</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+    Object.keys(ruanganMap).forEach(key => {
+
+        html += `
+        <tr>
+            <td>${key}</td>
+            <td>${ruanganMap[key]}</td>
+        </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Statistik Barang</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Barang</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+    Object.keys(barangMap).forEach(key => {
+
+        html += `
+        <tr>
+            <td>${key}</td>
+            <td>${barangMap[key]}</td>
+        </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Statistik Tahun</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Tahun</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+
+            <tbody>
+    `;
+
+    Object.keys(tahunMap).forEach(key => {
+
+        html += `
+        <tr>
+            <td>${key}</td>
+            <td>${tahunMap[key]}</td>
+        </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+
+    </div>
+    `;
+
+    document.getElementById(
+        "contentArea"
+    ).innerHTML = html;
+}
+function loadPengaturan(){
+
+    document.getElementById(
+        "contentArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <h2>Pengaturan</h2>
+
+        <div class="menu-setting">
+
+            <button
+                class="btn btn-primary"
+                onclick="loadMutasiBarang()">
+
+                Mutasi Barang
+
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="loadPerubahanKondisi()">
+
+                Perubahan Kondisi
+
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="loadAdminManagement()">
+
+                Manajemen Admin
+
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="loadPICManagement()">
+
+                Manajemen PIC
+
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="loadLogoInstansi()">
+
+                Logo Instansi
+
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="loadKopSurat()">
+
+                Kop Surat DBR
+
+            </button>
+
+        </div>
+
+        <div id="settingArea"></div>
+
+    </div>
+
+    `;
+}
+function loadMutasiBarang(){
+
+    document.getElementById(
+        "settingArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <h3>Mutasi Barang</h3>
+
+        <p>
+            Memindahkan aset
+            antar ruangan
+            atau gedung.
+        </p>
+
+    </div>
+
+    `;
+}
+function loadPerubahanKondisi(){
+
+    document.getElementById(
+        "settingArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <h3>Perubahan Kondisi</h3>
+
+        <p>
+            Mengubah kondisi
+            aset secara langsung.
+        </p>
+
+    </div>
+
+    `;
+}
+function loadAdminManagement(){
+
+    document.getElementById(
+        "settingArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <h3>Manajemen Admin</h3>
+
+        <p>
+            Kelola akun admin.
+        </p>
+
+    </div>
+
+    `;
+}
+function loadPICManagement(){
+
+    document.getElementById(
+        "settingArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <h3>Manajemen PIC</h3>
+
+        <p>
+            Kelola penanggung jawab.
+        </p>
+
+    </div>
+
+    `;
+}
+function loadLogoInstansi(){
+
+    document.getElementById(
+        "settingArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <h3>Logo Instansi</h3>
+
+        <input type="file">
+
+    </div>
+
+    `;
+}
+function loadKopSurat(){
+
+    document.getElementById(
+        "settingArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <h3>Kop Surat DBR</h3>
+
+        <textarea
+            rows="8"
+            style="width:100%">
+        </textarea>
+
+    </div>
+
+    `;
+}
