@@ -201,3 +201,22 @@ table td{
     }
 
 }
+.gedung-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.list-item{
+    padding:15px;
+    margin-bottom:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.gedung-panel,
+.ruangan-panel{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
