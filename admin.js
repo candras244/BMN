@@ -197,7 +197,7 @@ async function loadMasterAset(){
 
 }
 
-} // <- INI YANG HILANG
+}
 
 async function hapusGedung(kode){
 
@@ -604,83 +604,93 @@ async function simpanGedung(){
 
     if(file){
 
-    const upload =
-        await uploadFoto(file);
+        const upload =
+            await uploadFoto(file);
 
-    if(upload.success){
+        if(upload.success){
 
-        fotoUrl =
-            upload.fileUrl;
+            fotoUrl =
+                upload.fileUrl;
 
-    }else{
+        }else{
+
+            alert(
+                upload.message ||
+                "Upload foto gagal"
+            );
+
+            return;
+
+        }
+
+    }
+
+    const data = {
+
+        action:"addGedung",
+
+        KODE_GEDUNG:
+            document.getElementById(
+                "KODE_GEDUNG"
+            ).value,
+
+        NAMA_GEDUNG:
+            document.getElementById(
+                "NAMA_GEDUNG"
+            ).value,
+
+        FOTO_GEDUNG:
+            fotoUrl,
+
+        DESKRIPSI_SINGKAT:
+            document.getElementById(
+                "DESKRIPSI_SINGKAT"
+            ).value
+
+    };
+
+    const response =
+        await fetch(API_URL,{
+
+            method:"POST",
+
+            body:JSON.stringify(data)
+
+        });
+
+    const result =
+        await response.json();
+
+    if(result.success){
 
         alert(
-            upload.message ||
-            "Upload foto gagal"
+            "Gedung berhasil disimpan"
         );
 
-        return;
+        loadGedungAdmin();
 
     }
 
 }
 
-const data = {
-
-    action:"addGedung",
-
-    KODE_GEDUNG:
-        document.getElementById(
-            "KODE_GEDUNG"
-        ).value,
-
-    NAMA_GEDUNG:
-        document.getElementById(
-            "NAMA_GEDUNG"
-        ).value,
-
-    FOTO_GEDUNG:
-        fotoUrl,
-
-    DESKRIPSI_SINGKAT:
-        document.getElementById(
-            "DESKRIPSI_SINGKAT"
-        ).value
-
-};
-
-const response =
-    await fetch(API_URL,{
-
-        method:"POST",
-
-        body:JSON.stringify(data)
-
-    });
-
-const result =
-    await response.json();
-
-if(result.success){
-
-    alert(
-        "Gedung berhasil disimpan"
-    );
-
-    loadGedungAdmin();
-
-}
-    
 async function hapusGedung(kode){
 
-    if(!confirm("Hapus gedung ini?")) return;
+    if(!confirm(
+        "Hapus gedung ini?"
+    )) return;
 
     await fetch(API_URL,{
+
         method:"POST",
+
         body:JSON.stringify({
+
             action:"deleteGedung",
+
             kode:kode
+
         })
+
     });
 
     loadGedungAdmin();
@@ -692,7 +702,9 @@ async function pilihGedung(kode){
     selectedGedung = kode;
 
     const response =
-        await fetch(`${API_URL}?action=getRuangan`);
+        await fetch(
+            `${API_URL}?action=getRuangan`
+        );
 
     const result =
         await response.json();
@@ -722,7 +734,8 @@ async function pilihGedung(kode){
 
         const data =
             result.data.filter(
-                x => x.KODE_GEDUNG === kode
+                x =>
+                x.KODE_GEDUNG === kode
             );
 
         data.forEach(item => {
@@ -741,7 +754,10 @@ async function pilihGedung(kode){
 
                     <button
                         class="btn-danger"
-                        onclick="hapusRuangan('${item.KODE_RUANGAN}')">
+                        onclick="
+                        hapusRuangan(
+                        '${item.KODE_RUANGAN}'
+                        )">
 
                         Hapus
 
@@ -775,7 +791,9 @@ async function simpanRuangan(){
 
     if(selectedGedung === ""){
 
-        alert("Pilih gedung terlebih dahulu");
+        alert(
+            "Pilih gedung terlebih dahulu"
+        );
 
         return;
 
@@ -783,46 +801,69 @@ async function simpanRuangan(){
 
     const data = {
 
-        action : "addRuangan",
+        action:"addRuangan",
 
-        KODE_RUANGAN :
-        document.getElementById("KODE_RUANGAN").value,
+        KODE_RUANGAN:
+            document.getElementById(
+                "KODE_RUANGAN"
+            ).value,
 
-        KODE_GEDUNG :
-        selectedGedung,
+        KODE_GEDUNG:
+            selectedGedung,
 
-        NAMA_RUANGAN :
-        document.getElementById("NAMA_RUANGAN").value,
+        NAMA_RUANGAN:
+            document.getElementById(
+                "NAMA_RUANGAN"
+            ).value,
 
-        JENIS_RUANGAN :
-        document.getElementById("JENIS_RUANGAN").value
+        JENIS_RUANGAN:
+            document.getElementById(
+                "JENIS_RUANGAN"
+            ).value
 
     };
 
     await fetch(API_URL,{
+
         method:"POST",
+
         body:JSON.stringify(data)
+
     });
 
-    alert("Ruangan berhasil disimpan");
+    alert(
+        "Ruangan berhasil disimpan"
+    );
 
-    pilihGedung(selectedGedung);
+    pilihGedung(
+        selectedGedung
+    );
 
 }
 
 async function hapusRuangan(kode){
 
-    if(!confirm("Hapus ruangan ini?")) return;
+    if(!confirm(
+        "Hapus ruangan ini?"
+    )) return;
 
     await fetch(API_URL,{
+
         method:"POST",
+
         body:JSON.stringify({
+
             action:"deleteRuangan",
+
             kode:kode
+
         })
+
     });
 
-    pilihGedung(selectedGedung);
+    pilihGedung(
+        selectedGedung
+    );
 
 }
 
