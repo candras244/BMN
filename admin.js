@@ -331,8 +331,6 @@ async function simpanAset(){
    GEDUNG & RUANGAN
 ===================================================== */
 
-let selectedGedung = "";
-
 async function loadGedungAdmin(){
 
     setPageTitle("Gedung");
