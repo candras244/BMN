@@ -638,73 +638,73 @@ async function simpanGedung(){
 
     if(file){
 
-        const upload =
-            await uploadFoto(file);
+    const upload =
+        await uploadFoto(file);
 
-        if(upload.success){
+    if(upload.success){
 
-            fotoUrl =
-                upload.fileUrl;
+        fotoUrl =
+            upload.fileUrl;
 
-        }else{
-
-    alert(
-        upload.message ||
-        "Upload foto gagal"
-    );
-
-    return;
-
-}
-
-    const data = {
-
-        action:"addGedung",
-
-        KODE_GEDUNG:
-            document.getElementById(
-                "KODE_GEDUNG"
-            ).value,
-
-        NAMA_GEDUNG:
-            document.getElementById(
-                "NAMA_GEDUNG"
-            ).value,
-
-        FOTO_GEDUNG:
-            fotoUrl,
-
-        DESKRIPSI_SINGKAT:
-            document.getElementById(
-                "DESKRIPSI_SINGKAT"
-            ).value
-
-    };
-
-    const response =
-        await fetch(API_URL,{
-
-            method:"POST",
-
-            body:JSON.stringify(data)
-
-        });
-
-    const result =
-        await response.json();
-
-    if(result.success){
+    }else{
 
         alert(
-            "Gedung berhasil disimpan"
+            upload.message ||
+            "Upload foto gagal"
         );
 
-        loadGedungAdmin();
+        return;
 
     }
 
 }
 
+const data = {
+
+    action:"addGedung",
+
+    KODE_GEDUNG:
+        document.getElementById(
+            "KODE_GEDUNG"
+        ).value,
+
+    NAMA_GEDUNG:
+        document.getElementById(
+            "NAMA_GEDUNG"
+        ).value,
+
+    FOTO_GEDUNG:
+        fotoUrl,
+
+    DESKRIPSI_SINGKAT:
+        document.getElementById(
+            "DESKRIPSI_SINGKAT"
+        ).value
+
+};
+
+const response =
+    await fetch(API_URL,{
+
+        method:"POST",
+
+        body:JSON.stringify(data)
+
+    });
+
+const result =
+    await response.json();
+
+if(result.success){
+
+    alert(
+        "Gedung berhasil disimpan"
+    );
+
+    loadGedungAdmin();
+
+}
+    
 async function hapusGedung(kode){
 
     if(!confirm("Hapus gedung ini?")) return;
