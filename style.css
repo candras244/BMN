@@ -591,3 +591,15 @@ textarea{
 #contentArea{
     padding:20px;
 }
+.gedung-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.gedung-kiri,
+.gedung-kanan{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
