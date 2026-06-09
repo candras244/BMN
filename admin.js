@@ -648,15 +648,14 @@ async function simpanGedung(){
 
         }else{
 
-            alert(
-                "Upload foto gagal"
-            );
+    alert(
+        upload.message ||
+        "Upload foto gagal"
+    );
 
-            return;
+    return;
 
-        }
-
-    }
+}
 
     const data = {
 
