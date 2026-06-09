@@ -452,7 +452,7 @@ async function loadGedungAdmin(){
                             <th>Foto</th>
                             <th>Nama Gedung</th>
                             <th>Deskripsi</th>
-                            <th>Aksi</th
+                            <th>Aksi</th>
 
                         </tr>
 
@@ -870,29 +870,39 @@ async function loadStatistikAdmin(){
     setPageTitle("Statistik");
 
     const response =
-        await fetch(`${API_URL}?action=getAset`);
+        await fetch(
+            `${API_URL}?action=getStatistik`
+        );
 
     const result =
         await response.json();
-
-    let totalAset = 0;
-
-    if(result.success){
-
-        totalAset = result.data.length;
-
-    }
 
     setContent(`
 
         <div class="stats-grid">
 
             <div class="stat-card">
+                <h3>Total Gedung</h3>
+                <h2>${result.totalGedung || 0}</h2>
+            </div>
 
+            <div class="stat-card">
+                <h3>Total Ruangan</h3>
+                <h2>${result.totalRuangan || 0}</h2>
+            </div>
+
+            <div class="stat-card">
                 <h3>Total Aset</h3>
+                <h2>${result.totalAset || 0}</h2>
+            </div>
 
-                <h2>${totalAset}</h2>
-
+            <div class="stat-card">
+                <h3>Nilai Aset</h3>
+                <h2>
+                    Rp ${Number(
+                        result.totalNilai || 0
+                    ).toLocaleString("id-ID")}
+                </h2>
             </div>
 
         </div>
