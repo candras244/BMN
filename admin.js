@@ -189,63 +189,29 @@ async function loadMasterAset(){
 
     if(result.success){
 
-        result.data.forEach(item => {
+    alert(
+        "Gedung berhasil disimpan"
+    );
 
-            html += `
+    loadGedungAdmin();
 
-            <tr>
+}
 
-                <td>${item.ID_ASET || ""}</td>
+} // <- INI YANG HILANG
 
-                <td>${item.NAMA_BARANG || ""}</td>
+async function hapusGedung(kode){
 
-                <td>${item.NAMA_GEDUNG || ""}</td>
+    if(!confirm("Hapus gedung ini?")) return;
 
-                <td>${item.NAMA_RUANGAN || ""}</td>
+    await fetch(API_URL,{
+        method:"POST",
+        body:JSON.stringify({
+            action:"deleteGedung",
+            kode:kode
+        })
+    });
 
-                <td>${item.KONDISI || ""}</td>
-
-                <td>${item.STATUS_ASET || ""}</td>
-
-                <td>
-
-                    <button
-                        class="btn-primary"
-                        onclick="editAset('${item.ID_ASET}')">
-
-                        Edit
-
-                    </button>
-
-                    <button
-                        class="btn-danger"
-                        onclick="hapusAset('${item.ID_ASET}')">
-
-                        Hapus
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
-
-        });
-
-    }
-
-    html += `
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    `;
-
-    setContent(html);
+    loadGedungAdmin();
 
 }
 
