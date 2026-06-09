@@ -331,6 +331,8 @@ async function simpanAset(){
    GEDUNG & RUANGAN
 ===================================================== */
 
+let selectedGedung = "";
+
 async function loadGedungAdmin(){
 
     setPageTitle("Gedung");
@@ -455,6 +457,20 @@ async function loadGedungAdmin(){
                     id="NAMA_RUANGAN"
                     placeholder="Nama Ruangan">
 
+                <select id="JENIS_RUANGAN">
+
+                    <option value="Kantor">Kantor</option>
+                    <option value="Kelas">Kelas</option>
+                    <option value="Laboratorium">Laboratorium</option>
+                    <option value="Perpustakaan">Perpustakaan</option>
+                    <option value="Gudang">Gudang</option>
+                    <option value="Aula">Aula</option>
+                    <option value="Ruang Rapat">Ruang Rapat</option>
+                    <option value="Mushola">Mushola</option>
+                    <option value="Toilet">Toilet</option>
+
+                </select>
+
                 <button
                     class="btn-success"
                     onclick="simpanRuangan()">
@@ -502,11 +518,8 @@ async function simpanGedung(){
     };
 
     await fetch(API_URL,{
-
         method:"POST",
-
         body:JSON.stringify(data)
-
     });
 
     alert("Gedung berhasil disimpan");
@@ -517,21 +530,14 @@ async function simpanGedung(){
 
 async function hapusGedung(kode){
 
-    if(!confirm("Hapus gedung ini?")){
-        return;
-    }
+    if(!confirm("Hapus gedung ini?")) return;
 
     await fetch(API_URL,{
-
         method:"POST",
-
         body:JSON.stringify({
-
             action:"deleteGedung",
             kode:kode
-
         })
-
     });
 
     loadGedungAdmin();
@@ -558,6 +564,7 @@ async function pilihGedung(kode){
 
                 <th>Kode</th>
                 <th>Nama Ruangan</th>
+                <th>Jenis</th>
                 <th>Aksi</th>
 
             </tr>
@@ -584,6 +591,8 @@ async function pilihGedung(kode){
                 <td>${item.KODE_RUANGAN}</td>
 
                 <td>${item.NAMA_RUANGAN}</td>
+
+                <td>${item.JENIS_RUANGAN || ""}</td>
 
                 <td>
 
@@ -642,28 +651,14 @@ async function simpanRuangan(){
         NAMA_RUANGAN :
         document.getElementById("NAMA_RUANGAN").value,
 
-        <select id="JENIS_RUANGAN">
-
-            <option value="Kantor">Kantor</option>
-            <option value="Kelas">Kelas</option>
-            <option value="Laboratorium">Laboratorium</option>
-            <option value="Perpustakaan">Perpustakaan</option>
-            <option value="Gudang">Gudang</option>
-            <option value="Aula">Aula</option>
-            <option value="Ruang Rapat">Ruang Rapat</option>
-            <option value="Mushola">Mushola</option>
-            <option value="Toilet">Toilet</option>
-
-</select>
+        JENIS_RUANGAN :
+        document.getElementById("JENIS_RUANGAN").value
 
     };
 
     await fetch(API_URL,{
-
         method:"POST",
-
         body:JSON.stringify(data)
-
     });
 
     alert("Ruangan berhasil disimpan");
@@ -674,21 +669,14 @@ async function simpanRuangan(){
 
 async function hapusRuangan(kode){
 
-    if(!confirm("Hapus ruangan ini?")){
-        return;
-    }
+    if(!confirm("Hapus ruangan ini?")) return;
 
     await fetch(API_URL,{
-
         method:"POST",
-
         body:JSON.stringify({
-
             action:"deleteRuangan",
             kode:kode
-
         })
-
     });
 
     pilihGedung(selectedGedung);
