@@ -640,7 +640,21 @@ async function simpanRuangan(){
         selectedGedung,
 
         NAMA_RUANGAN :
-        document.getElementById("NAMA_RUANGAN").value
+        document.getElementById("NAMA_RUANGAN").value,
+
+        <select id="JENIS_RUANGAN">
+
+            <option value="Kantor">Kantor</option>
+            <option value="Kelas">Kelas</option>
+            <option value="Laboratorium">Laboratorium</option>
+            <option value="Perpustakaan">Perpustakaan</option>
+            <option value="Gudang">Gudang</option>
+            <option value="Aula">Aula</option>
+            <option value="Ruang Rapat">Ruang Rapat</option>
+            <option value="Mushola">Mushola</option>
+            <option value="Toilet">Toilet</option>
+
+</select>
 
     };
 
