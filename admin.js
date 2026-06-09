@@ -147,13 +147,177 @@ document.getElementById("contentArea").innerHTML = html;
 
 } 
     
-function loadGedungAdmin(){
+async function loadGedungAdmin(){
 
-    document.getElementById("contentArea").innerHTML = `
-        <div class="card">
-            <h2>Gedung</h2>
-        </div>
+    document.getElementById("pageTitle").innerText = "Gedung";
+
+    const response = await fetch(
+        `${API_URL}?action=getGedung`
+    );
+
+    const result = await response.json();
+
+    let html = `
+
+    <div class="gedung-layout">
+
+        <div class="gedung-kiri">
+
+            <div class="card">
+
+                <h3>Tambah Gedung</h3>
+
+                <input
+                    id="KODE_GEDUNG"
+                    placeholder="Kode Gedung">
+
+                <input
+                    id="NAMA_GEDUNG"
+                    placeholder="Nama Gedung">
+
+                <button
+                    class="btn-success"
+                    onclick="simpanGedung()">
+
+                    Simpan Gedung
+
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Daftar Gedung</h3>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama Gedung</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
     `;
+
+    if(result.success && result.data){
+
+        result.data.forEach(item => {
+
+            html += `
+
+            <tr>
+
+                <td>${item.KODE_GEDUNG}</td>
+
+                <td>${item.NAMA_GEDUNG}</td>
+
+                <td>
+
+                    <button
+                        class="btn-primary"
+                        onclick="pilihGedung('${item.KODE_GEDUNG}')">
+
+                        Pilih
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+    }
+
+    html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="gedung-kanan">
+
+            <div class="card">
+
+                <h3>Tambah Ruangan</h3>
+
+                <input
+                    id="KODE_RUANGAN"
+                    placeholder="Kode Ruangan">
+
+                <input
+                    id="NAMA_RUANGAN"
+                    placeholder="Nama Ruangan">
+
+                <button
+                    class="btn-success"
+                    onclick="simpanRuangan()">
+
+                    Simpan Ruangan
+
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Daftar Ruangan</h3>
+
+                <div id="ruanganArea">
+
+                    Pilih gedung terlebih dahulu
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    `;
+
+    document.getElementById("contentArea").innerHTML = html;
+
+}
+
+async function simpanGedung(){
+
+    const data = {
+
+        action : "addGedung",
+
+        KODE_GEDUNG :
+        document.getElementById("KODE_GEDUNG").value,
+
+        NAMA_GEDUNG :
+        document.getElementById("NAMA_GEDUNG").value
+
+    };
+
+    const response = await fetch(API_URL,{
+
+        method:"POST",
+
+        body:JSON.stringify(data)
+
+    });
+
+    const result = await response.json();
+
+    alert("Gedung berhasil disimpan");
+
+    loadGedungAdmin();
 
 }
 
