@@ -22,10 +22,6 @@ function loadAdminPage(page){
             loadGedungAdmin();
             break;
 
-        case "dbr":
-            loadDBRAdmin();
-            break;
-
         case "statistik":
             loadStatistikAdmin();
             break;
@@ -47,6 +43,60 @@ function setPageTitle(title){
 
 function setContent(html){
     document.getElementById("contentArea").innerHTML = html;
+}
+
+function fileToBase64(file){
+
+    return new Promise(
+        (resolve,reject)=>{
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () => resolve(
+                    reader.result
+                );
+
+            reader.onerror =
+                error => reject(error);
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+async function uploadFoto(file){
+
+    const base64 =
+        await fileToBase64(file);
+
+    const response =
+        await fetch(API_URL,{
+
+            method:"POST",
+
+            body:JSON.stringify({
+
+                action:"uploadFotoGedung",
+
+                base64:
+                    base64.split(",")[1],
+
+                fileName:
+                    file.name,
+
+                mimeType:
+                    file.type
+
+            })
+
+        });
+
+    return await response.json();
+
 }
 
 /* =====================================================
@@ -359,6 +409,25 @@ async function loadGedungAdmin(){
                     id="NAMA_GEDUNG"
                     placeholder="Nama Gedung">
 
+                <textarea
+                    id="DESKRIPSI_SINGKAT"
+                    placeholder="Deskripsi Singkat">
+                </textarea>
+
+                <input
+                    type="file"
+                    id="FOTO_GEDUNG"
+                    accept="image/*">
+
+                <img
+                    id="previewGedung"
+                    style="
+                        display:none;
+                        max-width:200px;
+                        margin-top:10px;
+                        border-radius:8px;
+                    ">
+
                 <button
                     class="btn-success"
                     onclick="simpanGedung()">
@@ -380,8 +449,10 @@ async function loadGedungAdmin(){
                         <tr>
 
                             <th>Kode</th>
+                            <th>Foto</th>
                             <th>Nama Gedung</th>
-                            <th>Aksi</th>
+                            <th>Deskripsi</th>
+                            <th>Aksi</th
 
                         </tr>
 
@@ -401,7 +472,20 @@ async function loadGedungAdmin(){
 
                 <td>${item.KODE_GEDUNG}</td>
 
-                <td>${item.NAMA_GEDUNG}</td>
+<td>
+    <img
+        src="${item.FOTO_GEDUNG || ''}"
+        style="
+            width:60px;
+            height:60px;
+            object-fit:cover;
+            border-radius:6px;
+        ">
+</td>
+
+<td>${item.NAMA_GEDUNG || ''}</td>
+
+<td>${item.DESKRIPSI_SINGKAT || ''}</td>
 
                 <td>
 
@@ -499,30 +583,126 @@ async function loadGedungAdmin(){
 
     setContent(html);
 
+    const fotoInput =
+    document.getElementById(
+        "FOTO_GEDUNG"
+    );
+
+if(fotoInput){
+
+    fotoInput.addEventListener(
+        "change",
+        function(e){
+
+            const file =
+                e.target.files[0];
+
+            if(!file) return;
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                function(){
+
+                    const img =
+                        document.getElementById(
+                            "previewGedung"
+                        );
+
+                    img.src =
+                        reader.result;
+
+                    img.style.display =
+                        "block";
+
+                };
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
 }
 
 async function simpanGedung(){
 
+    const file =
+        document.getElementById(
+            "FOTO_GEDUNG"
+        ).files[0];
+
+    let fotoUrl = "";
+
+    if(file){
+
+        const upload =
+            await uploadFoto(file);
+
+        if(upload.success){
+
+            fotoUrl =
+                upload.fileUrl;
+
+        }else{
+
+            alert(
+                "Upload foto gagal"
+            );
+
+            return;
+
+        }
+
+    }
+
     const data = {
 
-        action : "addGedung",
+        action:"addGedung",
 
-        KODE_GEDUNG :
-        document.getElementById("KODE_GEDUNG").value,
+        KODE_GEDUNG:
+            document.getElementById(
+                "KODE_GEDUNG"
+            ).value,
 
-        NAMA_GEDUNG :
-        document.getElementById("NAMA_GEDUNG").value
+        NAMA_GEDUNG:
+            document.getElementById(
+                "NAMA_GEDUNG"
+            ).value,
+
+        FOTO_GEDUNG:
+            fotoUrl,
+
+        DESKRIPSI_SINGKAT:
+            document.getElementById(
+                "DESKRIPSI_SINGKAT"
+            ).value
 
     };
 
-    await fetch(API_URL,{
-        method:"POST",
-        body:JSON.stringify(data)
-    });
+    const response =
+        await fetch(API_URL,{
 
-    alert("Gedung berhasil disimpan");
+            method:"POST",
 
-    loadGedungAdmin();
+            body:JSON.stringify(data)
+
+        });
+
+    const result =
+        await response.json();
+
+    if(result.success){
+
+        alert(
+            "Gedung berhasil disimpan"
+        );
+
+        loadGedungAdmin();
+
+    }
 
 }
 
@@ -678,194 +858,6 @@ async function hapusRuangan(kode){
     });
 
     pilihGedung(selectedGedung);
-
-}
-
-/* =====================================================
-   DBR
-===================================================== */
-
-async function loadDBRAdmin(){
-
-    setPageTitle("DBR");
-
-    const response =
-        await fetch(`${API_URL}?action=getGedung`);
-
-    const result =
-        await response.json();
-
-    let html = `
-
-    <div class="card">
-
-        <h2>Daftar Barang Ruangan (DBR)</h2>
-
-        <p>
-            Pilih gedung untuk melihat DBR per ruangan.
-        </p>
-
-    </div>
-
-    `;
-
-    if(result.success){
-
-        result.data.forEach(g => {
-
-            html += `
-
-            <div class="card">
-
-                <h3>${g.NAMA_GEDUNG}</h3>
-
-                <button
-                    class="btn-primary"
-                    onclick="lihatDBRGedung('${g.KODE_GEDUNG}')">
-
-                    Lihat DBR
-
-                </button>
-
-            </div>
-
-            `;
-
-        });
-
-    }
-
-    setContent(html);
-
-}
-
-async function lihatDBRGedung(kodeGedung){
-
-    const responseRuang =
-        await fetch(`${API_URL}?action=getRuangan`);
-
-    const ruangResult =
-        await responseRuang.json();
-
-    let html = `
-
-    <div class="card">
-
-        <h2>DBR Gedung</h2>
-
-    </div>
-
-    `;
-
-    if(ruangResult.success){
-
-        const ruang =
-            ruangResult.data.filter(
-                x => x.KODE_GEDUNG === kodeGedung
-            );
-
-        ruang.forEach(r => {
-
-            html += `
-
-            <div class="card">
-
-                <h3>${r.NAMA_RUANGAN}</h3>
-
-                <button
-                    class="btn-primary"
-                    onclick="lihatDBRRuangan('${r.KODE_RUANGAN}')">
-
-                    Lihat Aset
-
-                </button>
-
-            </div>
-
-            `;
-
-        });
-
-    }
-
-    setContent(html);
-
-}
-
-async function lihatDBRRuangan(kodeRuangan){
-
-    const response =
-        await fetch(`${API_URL}?action=getAset`);
-
-    const result =
-        await response.json();
-
-    let html = `
-
-    <div class="card">
-
-        <h2>DBR Ruangan</h2>
-
-    </div>
-
-    <div class="card">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>ID</th>
-                    <th>Nama Barang</th>
-                    <th>Kondisi</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-    if(result.success){
-
-        const aset =
-            result.data.filter(
-                x => x.KODE_RUANGAN === kodeRuangan
-            );
-
-        aset.forEach(a => {
-
-            html += `
-
-            <tr>
-
-                <td>${a.ID_ASET}</td>
-
-                <td>${a.NAMA_BARANG}</td>
-
-                <td>${a.KONDISI}</td>
-
-            </tr>
-
-            `;
-
-        });
-
-    }
-
-    html += `
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    `;
-
-    setContent(html);
 
 }
 
