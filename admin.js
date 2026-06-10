@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyltMhjE6gH7QKAfQfG4qvswthIZiOlgcEDIMznbpVA-zqD-iQnEbSX3hU492lp5vYbjg/exec";
+"https://script.google.com/macros/s/AKfycbyFdlqZCHkuscD0AblFJlIxx58Q604uyJuZLJOYIgRQUVwkn8XD9hX37bZxHpIwZgMxZA/exec";
 
 let selectedGedung = "";
 
