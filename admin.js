@@ -417,3 +417,78 @@ async function uploadFoto(file){
     return await response.json();
 
 }
+
+function loadDashboard(){
+
+    setPageTitle("Dashboard");
+
+    setContent(`
+
+        <div class="card">
+
+            <h2>Dashboard</h2>
+
+            <p>SIM-DBR Final</p>
+
+        </div>
+
+    `);
+
+}
+
+function loadMasterAset(){
+
+    setPageTitle(
+        "Master Aset"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Master Aset
+            (Belum dibuat)
+
+        </div>
+
+    `);
+
+}
+
+function loadStatistikAdmin(){
+
+    setPageTitle(
+        "Statistik"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Statistik
+            (Belum dibuat)
+
+        </div>
+
+    `);
+
+}
+
+function loadPengaturan(){
+
+    setPageTitle(
+        "Pengaturan"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Pengaturan
+            (Belum dibuat)
+
+        </div>
+
+    `);
+
+}
