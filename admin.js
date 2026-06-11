@@ -337,7 +337,10 @@ async function loadMasterAset(){
     }
 
 }
+
 async function editAset(idAset){
+
+    alert(idAset);
 
     const data =
         await getAPI(
