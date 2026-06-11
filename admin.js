@@ -589,8 +589,75 @@ document
 });
 
 loadDashboard();
+
 function showFormTambahAset(){
 
-    alert("TEST");
+    setPageTitle(
+        "Tambah Aset"
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>Tambah Aset</h3>
+
+        <br>
+
+        <div class="form-group">
+            <label>Kode Barang</label>
+            <input
+                id="kodeBarang"
+                class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>NUP</label>
+            <input
+                id="nup"
+                class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Nama Barang</label>
+            <input
+                id="namaBarang"
+                class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Merk / Tipe</label>
+            <input
+                id="merkTipe"
+                class="form-control">
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanAset()">
+
+            Simpan
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadMasterAset()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function simpanAset(){
+
+    alert(
+        "Fungsi Simpan Terpanggil"
+    );
 
 }
