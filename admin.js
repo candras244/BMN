@@ -250,7 +250,8 @@ async function loadMasterAset(){
                     <td>
 
                         <button
-                            class="btn btn-primary">
+                            class="btn btn-primary"
+                              onclick="editAset('${item.ID_ASET}')">
 
                             Edit
 
@@ -334,6 +335,23 @@ async function loadMasterAset(){
         `);
 
     }
+
+}
+async function editAset(idAset){
+
+    const data =
+        await getAPI(
+            "getAsetById"
+            +
+            "&idAset="
+            +
+            idAset
+        );
+
+    alert(
+        "Edit Aset : " +
+        data.ID_ASET
+    );
 
 }
 
