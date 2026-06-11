@@ -655,35 +655,57 @@ async function simpanAset(){
 
     try{
 
+        const kodeBarang =
+            document.getElementById(
+                "kodeBarang"
+            ).value;
+
+        const nup =
+            document.getElementById(
+                "nup"
+            ).value;
+
+        const namaBarang =
+            document.getElementById(
+                "namaBarang"
+            ).value;
+
+        const merkTipe =
+            document.getElementById(
+                "merkTipe"
+            ).value;
+
+        const url =
+
+            API_URL +
+
+            "?action=addMasterAset" +
+
+            "&KODE_BARANG=" +
+            encodeURIComponent(
+                kodeBarang
+            ) +
+
+            "&NUP=" +
+            encodeURIComponent(
+                nup
+            ) +
+
+            "&NAMA_BARANG=" +
+            encodeURIComponent(
+                namaBarang
+            ) +
+
+            "&MERK_TIPE=" +
+            encodeURIComponent(
+                merkTipe
+            );
+
+        const response =
+            await fetch(url);
+
         const result =
-            await postAPI({
-
-                action:
-                    "addMasterAset",
-
-                KODE_BARANG:
-                    document.getElementById(
-                        "kodeBarang"
-                    ).value,
-
-                NUP:
-                    document.getElementById(
-                        "nup"
-                    ).value,
-
-                NAMA_BARANG:
-                    document.getElementById(
-                        "namaBarang"
-                    ).value,
-
-                MERK_TIPE:
-                    document.getElementById(
-                        "merkTipe"
-                    ).value
-
-            });
-
-        console.log(result);
+            await response.json();
 
         if(result.success){
 
@@ -697,15 +719,12 @@ async function simpanAset(){
 
             alert(
                 result.message ||
-                result.error ||
-                "Gagal menyimpan data"
+                result.error
             );
 
         }
 
     }catch(err){
-
-        console.error(err);
 
         alert(
             "ERROR : " + err
