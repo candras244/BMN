@@ -390,6 +390,24 @@ async function editAset(idAset){
 
 }
 
+function hapusPermanenAset(idAset){
+
+    const yakin =
+        confirm(
+            "Hapus permanen aset ini?"
+        );
+
+    if(!yakin){
+        return;
+    }
+
+    alert(
+        "Hapus Permanen : "
+        + idAset
+    );
+
+}
+
 function loadMutasi(){
 
     setPageTitle(
