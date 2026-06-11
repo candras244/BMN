@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SIM-DBR Admin</title>
 
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
+
 <body>
 
 <div class="admin-layout">
@@ -19,73 +21,162 @@
 
         <div class="sidebar-header">
 
-            <h2>SIM-DBR</h2>
+            <div class="logo-box">
+                <i class="fa-solid fa-building"></i>
+            </div>
 
-            <p>Admin Panel</p>
+            <div class="logo-text">
+                SIM-DBR
+            </div>
 
         </div>
 
-        <ul class="sidebar-menu">
+        <nav class="sidebar-menu">
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('dashboard')">
-                   Dashboard
-                </a>
-            </li>
+            <a href="#"
+               class="menu-item active"
+               data-page="dashboard">
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('masteraset')">
-                   Master Aset
-                </a>
-            </li>
+                <i class="fa-solid fa-gauge"></i>
+                <span>Dashboard</span>
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('gedung')">
-                   Gedung
-                </a>
-            </li>
+            </a>
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('statistik')">
-                   Statistik
-                </a>
-            </li>
+            <a href="#"
+               class="menu-item"
+               data-page="master-aset">
 
-            <li>
-                <a href="#"
-                   onclick="loadAdminPage('pengaturan')">
-                   Pengaturan
-                </a>
-            </li>
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <span>Master Aset</span>
 
-            <li>
-                <a href="index.html">
-                   Logout
-                </a>
-            </li>
+            </a>
 
-        </ul>
+            <a href="#"
+               class="menu-item"
+               data-page="gedung">
+
+                <i class="fa-solid fa-building"></i>
+                <span>Gedung</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item"
+               data-page="mutasi">
+
+                <i class="fa-solid fa-right-left"></i>
+                <span>Mutasi</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item"
+               data-page="kondisi">
+
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <span>Perubahan Kondisi</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item"
+               data-page="bast">
+
+                <i class="fa-solid fa-file-signature"></i>
+                <span>BAST</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item"
+               data-page="perawatan">
+
+                <i class="fa-solid fa-hammer"></i>
+                <span>Perawatan Gedung</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item"
+               data-page="penghapusan">
+
+                <i class="fa-solid fa-trash"></i>
+                <span>Penghapusan</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item"
+               data-page="statistik">
+
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Statistik</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item"
+               data-page="pengaturan">
+
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+
+            </a>
+
+            <a href="#"
+               class="menu-item logout-btn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+
+            </a>
+
+        </nav>
 
     </aside>
 
-    <!-- KONTEN -->
-    <main class="main-content">
+    <!-- MAIN -->
+    <main class="main-area">
 
         <!-- TOPBAR -->
+
         <header class="topbar">
 
-            <h2 id="pageTitle">
-                Dashboard
-            </h2>
+            <div class="topbar-left">
+
+                <h2 id="pageTitle">
+                    Dashboard
+                </h2>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="user-info">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    <span id="adminName">
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
 
         </header>
 
-        <!-- CONTENT AREA -->
-        <section id="contentArea">
+        <!-- CONTENT -->
+
+        <section
+            id="contentArea"
+            class="content-area">
+
+            <div class="loading-page">
+
+                Memuat Halaman...
+
+            </div>
 
         </section>
 
