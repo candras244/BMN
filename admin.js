@@ -728,8 +728,9 @@ async function showFormTambahAset(){
                 id="statusAset"
                 class="form-control">
 
-                <option>Terdaftar</option>
                 <option>Draft</option>
+                  <option selected>Terdaftar</option>
+                  <option>Dihapus</option>
 
             </select>
 
