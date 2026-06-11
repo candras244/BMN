@@ -1,355 +1,20 @@
+/* =====================================
+   SIM-DBR FINAL
+   ADMIN CORE
+===================================== */
+
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyFdlqZCHkuscD0AblFJlIxx58Q604uyJuZLJOYIgRQUVwkn8XD9hX37bZxHpIwZgMxZA/exec";
-
-let selectedGedung = "";
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        loadAdminPage(
-            "dashboard"
-        );
-
-    }
-);
-
-function loadAdminPage(page){
-
-    switch(page){
-
-        case "dashboard":
-            loadDashboard();
-            break;
-
-        case "masteraset":
-            loadMasterAset();
-            break;
-
-        case "gedung":
-            loadGedungAdmin();
-            break;
-
-        case "statistik":
-            loadStatistikAdmin();
-            break;
-
-        case "pengaturan":
-            loadPengaturan();
-            break;
-
-        default:
-            loadDashboard();
-
-    }
-
-}
-
-/* ==========================================
-   GEDUNG
-========================================== */
-
-async function loadGedungAdmin(){
-
-    setPageTitle("Gedung");
-
-    const response =
-        await fetch(
-            `${API_URL}?action=getGedung`
-        );
-
-    const result =
-        await response.json();
-
-    let html = `
-
-    <div class="card">
-
-        <h2>Tambah Gedung</h2>
-
-        <input
-            id="KODE_GEDUNG"
-            placeholder="Kode Gedung">
-
-        <input
-            id="NAMA_GEDUNG"
-            placeholder="Nama Gedung">
-
-        <textarea
-            id="DESKRIPSI_SINGKAT"
-            placeholder="Deskripsi Singkat">
-        </textarea>
-
-        <input
-            type="file"
-            id="FOTO_GEDUNG"
-            accept="image/*">
-
-        <img
-            id="previewGedung"
-            style="
-                display:none;
-                width:120px;
-                height:120px;
-                object-fit:cover;
-                border-radius:8px;
-                margin-top:10px;
-            ">
-
-        <button
-            class="btn-success"
-            onclick="simpanGedung()">
-
-            Simpan Gedung
-
-        </button>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Daftar Gedung</h2>
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Kode</th>
-                    <th>Foto</th>
-                    <th>Nama Gedung</th>
-                    <th>Aksi</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-    if(result.success){
-
-        result.data.forEach(item => {
-
-            html += `
-
-            <tr>
-
-                <td>
-                    ${item.KODE_GEDUNG}
-                </td>
-
-                <td>
-
-                    <img
-                        src="${item.FOTO_GEDUNG || ''}"
-                        style="
-                            width:60px;
-                            height:60px;
-                            object-fit:cover;
-                            border-radius:6px;
-                        ">
-
-                </td>
-
-                <td>
-                    ${item.NAMA_GEDUNG}
-                </td>
-
-                <td>
-
-                    <button
-                        class="btn-danger"
-                        onclick="
-                        hapusGedung(
-                        '${item.KODE_GEDUNG}'
-                        )">
-
-                        Hapus
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
-
-        });
-
-    }
-
-    html += `
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    `;
-
-    setContent(html);
-
-    const fotoInput =
-        document.getElementById(
-            "FOTO_GEDUNG"
-        );
-
-    if(fotoInput){
-
-        fotoInput.addEventListener(
-            "change",
-            function(e){
-
-                const file =
-                    e.target.files[0];
-
-                if(!file) return;
-
-                const reader =
-                    new FileReader();
-
-                reader.onload =
-                    function(){
-
-                        const img =
-                            document.getElementById(
-                                "previewGedung"
-                            );
-
-                        img.src =
-                            reader.result;
-
-                        img.style.display =
-                            "block";
-
-                    };
-
-                reader.readAsDataURL(
-                    file
-                );
-
-            }
-        );
-
-    }
-
-}
-
-async function simpanGedung(){
-
-    let fotoUrl = "";
-
-    const file =
-        document.getElementById(
-            "FOTO_GEDUNG"
-        ).files[0];
-
-    if(file){
-
-        const upload =
-            await uploadFoto(file);
-
-        if(upload.success){
-
-            fotoUrl =
-                upload.fileUrl;
-
-        }else{
-
-            alert(
-                upload.message ||
-                "Upload foto gagal"
-            );
-
-            return;
-
-        }
-
-    }
-
-    const data = {
-
-        action:"addGedung",
-
-        KODE_GEDUNG:
-            document.getElementById(
-                "KODE_GEDUNG"
-            ).value,
-
-        NAMA_GEDUNG:
-            document.getElementById(
-                "NAMA_GEDUNG"
-            ).value,
-
-        FOTO_GEDUNG:
-            fotoUrl,
-
-        DESKRIPSI_SINGKAT:
-            document.getElementById(
-                "DESKRIPSI_SINGKAT"
-            ).value
-
-    };
-
-    const response =
-        await fetch(API_URL,{
-
-            method:"POST",
-
-            body:JSON.stringify(data)
-
-        });
-
-    const result =
-        await response.json();
-
-    if(result.success){
-
-        alert(
-            "Gedung berhasil disimpan"
-        );
-
-        loadGedungAdmin();
-
-    }
-
-}
-
-async function hapusGedung(kode){
-
-    if(
-        !confirm(
-            "Hapus gedung ini?"
-        )
-    ) return;
-
-    await fetch(API_URL,{
-
-        method:"POST",
-
-        body:JSON.stringify({
-
-            action:"deleteGedung",
-
-            kode:kode
-
-        })
-
-    });
-
-    loadGedungAdmin();
-
-}
+"https://script.google.com/macros/s/AKfycbyJDizwb_tZXo40NTv7g-TURs2op4cFvn1seOJPjeo65MUzIziwHsjU5KVdoQq3eLH3/exec";
+
+/* =====================================
+   HELPER
+===================================== */
 
 function setPageTitle(title){
 
     document.getElementById(
         "pageTitle"
-    ).innerText = title;
+    ).textContent = title;
 
 }
 
@@ -361,56 +26,31 @@ function setContent(html){
 
 }
 
-function fileToBase64(file){
+async function getAPI(action){
 
-    return new Promise(
-        (resolve,reject)=>{
+    const response =
+        await fetch(
+            `${API_URL}?action=${action}`
+        );
 
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                () => resolve(
-                    reader.result
-                );
-
-            reader.onerror =
-                error => reject(error);
-
-            reader.readAsDataURL(
-                file
-            );
-
-        }
-    );
+    return await response.json();
 
 }
 
-async function uploadFoto(file){
-
-    const base64 =
-        await fileToBase64(file);
+async function postAPI(data){
 
     const response =
         await fetch(API_URL,{
 
             method:"POST",
 
-            body:JSON.stringify({
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
 
-                action:
-                "uploadFotoGedung",
-
-                base64:
-                base64.split(",")[1],
-
-                fileName:
-                file.name,
-
-                mimeType:
-                file.type
-
-            })
+            body:
+                JSON.stringify(data)
 
         });
 
@@ -418,23 +58,142 @@ async function uploadFoto(file){
 
 }
 
-function loadDashboard(){
+function formatRupiah(nilai){
 
-    setPageTitle("Dashboard");
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style:"currency",
+            currency:"IDR",
+            maximumFractionDigits:0
+        }
+    ).format(
+        Number(nilai || 0)
+    );
+
+}
+
+/* =====================================
+   LOADING
+===================================== */
+
+function showLoading(){
 
     setContent(`
 
         <div class="card">
 
-            <h2>Dashboard</h2>
-
-            <p>SIM-DBR Final</p>
+            Memuat Data...
 
         </div>
 
     `);
 
 }
+
+/* =====================================
+   DASHBOARD
+===================================== */
+
+async function loadDashboard(){
+
+    setPageTitle(
+        "Dashboard"
+    );
+
+    showLoading();
+
+    try{
+
+        const data =
+            await getAPI(
+                "getDashboard"
+            );
+
+        setContent(`
+
+        <div class="summary-grid">
+
+            <div class="card">
+                <div class="card-title">
+                    Total Gedung
+                </div>
+                <div class="card-value">
+                    ${data.totalGedung || 0}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    Total Ruangan
+                </div>
+                <div class="card-value">
+                    ${data.totalRuangan || 0}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    Total Aset
+                </div>
+                <div class="card-value">
+                    ${data.totalAset || 0}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    Nilai Aset
+                </div>
+                <div class="card-value">
+                    ${formatRupiah(
+                        data.totalNilai || 0
+                    )}
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Dashboard SIM-DBR
+            </h3>
+
+            <br>
+
+            Backend API
+            berhasil terhubung.
+
+        </div>
+
+        `);
+
+    }catch(err){
+
+        setContent(`
+
+            <div class="card">
+
+                ERROR :
+
+                <br><br>
+
+                ${err}
+
+            </div>
+
+        `);
+
+    }
+
+}
+
+/* =====================================
+   PLACEHOLDER MENU
+===================================== */
 
 function loadMasterAset(){
 
@@ -446,8 +205,8 @@ function loadMasterAset(){
 
         <div class="card">
 
-            Master Aset
-            (Belum dibuat)
+            Module Master Aset
+            belum dibuat.
 
         </div>
 
@@ -455,7 +214,121 @@ function loadMasterAset(){
 
 }
 
-function loadStatistikAdmin(){
+function loadGedungAdmin(){
+
+    setPageTitle(
+        "Gedung"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Module Gedung
+            belum dibuat.
+
+        </div>
+
+    `);
+
+}
+
+function loadMutasi(){
+
+    setPageTitle(
+        "Mutasi"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Module Mutasi
+            belum dibuat.
+
+        </div>
+
+    `);
+
+}
+
+function loadKondisi(){
+
+    setPageTitle(
+        "Perubahan Kondisi"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Module Kondisi
+            belum dibuat.
+
+        </div>
+
+    `);
+
+}
+
+function loadBAST(){
+
+    setPageTitle(
+        "BAST"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Module BAST
+            belum dibuat.
+
+        </div>
+
+    `);
+
+}
+
+function loadPerawatan(){
+
+    setPageTitle(
+        "Perawatan Gedung"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Module Perawatan
+            belum dibuat.
+
+        </div>
+
+    `);
+
+}
+
+function loadPenghapusan(){
+
+    setPageTitle(
+        "Penghapusan"
+    );
+
+    setContent(`
+
+        <div class="card">
+
+            Module Penghapusan
+            belum dibuat.
+
+        </div>
+
+    `);
+
+}
+
+function loadStatistik(){
 
     setPageTitle(
         "Statistik"
@@ -465,8 +338,8 @@ function loadStatistikAdmin(){
 
         <div class="card">
 
-            Statistik
-            (Belum dibuat)
+            Module Statistik
+            belum dibuat.
 
         </div>
 
@@ -484,11 +357,109 @@ function loadPengaturan(){
 
         <div class="card">
 
-            Pengaturan
-            (Belum dibuat)
+            Module Pengaturan
+            belum dibuat.
 
         </div>
 
     `);
 
 }
+
+/* =====================================
+   ROUTER MENU
+===================================== */
+
+function loadPage(page){
+
+    switch(page){
+
+        case "dashboard":
+            loadDashboard();
+            break;
+
+        case "master-aset":
+            loadMasterAset();
+            break;
+
+        case "gedung":
+            loadGedungAdmin();
+            break;
+
+        case "mutasi":
+            loadMutasi();
+            break;
+
+        case "kondisi":
+            loadKondisi();
+            break;
+
+        case "bast":
+            loadBAST();
+            break;
+
+        case "perawatan":
+            loadPerawatan();
+            break;
+
+        case "penghapusan":
+            loadPenghapusan();
+            break;
+
+        case "statistik":
+            loadStatistik();
+            break;
+
+        case "pengaturan":
+            loadPengaturan();
+            break;
+
+    }
+
+}
+
+/* =====================================
+   INIT
+===================================== */
+
+document
+.querySelectorAll(
+    ".menu-item"
+)
+.forEach(menu=>{
+
+    menu.addEventListener(
+        "click",
+        function(e){
+
+            e.preventDefault();
+
+            document
+            .querySelectorAll(
+                ".menu-item"
+            )
+            .forEach(m=>
+                m.classList.remove(
+                    "active"
+                )
+            );
+
+            this.classList.add(
+                "active"
+            );
+
+            const page =
+                this.dataset.page;
+
+            if(page){
+
+                loadPage(page);
+
+            }
+
+        }
+    );
+
+});
+
+loadDashboard();
