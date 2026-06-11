@@ -587,17 +587,42 @@ document
 
 loadDashboard();
 
-function showFormTambahAset(){
+async function showFormTambahAset(){
 
     setPageTitle(
         "Tambah Aset"
     );
 
+    const gedung =
+        await getAPI(
+            "getGedung"
+        );
+
+    let gedungOption =
+        `<option value="">Pilih Gedung</option>`;
+
+    gedung.forEach(g=>{
+
+        gedungOption += `
+
+        <option
+            value="${g.KODE_GEDUNG}">
+
+            ${g.NAMA_GEDUNG}
+
+        </option>
+
+        `;
+
+    });
+
     setContent(`
 
     <div class="card">
 
-        <h3>Tambah Aset</h3>
+        <h3>
+            Tambah Aset
+        </h3>
 
         <br>
 
@@ -629,6 +654,89 @@ function showFormTambahAset(){
                 class="form-control">
         </div>
 
+        <div class="form-group">
+            <label>Tahun Perolehan</label>
+            <input
+                id="tahunPerolehan"
+                type="number"
+                class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Nilai Perolehan</label>
+            <input
+                id="nilaiPerolehan"
+                type="number"
+                class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Gedung</label>
+
+            <select
+                id="kodeGedung"
+                class="form-control"
+                onchange="loadDropdownRuangan()">
+
+                ${gedungOption}
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Ruangan</label>
+
+            <select
+                id="kodeRuangan"
+                class="form-control">
+
+                <option value="">
+                    Pilih Ruangan
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Kondisi</label>
+
+            <select
+                id="kondisi"
+                class="form-control">
+
+                <option>Baik</option>
+                <option>Rusak Ringan</option>
+                <option>Rusak Berat</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Status Aset</label>
+
+            <select
+                id="statusAset"
+                class="form-control">
+
+                <option>Terdaftar</option>
+                <option>Draft</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Keterangan</label>
+
+            <textarea
+                id="keterangan"
+                class="form-control"></textarea>
+
+        </div>
+
         <button
             class="btn btn-success"
             onclick="simpanAset()">
@@ -650,7 +758,6 @@ function showFormTambahAset(){
     `);
 
 }
-
 async function simpanAset(){
 
     try{
