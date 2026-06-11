@@ -758,55 +758,165 @@ async function showFormTambahAset(){
     `);
 
 }
+
+async function loadDropdownRuangan(){
+
+    const kodeGedung =
+        document.getElementById(
+            "kodeGedung"
+        ).value;
+
+    const data =
+        await getAPI(
+            "getRuanganByGedung"
+            +
+            "&kodeGedung="
+            +
+            kodeGedung
+        );
+
+    const select =
+        document.getElementById(
+            "kodeRuangan"
+        );
+
+    let html =
+        `<option value="">
+            Pilih Ruangan
+        </option>`;
+
+    data.forEach(r=>{
+
+        html += `
+
+        <option
+            value="${r.KODE_RUANGAN}">
+
+            ${r.NAMA_RUANGAN}
+
+        </option>
+
+        `;
+
+    });
+
+    select.innerHTML =
+        html;
+
+}
+
 async function simpanAset(){
 
     try{
 
-        const kodeBarang =
+        const kodeGedung =
             document.getElementById(
-                "kodeBarang"
-            ).value;
+                "kodeGedung"
+            );
 
-        const nup =
+        const kodeRuangan =
             document.getElementById(
-                "nup"
-            ).value;
+                "kodeRuangan"
+            );
 
-        const namaBarang =
-            document.getElementById(
-                "namaBarang"
-            ).value;
+        const namaGedung =
+            kodeGedung.options[
+                kodeGedung.selectedIndex
+            ]?.text || "";
 
-        const merkTipe =
-            document.getElementById(
-                "merkTipe"
-            ).value;
+        const namaRuangan =
+            kodeRuangan.options[
+                kodeRuangan.selectedIndex
+            ]?.text || "";
 
         const url =
 
-            API_URL +
+        API_URL +
 
-            "?action=addMasterAset" +
+        "?action=addMasterAset" +
 
-            "&KODE_BARANG=" +
-            encodeURIComponent(
-                kodeBarang
-            ) +
+        "&KODE_BARANG=" +
+        encodeURIComponent(
+            document.getElementById(
+                "kodeBarang"
+            ).value
+        ) +
 
-            "&NUP=" +
-            encodeURIComponent(
-                nup
-            ) +
+        "&NUP=" +
+        encodeURIComponent(
+            document.getElementById(
+                "nup"
+            ).value
+        ) +
 
-            "&NAMA_BARANG=" +
-            encodeURIComponent(
-                namaBarang
-            ) +
+        "&NAMA_BARANG=" +
+        encodeURIComponent(
+            document.getElementById(
+                "namaBarang"
+            ).value
+        ) +
 
-            "&MERK_TIPE=" +
-            encodeURIComponent(
-                merkTipe
-            );
+        "&MERK_TIPE=" +
+        encodeURIComponent(
+            document.getElementById(
+                "merkTipe"
+            ).value
+        ) +
+
+        "&TAHUN_PEROLEHAN=" +
+        encodeURIComponent(
+            document.getElementById(
+                "tahunPerolehan"
+            ).value
+        ) +
+
+        "&NILAI_PEROLEHAN=" +
+        encodeURIComponent(
+            document.getElementById(
+                "nilaiPerolehan"
+            ).value
+        ) +
+
+        "&KODE_GEDUNG=" +
+        encodeURIComponent(
+            kodeGedung.value
+        ) +
+
+        "&NAMA_GEDUNG=" +
+        encodeURIComponent(
+            namaGedung
+        ) +
+
+        "&KODE_RUANGAN=" +
+        encodeURIComponent(
+            kodeRuangan.value
+        ) +
+
+        "&NAMA_RUANGAN=" +
+        encodeURIComponent(
+            namaRuangan
+        ) +
+
+        "&KONDISI=" +
+        encodeURIComponent(
+            document.getElementById(
+                "kondisi"
+            ).value
+        ) +
+
+        "&STATUS_ASET=" +
+        encodeURIComponent(
+            document.getElementById(
+                "statusAset"
+            ).value
+        ) +
+
+        "&KETERANGAN=" +
+        encodeURIComponent(
+            document.getElementById(
+                "keterangan"
+            ).value
+        );
 
         const response =
             await fetch(url);
