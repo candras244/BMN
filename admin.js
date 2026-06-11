@@ -195,22 +195,148 @@ async function loadDashboard(){
    PLACEHOLDER MENU
 ===================================== */
 
-function loadMasterAset(){
+async function loadMasterAset(){
 
     setPageTitle(
         "Master Aset"
     );
 
-    setContent(`
+    showLoading();
 
-        <div class="card">
+    try{
 
-            Module Master Aset
-            belum dibuat.
+        const data =
+            await getAPI(
+                "getMasterAset"
+            );
+
+        let rows = "";
+
+        data.forEach(
+            (item,index)=>{
+                rows += `
+
+                <tr>
+
+                    <td>
+                        ${index+1}
+                    </td>
+
+                    <td>
+                        ${item.ID_ASET || ""}
+                    </td>
+
+                    <td>
+                        ${item.KODE_BARANG || ""}
+                    </td>
+
+                    <td>
+                        ${item.NAMA_BARANG || ""}
+                    </td>
+
+                    <td>
+                        ${item.NAMA_GEDUNG || ""}
+                    </td>
+
+                    <td>
+                        ${item.NAMA_RUANGAN || ""}
+                    </td>
+
+                    <td>
+                        ${item.KONDISI || ""}
+                    </td>
+
+                    <td>
+                        ${item.STATUS_ASET || ""}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-primary">
+
+                            Edit
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `;
+            }
+        );
+
+        setContent(`
+
+        <div
+            style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:20px;
+            ">
+
+            <h3>
+                Data Master Aset
+            </h3>
+
+            <button
+                class="btn btn-success"
+                onclick="showFormTambahAset()">
+
+                + Tambah Aset
+
+            </button>
 
         </div>
 
-    `);
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>No</th>
+                        <th>ID Aset</th>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Gedung</th>
+                        <th>Ruangan</th>
+                        <th>Kondisi</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${rows}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        `);
+
+    }catch(err){
+
+        setContent(`
+
+            <div class="card">
+
+                ${err}
+
+            </div>
+
+        `);
+
+    }
 
 }
 
