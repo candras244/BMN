@@ -267,6 +267,10 @@ async function loadMasterAset(){
 
         setContent(`
 
+         <h1>VERSI EDIT BARU</h1>
+         
+         <div class="card">
+
         <div
             style="
             display:flex;
