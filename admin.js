@@ -589,3 +589,8 @@ document
 });
 
 loadDashboard();
+function showFormTambahAset(){
+
+    alert("TEST");
+
+}
