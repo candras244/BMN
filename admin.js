@@ -40,21 +40,18 @@ async function getAPI(action){
 async function postAPI(data){
 
     const response =
-        await fetch(API_URL,{
+        await fetch(
+            API_URL,
+            {
+                method:"POST",
+                mode:"no-cors",
+                body:JSON.stringify(data)
+            }
+        );
 
-            method:"POST",
-
-            headers:{
-                "Content-Type":
-                "application/json"
-            },
-
-            body:
-                JSON.stringify(data)
-
-        });
-
-    return await response.json();
+    return {
+        success:true
+    };
 
 }
 
