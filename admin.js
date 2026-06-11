@@ -647,6 +647,13 @@ async function showFormTambahAset(){
                 class="form-control">
         </div>
 
+         <div class="form-group">
+             <label>Jenis Barang</label>
+             <input
+                 id="jenisBarang"
+                 class="form-control">
+         </div>
+
         <div class="form-group">
             <label>Merk / Tipe</label>
             <input
