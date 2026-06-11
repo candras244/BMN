@@ -340,8 +340,6 @@ async function loadMasterAset(){
 
 async function editAset(idAset){
 
-    alert(idAset);
-
     const data =
         await getAPI(
             "getAsetById"
@@ -351,27 +349,42 @@ async function editAset(idAset){
             idAset
         );
 
-    alert(
-        "Edit Aset : " +
-        data.ID_ASET
-    );
-
-}
-
-function loadGedungAdmin(){
-
-    setPageTitle(
-        "Gedung"
-    );
-
     setContent(`
 
-        <div class="card">
+    <div class="card">
 
-            Module Gedung
-            belum dibuat.
+        <h3>
+            Edit Aset
+        </h3>
 
+        <br>
+
+        <div class="form-group">
+            <label>ID ASET</label>
+            <input
+                class="form-control"
+                value="${data.ID_ASET}"
+                readonly>
         </div>
+
+        <div class="form-group">
+            <label>Nama Barang</label>
+            <input
+                class="form-control"
+                value="${data.NAMA_BARANG || ""}">
+        </div>
+
+        <br>
+
+        <button
+            class="btn"
+            onclick="loadMasterAset()">
+
+            Kembali
+
+        </button>
+
+    </div>
 
     `);
 
