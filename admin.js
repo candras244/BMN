@@ -380,12 +380,12 @@ async function editAset(idAset){
 
          <br>
 
-         <button>
-            class="btn-danger">
+         <button
+             class="btn-danger"
              onclick="hapusPermanenAset('${data.ID_ASET}')">
-            
+         
              Hapus Permanen
-
+         
          </button>
 
         <button
