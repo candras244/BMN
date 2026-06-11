@@ -656,8 +656,64 @@ function showFormTambahAset(){
 
 async function simpanAset(){
 
-    alert(
-        "Fungsi Simpan Terpanggil"
-    );
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "addMasterAset",
+
+                KODE_BARANG:
+                    document.getElementById(
+                        "kodeBarang"
+                    ).value,
+
+                NUP:
+                    document.getElementById(
+                        "nup"
+                    ).value,
+
+                NAMA_BARANG:
+                    document.getElementById(
+                        "namaBarang"
+                    ).value,
+
+                MERK_TIPE:
+                    document.getElementById(
+                        "merkTipe"
+                    ).value
+
+            });
+
+        console.log(result);
+
+        if(result.success){
+
+            alert(
+                "Aset berhasil disimpan"
+            );
+
+            loadMasterAset();
+
+        }else{
+
+            alert(
+                result.message ||
+                result.error ||
+                "Gagal menyimpan data"
+            );
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
 
 }
