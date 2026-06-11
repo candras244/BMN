@@ -277,3 +277,25 @@ td{
     }
 
 }
+
+.btn-danger{
+
+    background:#dc3545;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 15px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+.btn-danger:hover{
+
+    background:#bb2d3b;
+
+}
