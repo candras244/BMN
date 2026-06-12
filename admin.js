@@ -404,53 +404,7 @@ nc function editAset(idAset){
 
 async function hapusPermanenAset(idAset){
 
-    const yakin =
-        confirm(
-            "Hapus permanen aset ini?"
-        );
-
-    if(!yakin){
-        return;
-    }
-
-    try{
-
-        const result =
-            await getAPI(
-                "deleteMasterAset&idAset="
-                +
-                encodeURIComponent(idAset)
-            );
-
-        console.log(result);
-
-        if(result.success){
-
-            alert(
-                "Aset berhasil dihapus"
-            );
-
-            loadMasterAset();
-
-        }else{
-
-            alert(
-                result.message ||
-                "Gagal menghapus aset"
-            );
-
-        }
-
-    }catch(err){
-
-        console.error(err);
-
-        alert(
-            "Error : "
-            + err.message
-        );
-
-    }
+    alert("VERSI 12 JUNI");
 
 }
 
