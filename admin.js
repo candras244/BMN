@@ -4,7 +4,7 @@
 ===================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycby9GedHFRyKYSJoNL3AiES5LRQLxru879o6Mht1aZXo2bmiRBvHrJDErStfH2IH0U07/exec{
+{https://script.google.com/macros/s/AKfycby9GedHFRyKYSJoNL3AiES5LRQLxru879o6Mht1aZXo2bmiRBvHrJDErStfH2IH0U07/exec
 
     alert("VERSI 12 JUNI");
 
