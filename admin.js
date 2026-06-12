@@ -92,7 +92,7 @@ function showLoading(){
    DASHBOARD
 ===================================== */
 
-async function loadDashboard(){
+nc function loadDashboard(){
 
     setPageTitle(
         "Dashboard"
@@ -192,7 +192,7 @@ async function loadDashboard(){
    PLACEHOLDER MENU
 ===================================== */
 
-async function loadMasterAset(){
+nc function loadMasterAset(){
 
     setPageTitle(
         "Master Aset"
@@ -342,7 +342,7 @@ async function loadMasterAset(){
 
 }
 
-async function editAset(idAset){
+nc function editAset(idAset){
 
     const data =
         await getAPI(
@@ -402,7 +402,7 @@ async function editAset(idAset){
 
 }
 
-function hapusPermanenAset(idAset){
+async function hapusPermanenAset(idAset){
 
     const yakin =
         confirm(
@@ -413,10 +413,44 @@ function hapusPermanenAset(idAset){
         return;
     }
 
-    alert(
-        "Hapus Permanen : "
-        + idAset
-    );
+    try{
+
+        const result =
+            await getAPI(
+                "deleteMasterAset&idAset="
+                +
+                encodeURIComponent(idAset)
+            );
+
+        console.log(result);
+
+        if(result.success){
+
+            alert(
+                "Aset berhasil dihapus"
+            );
+
+            loadMasterAset();
+
+        }else{
+
+            alert(
+                result.message ||
+                "Gagal menghapus aset"
+            );
+
+        }
+
+    }catch(err){
+
+        console.error(err);
+
+        alert(
+            "Error : "
+            + err.message
+        );
+
+    }
 
 }
 
