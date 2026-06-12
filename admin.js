@@ -1022,3 +1022,27 @@ async function simpanAset(){
     }
 
 }
+
+async function loadGedungAdmin(){
+
+    setPageTitle(
+        "Gedung"
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Modul Gedung
+        </h3>
+
+        <p>
+            Sedang dalam pengembangan
+        </p>
+
+    </div>
+
+    `);
+
+}
