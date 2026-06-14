@@ -877,7 +877,11 @@ async function simpanAset(){
                     document.getElementById(
                         "namaBarang"
                     ).value,
-
+                MERK_TIPE:
+                    document.getElementById(
+                        "merkTipe"
+                    ).value,
+               
                 MERK_TIPE:
                     document.getElementById(
                         "merkTipe"
