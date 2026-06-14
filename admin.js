@@ -615,6 +615,131 @@ async function editAset(idAset){
 
 }
 
+async function updateAsetForm(){
+
+    try{
+
+        const kodeGedung =
+            document.getElementById(
+                "kodeGedung"
+            );
+
+        const kodeRuangan =
+            document.getElementById(
+                "kodeRuangan"
+            );
+
+        const namaGedung =
+            kodeGedung.options[
+                kodeGedung.selectedIndex
+            ]?.text || "";
+
+        const namaRuangan =
+            kodeRuangan.options[
+                kodeRuangan.selectedIndex
+            ]?.text || "";
+
+        const result =
+            await postAPI({
+
+                action:
+                    "updateAset",
+
+                ID_ASET:
+                    document.getElementById(
+                        "idAset"
+                    ).value,
+
+                KODE_BARANG:
+                    document.getElementById(
+                        "kodeBarang"
+                    ).value,
+
+                NUP:
+                    document.getElementById(
+                        "nup"
+                    ).value,
+
+                NAMA_BARANG:
+                    document.getElementById(
+                        "namaBarang"
+                    ).value,
+
+                JENIS_BARANG:
+                    document.getElementById(
+                        "jenisBarang"
+                    ).value,
+
+                MERK_TIPE:
+                    document.getElementById(
+                        "merkTipe"
+                    ).value,
+
+                TAHUN_PEROLEHAN:
+                    document.getElementById(
+                        "tahunPerolehan"
+                    ).value,
+
+                NILAI_PEROLEHAN:
+                    document.getElementById(
+                        "nilaiPerolehan"
+                    ).value.replace(/\./g,""),
+
+                KODE_GEDUNG:
+                    kodeGedung.value,
+
+                NAMA_GEDUNG:
+                    namaGedung,
+
+                KODE_RUANGAN:
+                    kodeRuangan.value,
+
+                NAMA_RUANGAN:
+                    namaRuangan,
+
+                KONDISI:
+                    document.getElementById(
+                        "kondisi"
+                    ).value,
+
+                STATUS_ASET:
+                    document.getElementById(
+                        "statusAset"
+                    ).value,
+
+                KETERANGAN:
+                    document.getElementById(
+                        "keterangan"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Aset berhasil diperbarui"
+            );
+
+            loadMasterAset();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
 function loadKondisi(){
 
     setPageTitle(
