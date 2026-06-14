@@ -1341,40 +1341,48 @@ async function loadGedungAdmin(){
                 "
                 onclick="loadRuanganPanel('${g.KODE_GEDUNG}')">
 
-                <b>
-                    ${g.NAMA_GEDUNG}
-                </b>
-
-                <br>
-
-                <small>
-                    ${g.KODE_GEDUNG}
-                </small>
-
-                <br><br>
-
-                <button
-                    class="btn btn-warning"
-                    onclick="
-                        event.stopPropagation();
-                        editGedung('${g.KODE_GEDUNG}')
-                    ">
-
-                    Edit
-
-                </button>
-
-                <button
-                    class="btn btn-danger"
-                    onclick="
-                        event.stopPropagation();
-                        hapusGedung('${g.KODE_GEDUNG}')
-                    ">
-
-                    Hapus
-
-                </button>
-
+                <div
+                   style="
+                       display:flex;
+                       justify-content:space-between;
+                       align-items:center;
+                   ">
+               
+                   <b>
+                       ${g.NAMA_GEDUNG}
+                   </b>
+               
+                   <div>
+               
+                       <button
+                           class="btn btn-warning"
+                           onclick="
+                               event.stopPropagation();
+                               editGedung('${g.KODE_GEDUNG}')
+                           ">
+               
+                           Edit
+               
+                       </button>
+               
+                       <button
+                           class="btn btn-danger"
+                           onclick="
+                               event.stopPropagation();
+                               hapusGedung('${g.KODE_GEDUNG}')
+                           ">
+               
+                           Hapus
+               
+                       </button>
+               
+                   </div>
+               
+               </div>
+               
+               <small>
+                   ${g.KODE_GEDUNG}
+               </small>
             </div>
 
             `;
