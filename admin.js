@@ -1089,6 +1089,133 @@ async function loadGedungAdmin(){
 
 }
 
+async function formTambahGedung(){
+
+    setPageTitle(
+        "Tambah Gedung"
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Tambah Gedung
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Gedung
+            </label>
+
+            <input
+                id="kodeGedung"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Nama Gedung
+            </label>
+
+            <input
+                id="namaGedung"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Deskripsi Singkat
+            </label>
+
+            <textarea
+                id="deskripsiGedung"
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanGedung()">
+
+            Simpan
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadGedungAdmin()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function simpanGedung(){
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "tambahGedung",
+
+                KODE_GEDUNG:
+                    document.getElementById(
+                        "kodeGedung"
+                    ).value,
+
+                NAMA_GEDUNG:
+                    document.getElementById(
+                        "namaGedung"
+                    ).value,
+
+                DESKRIPSI_SINGKAT:
+                    document.getElementById(
+                        "deskripsiGedung"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Gedung berhasil disimpan"
+            );
+
+            loadGedungAdmin();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
 async function lihatRuangan(
     kodeGedung
 ){
