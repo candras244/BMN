@@ -202,13 +202,15 @@ async function loadMasterAset(){
 
     try{
 
-        const data =
-            await getAPI(
-                "getMasterAset"
-            );
+       const data =
+          await getAPI(
+              "getMasterAset"
+          );
 
-        let rows = "";
+      Console.log(data);
 
+      let rows = "";
+  
         data.forEach(
             (item,index)=>{
                 rows += `
