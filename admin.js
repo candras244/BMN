@@ -1029,6 +1029,14 @@ async function loadGedungAdmin(){
                   
                       </button>
                   
+                      <button
+                          class="btn btn-danger"
+                          onclick="hapusGedung('${g.KODE_GEDUNG}')">
+                  
+                          Hapus
+                  
+                      </button>
+                  
                   </td>
 
             </tr>
@@ -1379,6 +1387,58 @@ async function updateGedungForm(){
 
             alert(
                 "Gedung berhasil diupdate"
+            );
+
+            loadGedungAdmin();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
+async function hapusGedung(
+    kodeGedung
+){
+
+    const konfirmasi =
+        confirm(
+            "Yakin hapus gedung ini?"
+        );
+
+    if(!konfirmasi){
+        return;
+    }
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "hapusGedung",
+
+                KODE_GEDUNG:
+                    kodeGedung
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Gedung berhasil dihapus"
             );
 
             loadGedungAdmin();
