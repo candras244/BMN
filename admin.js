@@ -857,115 +857,70 @@ async function simpanAset(){
                 kodeRuangan.selectedIndex
             ]?.text || "";
 
-        const url =
+        const result =
+    await postAPI({
 
-        API_URL +
+        action:
+            "tambahAset",
 
-        "?action=tambahAset" +
-
-        "&KODE_BARANG=" +
-        encodeURIComponent(
+        KODE_BARANG:
             document.getElementById(
                 "kodeBarang"
-            ).value
-        ) +
+            ).value,
 
-        "&NUP=" +
-        encodeURIComponent(
+        NUP:
             document.getElementById(
                 "nup"
-            ).value
-        ) +
+            ).value,
 
-        "&NAMA_BARANG=" +
-        encodeURIComponent(
+        NAMA_BARANG:
             document.getElementById(
                 "namaBarang"
-            ).value
-        ) +
+            ).value,
 
-        "&MERK_TIPE=" +
-        encodeURIComponent(
+        MERK_TIPE:
             document.getElementById(
                 "merkTipe"
-            ).value
-        ) +
+            ).value,
 
-        "&TAHUN_PEROLEHAN=" +
-        encodeURIComponent(
+        TAHUN_PEROLEHAN:
             document.getElementById(
                 "tahunPerolehan"
-            ).value
-        ) +
+            ).value,
 
-        "&NILAI_PEROLEHAN=" +
-        encodeURIComponent(
+        NILAI_PEROLEHAN:
             document.getElementById(
                 "nilaiPerolehan"
-            ).value
-        ) +
+            ).value,
 
-        "&KODE_GEDUNG=" +
-        encodeURIComponent(
-            kodeGedung.value
-        ) +
+        KODE_GEDUNG:
+            kodeGedung.value,
 
-        "&NAMA_GEDUNG=" +
-        encodeURIComponent(
-            namaGedung
-        ) +
+        NAMA_GEDUNG:
+            namaGedung,
 
-        "&KODE_RUANGAN=" +
-        encodeURIComponent(
-            kodeRuangan.value
-        ) +
+        KODE_RUANGAN:
+            kodeRuangan.value,
 
-        "&NAMA_RUANGAN=" +
-        encodeURIComponent(
-            namaRuangan
-        ) +
+        NAMA_RUANGAN:
+            namaRuangan,
 
-        "&KONDISI=" +
-        encodeURIComponent(
+        KONDISI:
             document.getElementById(
                 "kondisi"
-            ).value
-        ) +
+            ).value,
 
-        "&STATUS_ASET=" +
-        encodeURIComponent(
+        STATUS_ASET:
             document.getElementById(
                 "statusAset"
-            ).value
-        ) +
+            ).value,
 
-        "&KETERANGAN=" +
-        encodeURIComponent(
+        KETERANGAN:
             document.getElementById(
                 "keterangan"
             ).value
-        );
 
-        const response =
-            await fetch(url);
-
-        const result =
-            await response.json();
-
-        if(result.success){
-
-            alert(
-                "Aset berhasil disimpan"
-            );
-
-            loadMasterAset();
-
-        }else{
-
-            alert(
-                result.message ||
-                result.error
-            );
+    });
 
         }
 
