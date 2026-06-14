@@ -67,6 +67,23 @@ function formatRupiah(nilai){
 
 }
 
+function formatRupiahInput(input){
+
+    let angka =
+        input.value.replace(
+            /\D/g,
+            ""
+        );
+
+    input.value =
+        Number(
+            angka || 0
+        ).toLocaleString(
+            "id-ID"
+        );
+
+}
+
 /* =====================================
    LOADING
 ===================================== */
@@ -354,6 +371,33 @@ async function editAset(idAset){
             idAset
         );
 
+    const gedung =
+        await getAPI(
+            "getGedung"
+        );
+
+    let gedungOption = "";
+
+    gedung.forEach(g=>{
+
+        gedungOption += `
+
+        <option
+            value="${g.KODE_GEDUNG}"
+            ${
+                g.KODE_GEDUNG === data.KODE_GEDUNG
+                ? "selected"
+                : ""
+            }>
+
+            ${g.NAMA_GEDUNG}
+
+        </option>
+
+        `;
+
+    });
+
     setContent(`
 
     <div class="card">
@@ -367,25 +411,201 @@ async function editAset(idAset){
         <div class="form-group">
             <label>ID ASET</label>
             <input
+                id="idAset"
                 class="form-control"
                 value="${data.ID_ASET}"
                 readonly>
         </div>
 
         <div class="form-group">
+            <label>Kode Barang</label>
+            <input
+                id="kodeBarang"
+                class="form-control"
+                value="${data.KODE_BARANG || ""}">
+        </div>
+
+        <div class="form-group">
+            <label>NUP</label>
+            <input
+                id="nup"
+                class="form-control"
+                value="${data.NUP || ""}">
+        </div>
+
+        <div class="form-group">
             <label>Nama Barang</label>
             <input
+                id="namaBarang"
                 class="form-control"
                 value="${data.NAMA_BARANG || ""}">
         </div>
 
-         <br>
+        <div class="form-group">
+            <label>Jenis Barang</label>
+
+            <select
+                id="jenisBarang"
+                class="form-control">
+
+                <option
+                    value="ELEKTRONIK"
+                    ${
+                        data.JENIS_BARANG === "ELEKTRONIK"
+                        ? "selected"
+                        : ""
+                    }>
+
+                    ELEKTRONIK
+
+                </option>
+
+                <option
+                    value="MEUBILAIR"
+                    ${
+                        data.JENIS_BARANG === "MEUBILAIR"
+                        ? "selected"
+                        : ""
+                    }>
+
+                    MEUBILAIR
+
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Merk / Tipe</label>
+            <input
+                id="merkTipe"
+                class="form-control"
+                value="${data.MERK_TIPE || ""}">
+        </div>
+
+        <div class="form-group">
+            <label>Tahun Perolehan</label>
+            <input
+                id="tahunPerolehan"
+                class="form-control"
+                value="${data.TAHUN_PEROLEHAN || ""}">
+        </div>
+
+        <div class="form-group">
+             <label>Nilai Perolehan</label>
+             <input
+                 id="nilaiPerolehan"
+                 class="form-control"
+                 oninput="formatRupiahInput(this)">
+         </div>
+
+        <div class="form-group">
+            <label>Gedung</label>
+
+            <select
+                id="kodeGedung"
+                class="form-control"
+                onchange="loadDropdownRuangan()">
+
+                ${gedungOption}
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Ruangan</label>
+
+            <select
+                id="kodeRuangan"
+                class="form-control">
+
+                <option
+                    value="${data.KODE_RUANGAN || ""}">
+
+                    ${data.NAMA_RUANGAN || "Pilih Ruangan"}
+
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Kondisi</label>
+
+            <select
+                id="kondisi"
+                class="form-control">
+
+                <option
+                    ${data.KONDISI==="Baik"?"selected":""}>
+                    Baik
+                </option>
+
+                <option
+                    ${data.KONDISI==="Rusak Ringan"?"selected":""}>
+                    Rusak Ringan
+                </option>
+
+                <option
+                    ${data.KONDISI==="Rusak Berat"?"selected":""}>
+                    Rusak Berat
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Status Aset</label>
+
+            <select
+                id="statusAset"
+                class="form-control">
+
+                <option
+                    ${data.STATUS_ASET==="Draft"?"selected":""}>
+                    Draft
+                </option>
+
+                <option
+                    ${data.STATUS_ASET==="Terdaftar"?"selected":""}>
+                    Terdaftar
+                </option>
+
+                <option
+                    ${data.STATUS_ASET==="Dihapus"?"selected":""}>
+                    Dihapus
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Keterangan</label>
+
+            <textarea
+                id="keterangan"
+                class="form-control">${data.KETERANGAN || ""}</textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="updateAsetForm()">
+
+            Update
+
+        </button>
 
         <button
             class="btn"
             onclick="loadMasterAset()">
 
-            Kembali
+            Batal
 
         </button>
 
@@ -669,10 +889,26 @@ async function showFormTambahAset(){
 
          <div class="form-group">
              <label>Jenis Barang</label>
-             <input
+
+             <select
                  id="jenisBarang"
                  class="form-control">
-         </div>
+
+              <option value="">
+                  Pilih Jenis Barang
+              </option>
+
+              <option value="ELEKTRONIK">
+                  ELEKTRONIK
+              </option>
+
+               <option value="MEUBILAIR">
+                  MEUBILAIR
+              </option>
+
+    </select>
+
+</div>
 
         <div class="form-group">
             <label>Merk / Tipe</label>
@@ -690,12 +926,12 @@ async function showFormTambahAset(){
         </div>
 
         <div class="form-group">
-            <label>Nilai Perolehan</label>
-            <input
-                id="nilaiPerolehan"
-                type="number"
-                class="form-control">
-        </div>
+             <label>Nilai Perolehan</label>
+             <input
+                 id="nilaiPerolehan"
+                 class="form-control"
+                 oninput="formatRupiahInput(this)">
+         </div>
 
         <div class="form-group">
             <label>Gedung</label>
@@ -893,10 +1129,10 @@ async function simpanAset(){
                     ).value,
 
                 NILAI_PEROLEHAN:
-                    document.getElementById(
-                        "nilaiPerolehan"
-                    ).value,
-
+                   document.getElementById(
+                       "nilaiPerolehan"
+                   ).value.replace(/\./g,""),
+                   
                 KODE_GEDUNG:
                     kodeGedung.value,
 
