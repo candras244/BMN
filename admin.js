@@ -6,8 +6,6 @@
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxzBRWFCeSGayQi7SfBHbYHYudpwkMnPd_2DyDGJtEM5-nQoOQnW0884PSRiCburnPB/exec";
 
-    alert("VERSI 12 JUNI");
-
 }";
 
 /* =====================================
