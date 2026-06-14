@@ -1327,51 +1327,55 @@ async function loadGedungAdmin(){
                 "getGedung"
             );
 
-        let rows = "";
+        let gedungList = "";
 
-        gedung.forEach((g,index)=>{
+        gedung.forEach(g=>{
 
-            rows += `
+            gedungList += `
 
-            <tr>
+            <div
+                class="card"
+                style="
+                    margin-bottom:10px;
+                    cursor:pointer;
+                "
+                onclick="loadRuanganPanel('${g.KODE_GEDUNG}')">
 
-                <td>${index+1}</td>
+                <b>
+                    ${g.NAMA_GEDUNG}
+                </b>
 
-                <td>${g.KODE_GEDUNG || ""}</td>
+                <br>
 
-                <td>${g.NAMA_GEDUNG || ""}</td>
+                <small>
+                    ${g.KODE_GEDUNG}
+                </small>
 
-                <td>${g.DESKRIPSI_SINGKAT || ""}</td>
+                <br><br>
 
-                <td>
+                <button
+                    class="btn btn-warning"
+                    onclick="
+                        event.stopPropagation();
+                        editGedung('${g.KODE_GEDUNG}')
+                    ">
 
-                      <button
-                          class="btn btn-warning"
-                          onclick="editGedung('${g.KODE_GEDUNG}')">
-                  
-                          Edit
-                  
-                      </button>
-                  
-                      <button
-                          class="btn btn-primary"
-                          onclick="lihatRuangan('${g.KODE_GEDUNG}')">
-                  
-                          Ruangan
-                  
-                      </button>
-                  
-                      <button
-                          class="btn btn-danger"
-                          onclick="hapusGedung('${g.KODE_GEDUNG}')">
-                  
-                          Hapus
-                  
-                      </button>
-                  
-                  </td>
+                    Edit
 
-            </tr>
+                </button>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="
+                        event.stopPropagation();
+                        hapusGedung('${g.KODE_GEDUNG}')
+                    ">
+
+                    Hapus
+
+                </button>
+
+            </div>
 
             `;
 
@@ -1379,47 +1383,64 @@ async function loadGedungAdmin(){
 
         setContent(`
 
-        <div class="card">
-
-            <div style="
+        <div
+            style="
                 display:flex;
-                justify-content:space-between;
-                margin-bottom:20px;
+                gap:20px;
             ">
 
-                <h3>Data Gedung</h3>
+            <div
+                style="
+                    width:35%;
+                ">
 
-                <button
-                    class="btn btn-success"
-                    onclick="formTambahGedung()">
+                <div class="card">
 
-                    + Tambah Gedung
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            margin-bottom:15px;
+                        ">
 
-                </button>
+                        <h3>
+                            Gedung
+                        </h3>
+
+                        <button
+                            class="btn btn-success"
+                            onclick="formTambahGedung()">
+
+                            +
+
+                        </button>
+
+                    </div>
+
+                    ${gedungList}
+
+                </div>
 
             </div>
 
-            <table>
+            <div
+                style="
+                    width:65%;
+                ">
 
-                <thead>
+                <div
+                    id="ruanganArea">
 
-                    <tr>
-                        <th>No</th>
-                        <th>Kode</th>
-                        <th>Nama Gedung</th>
-                        <th>Deskripsi</th>
-                        <th>Aksi</th>
-                    </tr>
+                    <div class="card">
 
-                </thead>
+                        Pilih Gedung
+                        untuk melihat ruangan.
 
-                <tbody>
+                    </div>
 
-                    ${rows}
+                </div>
 
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 
@@ -1428,12 +1449,120 @@ async function loadGedungAdmin(){
     }catch(err){
 
         setContent(`
+
             <div class="card">
+
                 ${err}
+
             </div>
+
         `);
 
     }
+
+}
+
+async function loadRuanganPanel(
+    kodeGedung
+){
+
+    const data =
+        await getAPI(
+            "getRuanganByGedung"
+            +
+            "&kodeGedung="
+            +
+            kodeGedung
+        );
+
+    let rows = "";
+
+    data.forEach((r,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${r.KODE_RUANGAN || ""}</td>
+
+            <td>${r.NAMA_RUANGAN || ""}</td>
+
+            <td>${r.JENIS_RUANGAN || ""}</td>
+
+            <td>
+
+                <button
+                    class="btn btn-warning"
+                    onclick="editRuangan('${r.KODE_RUANGAN}')">
+
+                    Edit
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById(
+        "ruanganArea"
+    ).innerHTML = `
+
+    <div class="card">
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:15px;
+            ">
+
+            <h3>
+                Ruangan
+            </h3>
+
+            <button
+                class="btn btn-success"
+                onclick="formTambahRuangan('${kodeGedung}')">
+
+                + Tambah Ruangan
+
+            </button>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Kode</th>
+                    <th>Nama Ruangan</th>
+                    <th>Jenis</th>
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `;
 
 }
 
