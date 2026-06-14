@@ -4,7 +4,7 @@
 ===================================== */
 
 const API_URL =
-{https://script.google.com/macros/s/AKfycby9GedHFRyKYSJoNL3AiES5LRQLxru879o6Mht1aZXo2bmiRBvHrJDErStfH2IH0U07/exec
+{https://script.google.com/macros/s/AKfycbxzBRWFCeSGayQi7SfBHbYHYudpwkMnPd_2DyDGJtEM5-nQoOQnW0884PSRiCburnPB/exec
 
     alert("VERSI 12 JUNI");
 
@@ -96,7 +96,7 @@ function showLoading(){
    DASHBOARD
 ===================================== */
 
-nc function loadDashboard(){
+async function loadDashboard(){
 
     setPageTitle(
         "Dashboard"
@@ -196,7 +196,7 @@ nc function loadDashboard(){
    PLACEHOLDER MENU
 ===================================== */
 
-nc function loadMasterAset(){
+async function loadMasterAset(){
 
     setPageTitle(
         "Master Aset"
@@ -346,7 +346,7 @@ nc function loadMasterAset(){
 
 }
 
-nc function editAset(idAset){
+async function editAset(idAset){
 
     const data =
         await getAPI(
@@ -384,14 +384,6 @@ nc function editAset(idAset){
 
          <br>
 
-         <button
-             class="btn-danger"
-             onclick="hapusPermanenAset('${data.ID_ASET}')">
-         
-             Hapus Permanen
-         
-         </button>
-
         <button
             class="btn"
             onclick="loadMasterAset()">
@@ -401,31 +393,6 @@ nc function editAset(idAset){
         </button>
 
     </div>
-
-    `);
-
-}
-
-async function hapusPermanenAset(idAset){
-
-    alert("VERSI 12 JUNI");
-
-}
-
-function loadMutasi(){
-
-    setPageTitle(
-        "Mutasi"
-    );
-
-    setContent(`
-
-        <div class="card">
-
-            Module Mutasi
-            belum dibuat.
-
-        </div>
 
     `);
 
@@ -897,7 +864,7 @@ async function simpanAset(){
 
         API_URL +
 
-        "?action=addMasterAset" +
+        "?action=tambahAset" +
 
         "&KODE_BARANG=" +
         encodeURIComponent(
