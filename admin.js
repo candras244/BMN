@@ -1523,7 +1523,25 @@ async function lihatRuangan(
 
         <br><br>
 
-        <h3>Daftar Ruangan</h3>
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:20px;
+            ">
+            
+                <h3>
+                    Daftar Ruangan
+                </h3>
+            
+                <button
+                    class="btn btn-success"
+                    onclick="formTambahRuangan('${kodeGedung}')">
+            
+                    + Tambah Ruangan
+            
+                </button>
+            
+            </div>
 
         <table>
 
