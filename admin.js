@@ -858,69 +858,84 @@ async function simpanAset(){
             ]?.text || "";
 
         const result =
-    await postAPI({
+            await postAPI({
 
-        action:
-            "tambahAset",
+                action:
+                    "tambahAset",
 
-        KODE_BARANG:
-            document.getElementById(
-                "kodeBarang"
-            ).value,
+                KODE_BARANG:
+                    document.getElementById(
+                        "kodeBarang"
+                    ).value,
 
-        NUP:
-            document.getElementById(
-                "nup"
-            ).value,
+                NUP:
+                    document.getElementById(
+                        "nup"
+                    ).value,
 
-        NAMA_BARANG:
-            document.getElementById(
-                "namaBarang"
-            ).value,
+                NAMA_BARANG:
+                    document.getElementById(
+                        "namaBarang"
+                    ).value,
 
-        MERK_TIPE:
-            document.getElementById(
-                "merkTipe"
-            ).value,
+                MERK_TIPE:
+                    document.getElementById(
+                        "merkTipe"
+                    ).value,
 
-        TAHUN_PEROLEHAN:
-            document.getElementById(
-                "tahunPerolehan"
-            ).value,
+                TAHUN_PEROLEHAN:
+                    document.getElementById(
+                        "tahunPerolehan"
+                    ).value,
 
-        NILAI_PEROLEHAN:
-            document.getElementById(
-                "nilaiPerolehan"
-            ).value,
+                NILAI_PEROLEHAN:
+                    document.getElementById(
+                        "nilaiPerolehan"
+                    ).value,
 
-        KODE_GEDUNG:
-            kodeGedung.value,
+                KODE_GEDUNG:
+                    kodeGedung.value,
 
-        NAMA_GEDUNG:
-            namaGedung,
+                NAMA_GEDUNG:
+                    namaGedung,
 
-        KODE_RUANGAN:
-            kodeRuangan.value,
+                KODE_RUANGAN:
+                    kodeRuangan.value,
 
-        NAMA_RUANGAN:
-            namaRuangan,
+                NAMA_RUANGAN:
+                    namaRuangan,
 
-        KONDISI:
-            document.getElementById(
-                "kondisi"
-            ).value,
+                KONDISI:
+                    document.getElementById(
+                        "kondisi"
+                    ).value,
 
-        STATUS_ASET:
-            document.getElementById(
-                "statusAset"
-            ).value,
+                STATUS_ASET:
+                    document.getElementById(
+                        "statusAset"
+                    ).value,
 
-        KETERANGAN:
-            document.getElementById(
-                "keterangan"
-            ).value
+                KETERANGAN:
+                    document.getElementById(
+                        "keterangan"
+                    ).value
 
-    });
+            });
+
+        if(result.success){
+
+            alert(
+                "Aset berhasil disimpan"
+            );
+
+            loadMasterAset();
+
+        }else{
+
+            alert(
+                result.message ||
+                "Gagal menyimpan aset"
+            );
 
         }
 
