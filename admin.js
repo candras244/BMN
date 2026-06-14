@@ -1903,6 +1903,151 @@ async function lihatRuangan(
 
 }
 
+async function editRuangan(
+    kodeRuangan
+){
+
+    const data =
+        await getAPI(
+            "getRuanganByKode"
+            +
+            "&kodeRuangan="
+            +
+            kodeRuangan
+        );
+
+    setPageTitle(
+        "Edit Ruangan"
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Edit Ruangan
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Ruangan
+            </label>
+
+            <input
+                id="kodeRuangan"
+                class="form-control"
+                value="${data.KODE_RUANGAN}"
+                readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Nama Ruangan
+            </label>
+
+            <input
+                id="namaRuangan"
+                class="form-control"
+                value="${data.NAMA_RUANGAN || ""}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Jenis Ruangan
+            </label>
+
+            <input
+                id="jenisRuangan"
+                class="form-control"
+                value="${data.JENIS_RUANGAN || ""}">
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="updateRuanganForm()">
+
+            Update
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadGedungAdmin()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function updateRuanganForm(){
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "updateRuangan",
+
+                KODE_RUANGAN:
+                    document.getElementById(
+                        "kodeRuangan"
+                    ).value,
+
+                NAMA_RUANGAN:
+                    document.getElementById(
+                        "namaRuangan"
+                    ).value,
+
+                JENIS_RUANGAN:
+                    document.getElementById(
+                        "jenisRuangan"
+                    ).value,
+
+                STATUS_RUANGAN:
+                    "Aktif"
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Ruangan berhasil diperbarui"
+            );
+
+            loadGedungAdmin();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
 async function formTambahRuangan(
     kodeGedung
 ){
