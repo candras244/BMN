@@ -984,24 +984,107 @@ async function simpanAset(){
 
 async function loadGedungAdmin(){
 
-    setPageTitle(
-        "Gedung"
-    );
+    setPageTitle("Gedung");
 
-    setContent(`
+    showLoading();
 
-    <div class="card">
+    try{
 
-        <h3>
-            Modul Gedung
-        </h3>
+        const gedung =
+            await getAPI(
+                "getGedung"
+            );
 
-        <p>
-            Sedang dalam pengembangan
-        </p>
+        let rows = "";
 
-    </div>
+        gedung.forEach((g,index)=>{
 
-    `);
+            rows += `
+
+            <tr>
+
+                <td>${index+1}</td>
+
+                <td>${g.KODE_GEDUNG || ""}</td>
+
+                <td>${g.NAMA_GEDUNG || ""}</td>
+
+                <td>${g.DESKRIPSI_SINGKAT || ""}</td>
+
+                <td>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="lihatRuangan('${g.KODE_GEDUNG}')">
+
+                        Ruangan
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+        setContent(`
+
+        <div class="card">
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:20px;
+            ">
+
+                <h3>Data Gedung</h3>
+
+                <button
+                    class="btn btn-success"
+                    onclick="formTambahGedung()">
+
+                    + Tambah Gedung
+
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>No</th>
+                        <th>Kode</th>
+                        <th>Nama Gedung</th>
+                        <th>Deskripsi</th>
+                        <th>Aksi</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${rows}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        `);
+
+    }catch(err){
+
+        setContent(`
+            <div class="card">
+                ${err}
+            </div>
+        `);
+
+    }
 
 }
