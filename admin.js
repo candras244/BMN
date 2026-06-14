@@ -106,7 +106,7 @@ async function loadDashboard(){
 
         const data =
             await getAPI(
-                "getDashboard"
+                "getStatistik"
             );
 
         setContent(`
