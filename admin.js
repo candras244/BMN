@@ -207,6 +207,10 @@ async function loadMasterAset(){
               "getMasterAset"
           );
 
+       alert(JSON.stringify(data));
+
+         let rows = "";
+
       Console.log(data);
 
       let rows = "";
