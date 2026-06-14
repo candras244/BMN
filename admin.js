@@ -1013,15 +1013,23 @@ async function loadGedungAdmin(){
 
                 <td>
 
-                    <button
-                        class="btn btn-primary"
-                        onclick="lihatRuangan('${g.KODE_GEDUNG}')">
-
-                        Ruangan
-
-                    </button>
-
-                </td>
+                      <button
+                          class="btn btn-warning"
+                          onclick="editGedung('${g.KODE_GEDUNG}')">
+                  
+                          Edit
+                  
+                      </button>
+                  
+                      <button
+                          class="btn btn-primary"
+                          onclick="lihatRuangan('${g.KODE_GEDUNG}')">
+                  
+                          Ruangan
+                  
+                      </button>
+                  
+                  </td>
 
             </tr>
 
@@ -1129,6 +1137,19 @@ async function formTambahGedung(){
 
         </div>
 
+         <div class="form-group">
+            
+               <label>
+                   File ID Foto Gedung
+               </label>
+            
+               <input
+                  id="fotoGedung"
+                  class="form-control"
+                  placeholder="1PEuYTUMRLlYBpjT0TIsxIS-uQFrK6XXX">
+            
+         </div>
+
         <div class="form-group">
 
             <label>
@@ -1170,8 +1191,167 @@ async function simpanGedung(){
         const result =
             await postAPI({
 
+               action:
+                  "tambahGedung",
+                  
+                  KODE_GEDUNG:
+                      document.getElementById(
+                          "kodeGedung"
+                      ).value,
+                  
+                  NAMA_GEDUNG:
+                      document.getElementById(
+                          "namaGedung"
+                      ).value,
+                  
+                  FOTO_GEDUNG:
+                      document.getElementById(
+                          "fotoGedung"
+                      ).value,
+                  
+                  DESKRIPSI_SINGKAT:
+                      document.getElementById(
+                          "deskripsiGedung"
+                      ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Gedung berhasil disimpan"
+            );
+
+            loadGedungAdmin();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
+async function editGedung(
+    kodeGedung
+){
+
+    const data =
+        await getAPI(
+            "getGedungByKode"
+            +
+            "&kodeGedung="
+            +
+            kodeGedung
+        );
+
+    setPageTitle(
+        "Edit Gedung"
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Edit Gedung
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Gedung
+            </label>
+
+            <input
+                id="kodeGedung"
+                class="form-control"
+                value="${data.KODE_GEDUNG || ""}"
+                readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Nama Gedung
+            </label>
+
+            <input
+                id="namaGedung"
+                class="form-control"
+                value="${data.NAMA_GEDUNG || ""}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                File ID Foto Gedung
+            </label>
+
+            <input
+                id="fotoGedung"
+                class="form-control"
+                value="${data.FOTO_GEDUNG || ""}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Deskripsi Singkat
+            </label>
+
+            <textarea
+                id="deskripsiGedung"
+                class="form-control">${data.DESKRIPSI_SINGKAT || ""}</textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="updateGedungForm()">
+
+            Update
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadGedungAdmin()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function updateGedungForm(){
+
+    try{
+
+        const result =
+            await postAPI({
+
                 action:
-                    "tambahGedung",
+                    "updateGedung",
 
                 KODE_GEDUNG:
                     document.getElementById(
@@ -1181,6 +1361,11 @@ async function simpanGedung(){
                 NAMA_GEDUNG:
                     document.getElementById(
                         "namaGedung"
+                    ).value,
+
+                FOTO_GEDUNG:
+                    document.getElementById(
+                        "fotoGedung"
                     ).value,
 
                 DESKRIPSI_SINGKAT:
@@ -1193,7 +1378,7 @@ async function simpanGedung(){
         if(result.success){
 
             alert(
-                "Gedung berhasil disimpan"
+                "Gedung berhasil diupdate"
             );
 
             loadGedungAdmin();
@@ -1244,6 +1429,18 @@ async function lihatRuangan(
             <td>${r.NAMA_RUANGAN || ""}</td>
 
             <td>${r.JENIS_RUANGAN || ""}</td>
+            <td>
+            
+                <button
+                    class="btn btn-warning"
+                    onclick="editRuangan('${r.KODE_RUANGAN}')">
+            
+                    Edit
+            
+                </button>
+            
+            </td>
+
 
         </tr>
 
@@ -1293,5 +1490,117 @@ async function lihatRuangan(
     </div>
 
     `);
+
+}
+
+async function formTambahRuangan(
+    kodeGedung
+){
+
+    setPageTitle(
+        "Tambah Ruangan"
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Tambah Ruangan
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Ruangan
+            </label>
+
+            <input
+                id="kodeRuangan"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Nama Ruangan
+            </label>
+
+            <input
+                id="namaRuangan"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Jenis Ruangan
+            </label>
+
+            <input
+                id="jenisRuangan"
+                class="form-control">
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanRuangan('${kodeGedung}')">
+
+            Simpan
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function simpanRuangan(
+    kodeGedung
+){
+
+    const result =
+        await postAPI({
+
+            action:
+                "tambahRuangan",
+
+            KODE_RUANGAN:
+                document.getElementById(
+                    "kodeRuangan"
+                ).value,
+
+            KODE_GEDUNG:
+                kodeGedung,
+
+            NAMA_RUANGAN:
+                document.getElementById(
+                    "namaRuangan"
+                ).value,
+
+            JENIS_RUANGAN:
+                document.getElementById(
+                    "jenisRuangan"
+                ).value
+
+        });
+
+    if(result.success){
+
+        alert(
+            "Ruangan berhasil disimpan"
+        );
+
+        lihatRuangan(
+            kodeGedung
+        );
+
+    }
 
 }
