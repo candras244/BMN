@@ -211,9 +211,7 @@ async function loadMasterAset(){
 
          let rows = "";
 
-      Console.log(data);
-
-      let rows = "";
+        console.log(data);
   
         data.forEach(
             (item,index)=>{
