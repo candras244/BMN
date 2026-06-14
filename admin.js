@@ -44,14 +44,15 @@ async function postAPI(data){
             API_URL,
             {
                 method:"POST",
-                mode:"no-cors",
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
                 body:JSON.stringify(data)
             }
         );
 
-    return {
-        success:true
-    };
+    return await response.json();
 
 }
 
