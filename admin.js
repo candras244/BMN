@@ -1088,3 +1088,83 @@ async function loadGedungAdmin(){
     }
 
 }
+
+async function lihatRuangan(
+    kodeGedung
+){
+
+    const data =
+        await getAPI(
+            "getRuanganByGedung"
+            +
+            "&kodeGedung="
+            +
+            kodeGedung
+        );
+
+    let rows = "";
+
+    data.forEach((r,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${r.KODE_RUANGAN || ""}</td>
+
+            <td>${r.NAMA_RUANGAN || ""}</td>
+
+            <td>${r.JENIS_RUANGAN || ""}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <button
+            class="btn"
+            onclick="loadGedungAdmin()">
+
+            Kembali
+
+        </button>
+
+        <br><br>
+
+        <h3>Daftar Ruangan</h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Kode</th>
+                    <th>Nama Ruangan</th>
+                    <th>Jenis</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `);
+
+}
