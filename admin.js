@@ -932,6 +932,94 @@ async function formTambahMutasi(){
 
 }
 
+async function cariAsetMutasi(){
+
+    try{
+
+        const kodeBarang =
+            document.getElementById(
+                "kodeBarang"
+            ).value;
+
+        const nup =
+            document.getElementById(
+                "nup"
+            ).value;
+
+        const data =
+            await getAPI(
+
+                "cariAsetMutasi"
+                +
+                "&kodeBarang="
+                +
+                encodeURIComponent(
+                    kodeBarang
+                )
+                +
+                "&nup="
+                +
+                encodeURIComponent(
+                    nup
+                )
+
+            );
+
+        if(!data){
+
+            document.getElementById(
+                "hasilAsetMutasi"
+            ).innerHTML =
+
+            `
+            <div class="card">
+                Aset tidak ditemukan
+            </div>
+            `;
+
+            return;
+
+        }
+
+        document.getElementById(
+            "hasilAsetMutasi"
+        ).innerHTML = `
+
+        <div class="card">
+
+            <b>
+                ${data.NAMA_BARANG || ""}
+            </b>
+
+            <br><br>
+
+            ID ASET :
+            ${data.ID_ASET || ""}
+
+            <br>
+
+            Gedung Asal :
+            ${data.NAMA_GEDUNG || ""}
+
+            <br>
+
+            Ruangan Asal :
+            ${data.NAMA_RUANGAN || ""}
+
+        </div>
+
+        `;
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
 function loadKondisi(){
 
     setPageTitle(
