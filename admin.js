@@ -740,6 +740,198 @@ async function updateAsetForm(){
 
 }
 
+async function loadMutasi(){
+
+    setPageTitle(
+        "Mutasi"
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:20px;
+            ">
+
+            <h3>
+                Data Mutasi
+            </h3>
+
+            <button
+                class="btn btn-success"
+                onclick="formTambahMutasi()">
+
+                + Tambah Mutasi
+
+            </button>
+
+        </div>
+
+        <div id="mutasiList">
+
+            Riwayat Mutasi
+            akan ditampilkan di sini.
+
+        </div>
+
+    </div>
+
+    `);
+
+}
+
+async function formTambahMutasi(){
+
+    const gedung =
+        await getAPI(
+            "getGedung"
+        );
+
+    let gedungOption =
+        `<option value="">
+            Pilih Gedung Tujuan
+        </option>`;
+
+    gedung.forEach(g=>{
+
+        gedungOption += `
+
+        <option
+            value="${g.KODE_GEDUNG}">
+
+            ${g.NAMA_GEDUNG}
+
+        </option>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Tambah Mutasi
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Barang
+            </label>
+
+            <input
+                id="kodeBarang"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                NUP
+            </label>
+
+            <input
+                id="nup"
+                class="form-control">
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="cariAsetMutasi()">
+
+            Cari Aset
+
+        </button>
+
+        <hr>
+
+        <div id="hasilAsetMutasi">
+
+            Silakan cari aset terlebih dahulu.
+
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+
+            <label>
+                Gedung Tujuan
+            </label>
+
+            <select
+                id="gedungTujuan"
+                class="form-control"
+                onchange="loadRuanganMutasi()">
+
+                ${gedungOption}
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Ruangan Tujuan
+            </label>
+
+            <select
+                id="ruanganTujuan"
+                class="form-control">
+
+                <option value="">
+                    Pilih Ruangan
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Keterangan
+            </label>
+
+            <textarea
+                id="keterangan"
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanMutasi()">
+
+            Simpan Mutasi
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadMutasi()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
 function loadKondisi(){
 
     setPageTitle(
