@@ -754,6 +754,7 @@ async function loadMutasi(){
             style="
                 display:flex;
                 justify-content:space-between;
+                align-items:center;
                 margin-bottom:20px;
             ">
 
@@ -771,10 +772,9 @@ async function loadMutasi(){
 
         </div>
 
-        <div id="mutasiList">
+        <div id="listMutasi">
 
-            Riwayat Mutasi
-            akan ditampilkan di sini.
+            Loading...
 
         </div>
 
@@ -793,7 +793,7 @@ async function formTambahMutasi(){
 
     let gedungOption =
         `<option value="">
-            Pilih Gedung Tujuan
+            Pilih Gedung
         </option>`;
 
     gedung.forEach(g=>{
@@ -821,43 +821,36 @@ async function formTambahMutasi(){
 
         <br>
 
-        <div class="form-group">
-
-            <label>
-                Kode Barang
-            </label>
+        <div
+            style="
+                display:flex;
+                gap:10px;
+                margin-bottom:20px;
+            ">
 
             <input
-                id="kodeBarang"
-                class="form-control">
+                id="filterKodeBarang"
+                class="form-control"
+                placeholder="Kode Barang">
+
+            <input
+                id="filterNamaBarang"
+                class="form-control"
+                placeholder="Nama Barang">
+
+            <button
+                class="btn btn-primary"
+                onclick="cariAsetMutasi()">
+
+                Cari
+
+            </button>
 
         </div>
 
-        <div class="form-group">
+        <div id="hasilMutasi">
 
-            <label>
-                NUP
-            </label>
-
-            <input
-                id="nup"
-                class="form-control">
-
-        </div>
-
-        <button
-            class="btn btn-primary"
-            onclick="cariAsetMutasi()">
-
-            Cari Aset
-
-        </button>
-
-        <hr>
-
-        <div id="hasilAsetMutasi">
-
-            Silakan cari aset terlebih dahulu.
+            Silakan cari aset.
 
         </div>
 
@@ -901,6 +894,18 @@ async function formTambahMutasi(){
         <div class="form-group">
 
             <label>
+                Dokumen
+            </label>
+
+            <input
+                id="dokumen"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
                 Keterangan
             </label>
 
@@ -932,140 +937,7 @@ async function formTambahMutasi(){
 
 }
 
-async function cariAsetMutasi(){
 
-    try{
-
-        const kodeBarang =
-            document.getElementById(
-                "kodeBarang"
-            ).value;
-
-        const nup =
-            document.getElementById(
-                "nup"
-            ).value;
-
-        const data =
-            await getAPI(
-
-                "cariAsetMutasi"
-                +
-                "&kodeBarang="
-                +
-                encodeURIComponent(
-                    kodeBarang
-                )
-                +
-                "&nup="
-                +
-                encodeURIComponent(
-                    nup
-                )
-
-            );
-
-        if(!data){
-
-            document.getElementById(
-                "hasilAsetMutasi"
-            ).innerHTML =
-
-            `
-            <div class="card">
-                Aset tidak ditemukan
-            </div>
-            `;
-
-            return;
-
-        }
-
-        document.getElementById(
-            "hasilAsetMutasi"
-        ).innerHTML = `
-
-        <div class="card">
-
-            <b>
-                ${data.NAMA_BARANG || ""}
-            </b>
-
-            <br><br>
-
-            ID ASET :
-            ${data.ID_ASET || ""}
-
-            <br>
-
-            Gedung Asal :
-            ${data.NAMA_GEDUNG || ""}
-
-            <br>
-
-            Ruangan Asal :
-            ${data.NAMA_RUANGAN || ""}
-
-        </div>
-
-        `;
-
-    }catch(err){
-
-        alert(
-            "ERROR : " + err
-        );
-
-    }
-
-}
-
-async function loadRuanganMutasi(){
-
-    const kodeGedung =
-        document.getElementById(
-            "gedungTujuan"
-        ).value;
-
-    const data =
-        await getAPI(
-            "getRuanganByGedung"
-            +
-            "&kodeGedung="
-            +
-            kodeGedung
-        );
-
-    const select =
-        document.getElementById(
-            "ruanganTujuan"
-        );
-
-    let html =
-
-        `<option value="">
-            Pilih Ruangan
-        </option>`;
-
-    data.forEach(r=>{
-
-        html += `
-
-        <option
-            value="${r.NAMA_RUANGAN}">
-
-            ${r.NAMA_RUANGAN}
-
-        </option>
-
-        `;
-
-    });
-
-    select.innerHTML =
-        html;
-
-}
 
 function loadKondisi(){
 
