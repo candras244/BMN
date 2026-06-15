@@ -944,7 +944,139 @@ async function formTambahMutasi(){
 
 }
 
+async function cariAsetMutasi(){
 
+    try{
+
+        const aset =
+            await getAPI(
+                "getMasterAset"
+            );
+
+        const kodeBarang =
+            document.getElementById(
+                "filterKodeBarang"
+            ).value
+            .toLowerCase();
+
+        const namaBarang =
+            document.getElementById(
+                "filterNamaBarang"
+            ).value
+            .toLowerCase();
+
+        const hasil =
+            aset.filter(a=>{
+
+                const cocokKode =
+
+                    !kodeBarang ||
+
+                    String(
+                        a.KODE_BARANG || ""
+                    )
+                    .toLowerCase()
+                    .includes(
+                        kodeBarang
+                    );
+
+                const cocokNama =
+
+                    !namaBarang ||
+
+                    String(
+                        a.NAMA_BARANG || ""
+                    )
+                    .toLowerCase()
+                    .includes(
+                        namaBarang
+                    );
+
+                return (
+                    cocokKode &&
+                    cocokNama
+                );
+
+            });
+
+        let rows = "";
+
+        hasil.forEach(a=>{
+
+            rows += `
+
+            <tr>
+
+                <td>
+
+                    <input
+                        type="checkbox"
+                        class="asetMutasi"
+                        value="${a.ID_ASET}">
+
+                </td>
+
+                <td>
+                    ${a.NUP || ""}
+                </td>
+
+                <td>
+                    ${a.NAMA_BARANG || ""}
+                </td>
+
+                <td>
+                    ${a.NAMA_GEDUNG || ""}
+                </td>
+
+                <td>
+                    ${a.NAMA_RUANGAN || ""}
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "hasilMutasi"
+        ).innerHTML = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Pilih</th>
+                    <th>NUP</th>
+                    <th>Nama Barang</th>
+                    <th>Gedung</th>
+                    <th>Ruangan</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+        `;
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
 
 function loadKondisi(){
 
