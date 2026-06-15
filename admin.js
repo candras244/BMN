@@ -1399,7 +1399,7 @@ async function loadGedungAdmin(){
 
             <div
                 style="
-                    width:35%;
+                    width:50%;
                 ">
 
                 <div class="card">
@@ -1433,7 +1433,7 @@ async function loadGedungAdmin(){
 
             <div
                 style="
-                    width:65%;
+                    width:50%;
                 ">
 
                 <div
