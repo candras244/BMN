@@ -1502,12 +1502,20 @@ async function loadRuanganPanel(
             <td>
 
                 <button
-                    class="btn btn-warning"
-                    onclick="editRuangan('${r.KODE_RUANGAN}')">
-
-                    Edit
-
-                </button>
+                      class="btn btn-warning"
+                      onclick="editRuangan('${r.KODE_RUANGAN}')">
+                  
+                      Edit
+                  
+                  </button>
+                  
+                  <button
+                      class="btn btn-danger"
+                      onclick="hapusRuangan('${r.KODE_RUANGAN}')">
+                  
+                      Hapus
+                  
+                  </button>
 
             </td>
 
@@ -2163,6 +2171,58 @@ async function updateRuanganForm(){
 
             alert(
                 "Ruangan berhasil diperbarui"
+            );
+
+            loadGedungAdmin();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
+async function hapusRuangan(
+    kodeRuangan
+){
+
+    const konfirmasi =
+        confirm(
+            "Yakin hapus ruangan ini?"
+        );
+
+    if(!konfirmasi){
+        return;
+    }
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "hapusRuangan",
+
+                KODE_RUANGAN:
+                    kodeRuangan
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Ruangan berhasil dihapus"
             );
 
             loadGedungAdmin();
