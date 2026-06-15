@@ -859,9 +859,11 @@ async function formTambahMutasi(){
 
         <div id="hasilMutasi">
 
-            Silakan cari aset.
-
-        </div>
+             <table>
+                 ...
+             </table>
+         
+         </div>
 
         <hr>
 
@@ -907,6 +909,7 @@ async function formTambahMutasi(){
             </label>
 
             <input
+                type="file"
                 id="dokumen"
                 class="form-control">
 
@@ -1123,6 +1126,110 @@ async function loadRuanganMutasi(){
 
     select.innerHTML =
         html;
+
+}
+
+async function simpanMutasi(){
+
+    try{
+
+        const checked =
+            document.querySelectorAll(
+                ".asetMutasi:checked"
+            );
+
+        if(
+            checked.length === 0
+        ){
+
+            alert(
+                "Pilih minimal 1 aset"
+            );
+
+            return;
+
+        }
+
+        const gedung =
+            document.getElementById(
+                "gedungTujuan"
+            );
+
+        const ruangan =
+            document.getElementById(
+                "ruanganTujuan"
+            );
+
+        const asetIds = [];
+
+        checked.forEach(c=>{
+
+            asetIds.push(
+                c.value
+            );
+
+        });
+
+        const result =
+            await postAPI({
+
+                action:
+                    "tambahMutasi",
+
+                ASET_IDS:
+                    asetIds,
+
+                KODE_GEDUNG_BARU:
+                    gedung.value,
+
+                NAMA_GEDUNG_BARU:
+                    gedung.options[
+                        gedung.selectedIndex
+                    ].text,
+
+                KODE_RUANGAN_BARU:
+                    ruangan.value,
+
+                NAMA_RUANGAN_BARU:
+                    ruangan.options[
+                        ruangan.selectedIndex
+                    ].text,
+
+                DOKUMEN:
+                    document.getElementById(
+                        "dokumen"
+                    ).value,
+
+                KETERANGAN:
+                    document.getElementById(
+                        "keterangan"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Mutasi berhasil disimpan"
+            );
+
+            loadMutasi();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
 
 }
 
