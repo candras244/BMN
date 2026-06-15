@@ -786,6 +786,8 @@ async function loadMutasi(){
 
 async function formTambahMutasi(){
 
+   alert("FORM MUTASI BARU");
+
     const gedung =
         await getAPI(
             "getGedung"
