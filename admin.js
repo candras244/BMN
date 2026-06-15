@@ -821,32 +821,39 @@ async function formTambahMutasi(){
 
         <br>
 
-        <div
-            style="
-                display:flex;
-                gap:10px;
-                margin-bottom:20px;
-            ">
+        <div class="form-group">
 
-            <input
-                id="filterKodeBarang"
-                class="form-control"
-                placeholder="Kode Barang">
-
-            <input
-                id="filterNamaBarang"
-                class="form-control"
-                placeholder="Nama Barang">
-
-            <button
-                class="btn btn-primary"
-                onclick="cariAsetMutasi()">
-
-                Cari
-
-            </button>
-
-        </div>
+             <label>
+                 Kode Barang
+             </label>
+         
+             <input
+                 id="filterKodeBarang"
+                 class="form-control">
+         
+         </div>
+         
+         <div class="form-group">
+         
+             <label>
+                 Nama Barang
+             </label>
+         
+             <input
+                 id="filterNamaBarang"
+                 class="form-control">
+         
+         </div>
+         
+         <button
+             class="btn btn-primary"
+             onclick="cariAsetMutasi()">
+         
+             Cari
+         
+         </button>
+         
+         <br><br>
 
         <div id="hasilMutasi">
 
