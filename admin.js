@@ -1020,6 +1020,53 @@ async function cariAsetMutasi(){
 
 }
 
+async function loadRuanganMutasi(){
+
+    const kodeGedung =
+        document.getElementById(
+            "gedungTujuan"
+        ).value;
+
+    const data =
+        await getAPI(
+            "getRuanganByGedung"
+            +
+            "&kodeGedung="
+            +
+            kodeGedung
+        );
+
+    const select =
+        document.getElementById(
+            "ruanganTujuan"
+        );
+
+    let html =
+
+        `<option value="">
+            Pilih Ruangan
+        </option>`;
+
+    data.forEach(r=>{
+
+        html += `
+
+        <option
+            value="${r.NAMA_RUANGAN}">
+
+            ${r.NAMA_RUANGAN}
+
+        </option>
+
+        `;
+
+    });
+
+    select.innerHTML =
+        html;
+
+}
+
 function loadKondisi(){
 
     setPageTitle(
