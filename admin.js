@@ -1710,7 +1710,7 @@ async function simpanKondisi(){
 
 }
 
-function loadBAST(){
+async function loadBAST(){
 
     setPageTitle(
         "BAST"
@@ -1718,16 +1718,176 @@ function loadBAST(){
 
     setContent(`
 
-        <div class="card">
+    <div class="card">
 
-            Module BAST
-            belum dibuat.
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:20px;
+            ">
+
+            <h3>
+                Riwayat BAST
+            </h3>
+
+            <button
+                class="btn btn-success"
+                onclick="formTambahBAST()">
+
+                + Tambah BAST
+
+            </button>
 
         </div>
+
+        <div id="listBAST">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+    `);
+
+    await loadRiwayatBAST();
+
+}
+
+async function formTambahBAST(){
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Tambah BAST
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Barang
+            </label>
+
+            <input
+                id="filterKodeBarang"
+                class="form-control">
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="cariAsetBAST()">
+
+            Cari
+
+        </button>
+
+        <br><br>
+
+        <div id="hasilBAST">
+
+            Silakan cari aset.
+
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+
+            <label>
+                Nomor BAST
+            </label>
+
+            <input
+                id="nomorBAST"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Jenis BAST
+            </label>
+
+            <select
+                id="jenisBAST"
+                class="form-control">
+
+                <option>
+                    Serah Terima
+                </option>
+
+                <option>
+                    Hibah
+                </option>
+
+                <option>
+                    Penghapusan
+                </option>
+
+                <option>
+                    Pemindahtanganan
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Dokumen BAST
+            </label>
+
+            <input
+                type="file"
+                id="dokumenBAST"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Keterangan
+            </label>
+
+            <textarea
+                id="keterangan"
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanBAST()">
+
+            Simpan BAST
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadBAST()">
+
+            Batal
+
+        </button>
+
+    </div>
 
     `);
 
 }
+
+
 
 function loadPerawatan(){
 
