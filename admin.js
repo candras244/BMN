@@ -1339,6 +1339,77 @@ async function loadKondisi(){
 
 }
 
+async function loadRiwayatKondisi(){
+
+    const data =
+        await getAPI(
+            "getKondisiAset"
+        );
+
+    let rows = "";
+
+    data.reverse().forEach((k,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${k.TANGGAL || ""}</td>
+
+            <td>${k.ID_ASET || ""}</td>
+
+            <td>${k.KONDISI_LAMA || ""}</td>
+
+            <td>${k.KONDISI_BARU || ""}</td>
+
+            <td>${k.KETERANGAN || ""}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById(
+        "listKondisi"
+    ).innerHTML = `
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>No</th>
+
+                <th>Tanggal</th>
+
+                <th>ID Aset</th>
+
+                <th>Kondisi Lama</th>
+
+                <th>Kondisi Baru</th>
+
+                <th>Keterangan</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            ${rows}
+
+        </tbody>
+
+    </table>
+
+    `;
+
+}
+
 async function formTambahKondisi(){
 
     setContent(`
