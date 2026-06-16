@@ -169,16 +169,42 @@ async function loadDashboard(){
 
         <div class="card">
 
-            <h3>
-                Dashboard SIM-DBR
-            </h3>
-
-            <br>
-
-            Backend API
-            berhasil terhubung.
-
-        </div>
+             <h3>
+                 Infrastruktur
+             </h3>
+         
+             <br>
+         
+             <table>
+         
+                 <tr>
+                     <td>Ruang Kelas</td>
+                     <td>${data.jumlahKelas || 0}</td>
+                 </tr>
+         
+                 <tr>
+                     <td>Laboratorium</td>
+                     <td>${data.jumlahLab || 0}</td>
+                 </tr>
+         
+                 <tr>
+                     <td>Ruang Kantor</td>
+                     <td>${data.jumlahKantor || 0}</td>
+                 </tr>
+         
+                 <tr>
+                     <td>Ruang Rapat</td>
+                     <td>${data.jumlahRapat || 0}</td>
+                 </tr>
+         
+                 <tr>
+                     <td>Ruangan Tidak Aktif</td>
+                     <td>${data.jumlahRuanganTidakAktif || 0}</td>
+                 </tr>
+         
+             </table>
+         
+         </div>
 
         `);
 
