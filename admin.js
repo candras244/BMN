@@ -123,6 +123,28 @@ async function loadDashboard(){
 
         console.log(data);
 
+         let rowsInfrastruktur = "";
+         
+         (data.infrastrukturGedung || [])
+         .forEach(g=>{
+         
+             rowsInfrastruktur += `
+         
+             <tr>
+         
+                 <td>${g.namaGedung}</td>
+                 <td>${g.kelas}</td>
+                 <td>${g.lab}</td>
+                 <td>${g.kantor}</td>
+                 <td>${g.rapat}</td>
+                 <td>${g.total}</td>
+         
+             </tr>
+         
+             `;
+         
+         });
+       
         setContent(`
 
         <div class="summary-grid">
@@ -205,6 +227,37 @@ async function loadDashboard(){
                  </tr>
          
              </table>
+
+               <br>
+               
+               <h4>
+                   Detail Per Gedung
+               </h4>
+               
+               <table>
+               
+                   <thead>
+               
+                       <tr>
+               
+                           <th>Gedung</th>
+                           <th>Kelas</th>
+                           <th>Lab</th>
+                           <th>Kantor</th>
+                           <th>Rapat</th>
+                           <th>Total</th>
+               
+                       </tr>
+               
+                   </thead>
+               
+                   <tbody>
+               
+                       ${rowsInfrastruktur}
+               
+                   </tbody>
+               
+               </table>
          
          </div>
 
