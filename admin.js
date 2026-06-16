@@ -2169,7 +2169,7 @@ async function simpanBAST(){
 
 }
 
-function loadPerawatan(){
+async function loadPerawatan(){
 
     setPageTitle(
         "Perawatan Gedung"
@@ -2177,12 +2177,163 @@ function loadPerawatan(){
 
     setContent(`
 
-        <div class="card">
+    <div class="card">
 
-            Module Perawatan
-            belum dibuat.
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:20px;
+            ">
+
+            <h3>
+                Riwayat Perawatan
+            </h3>
+
+            <button
+                class="btn btn-success"
+                onclick="formTambahPerawatan()">
+
+                + Tambah Perawatan
+
+            </button>
 
         </div>
+
+        <div id="listPerawatan">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+    `);
+
+    await loadRiwayatPerawatan();
+
+}
+
+async function formTambahPerawatan(){
+
+    const gedung =
+        await getAPI(
+            "getGedung"
+        );
+
+    let gedungOption =
+        `<option value="">
+            Pilih Gedung
+        </option>`;
+
+    gedung.forEach(g=>{
+
+        gedungOption += `
+
+        <option
+            value="${g.KODE_GEDUNG}">
+
+            ${g.NAMA_GEDUNG}
+
+        </option>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Tambah Perawatan
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Gedung
+            </label>
+
+            <select
+                id="kodeGedung"
+                class="form-control">
+
+                ${gedungOption}
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Jenis Perawatan
+            </label>
+
+            <input
+                id="jenisPerawatan"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Biaya
+            </label>
+
+            <input
+                id="biaya"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Dokumen
+            </label>
+
+            <input
+                type="file"
+                id="dokumen"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Keterangan
+            </label>
+
+            <textarea
+                id="keterangan"
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanPerawatan()">
+
+            Simpan Perawatan
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadPerawatan()">
+
+            Batal
+
+        </button>
+
+    </div>
 
     `);
 
