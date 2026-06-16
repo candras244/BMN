@@ -961,7 +961,8 @@ async function cariAsetMutasi(){
             await getAPI(
                 "getMasterAset"
             );
-
+         console.log(aset[0]);
+       
             const hasil =
                 aset.filter(a=>{
             
