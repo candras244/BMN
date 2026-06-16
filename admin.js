@@ -108,6 +108,10 @@ function showLoading(){
 
 async function loadDashboard(){
 
+    alert(
+      "DASHBOARD BARU"
+    );
+
     setPageTitle(
         "Dashboard"
     );
