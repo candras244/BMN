@@ -1756,6 +1756,77 @@ async function loadBAST(){
 
 }
 
+async function loadRiwayatBAST(){
+
+    const data =
+        await getAPI(
+            "getBAST"
+        );
+
+    let rows = "";
+
+    data.reverse().forEach((b,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${b.NOMOR_BAST || ""}</td>
+
+            <td>${b.TANGGAL_BAST || ""}</td>
+
+            <td>${b.JENIS_BAST || ""}</td>
+
+            <td>${b.ID_ASET || ""}</td>
+
+            <td>${b.KETERANGAN || ""}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById(
+        "listBAST"
+    ).innerHTML = `
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>No</th>
+
+                <th>Nomor BAST</th>
+
+                <th>Tanggal</th>
+
+                <th>Jenis</th>
+
+                <th>ID Aset</th>
+
+                <th>Keterangan</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            ${rows}
+
+        </tbody>
+
+    </table>
+
+    `;
+
+}
+
 async function formTambahBAST(){
 
     setContent(`
@@ -1887,7 +1958,216 @@ async function formTambahBAST(){
 
 }
 
+async function cariAsetBAST(){
 
+    try{
+
+        const kodeBarang =
+            document.getElementById(
+                "filterKodeBarang"
+            ).value
+            .toLowerCase();
+
+        const aset =
+            await getAPI(
+                "getMasterAset"
+            );
+
+        const hasil =
+            aset.filter(a=>{
+
+                const cocokKode =
+
+                    !kodeBarang ||
+
+                    String(
+                        a.KODE_BARANG || ""
+                    )
+                    .toLowerCase()
+                    .includes(
+                        kodeBarang
+                    );
+
+                return cocokKode;
+
+            });
+
+        let rows = "";
+
+        hasil.forEach(a=>{
+
+            rows += `
+
+            <tr>
+
+                <td>
+
+                    <input
+                        type="checkbox"
+                        class="asetBAST"
+                        value="${a.ID_ASET}">
+
+                </td>
+
+                <td>${a.NUP || ""}</td>
+
+                <td>${a.NAMA_BARANG || ""}</td>
+
+                <td>${a.NAMA_GEDUNG || ""}</td>
+
+                <td>${a.NAMA_RUANGAN || ""}</td>
+
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "hasilBAST"
+        ).innerHTML = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+
+                        <input
+                            type="checkbox"
+                            onclick="
+                            document
+                            .querySelectorAll(
+                            '.asetBAST'
+                            )
+                            .forEach(
+                            c=>c.checked=
+                            this.checked
+                            )">
+
+                    </th>
+
+                    <th>NUP</th>
+
+                    <th>Nama Barang</th>
+
+                    <th>Gedung</th>
+
+                    <th>Ruangan</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+        `;
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
+async function simpanBAST(){
+
+    try{
+
+        const checked =
+            document.querySelectorAll(
+                ".asetBAST:checked"
+            );
+
+        if(
+            checked.length === 0
+        ){
+
+            alert(
+                "Pilih minimal 1 aset"
+            );
+
+            return;
+
+        }
+
+        const asetIds = [];
+
+        checked.forEach(c=>{
+
+            asetIds.push(
+                c.value
+            );
+
+        });
+
+        const result =
+            await postAPI({
+
+                action:
+                    "tambahBAST",
+
+                ASET_IDS:
+                    asetIds,
+
+                NOMOR_BAST:
+                    document.getElementById(
+                        "nomorBAST"
+                    ).value,
+
+                JENIS_BAST:
+                    document.getElementById(
+                        "jenisBAST"
+                    ).value,
+
+                DOKUMEN_BAST:
+                    document.getElementById(
+                        "dokumenBAST"
+                    ).value,
+
+                KETERANGAN:
+                    document.getElementById(
+                        "keterangan"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "BAST berhasil disimpan"
+            );
+
+            loadBAST();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
 
 function loadPerawatan(){
 
