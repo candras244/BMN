@@ -2339,6 +2339,141 @@ async function formTambahPerawatan(){
 
 }
 
+async function loadRiwayatPerawatan(){
+
+    const data =
+        await getAPI(
+            "getPerawatanGedung"
+        );
+
+    let rows = "";
+
+    data.reverse().forEach((p,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${p.TANGGAL_PERAWATAN || ""}</td>
+
+            <td>${p.KODE_GEDUNG || ""}</td>
+
+            <td>${p.JENIS_PERAWATAN || ""}</td>
+
+            <td>${p.BIAYA || ""}</td>
+
+            <td>${p.KETERANGAN || ""}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById(
+        "listPerawatan"
+    ).innerHTML = `
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>No</th>
+
+                <th>Tanggal</th>
+
+                <th>Gedung</th>
+
+                <th>Jenis Perawatan</th>
+
+                <th>Biaya</th>
+
+                <th>Keterangan</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            ${rows}
+
+        </tbody>
+
+    </table>
+
+    `;
+
+}
+
+async function simpanPerawatan(){
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "tambahPerawatanGedung",
+
+                KODE_GEDUNG:
+                    document.getElementById(
+                        "kodeGedung"
+                    ).value,
+
+                JENIS_PERAWATAN:
+                    document.getElementById(
+                        "jenisPerawatan"
+                    ).value,
+
+                BIAYA:
+                    document.getElementById(
+                        "biaya"
+                    ).value
+                    .replace(/\./g,""),
+
+                DOKUMEN:
+                    document.getElementById(
+                        "dokumen"
+                    ).value,
+
+                KETERANGAN:
+                    document.getElementById(
+                        "keterangan"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Perawatan berhasil disimpan"
+            );
+
+            loadPerawatan();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
 function loadPenghapusan(){
 
     setPageTitle(
