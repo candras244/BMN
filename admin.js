@@ -953,11 +953,6 @@ async function cariAsetMutasi(){
 
     try{
 
-        const aset =
-            await getAPI(
-                "getMasterAset"
-            );
-
         const kodeBarang =
             document.getElementById(
                 "filterKodeBarang"
@@ -969,6 +964,11 @@ async function cariAsetMutasi(){
                 "filterNamaBarang"
             ).value
             .toLowerCase();
+
+        const aset =
+            await getAPI(
+                "getMasterAset"
+            );
 
         const hasil =
             aset.filter(a=>{
@@ -1021,21 +1021,13 @@ async function cariAsetMutasi(){
 
                 </td>
 
-                <td>
-                    ${a.NUP || ""}
-                </td>
+                <td>${a.NUP || ""}</td>
 
-                <td>
-                    ${a.NAMA_BARANG || ""}
-                </td>
+                <td>${a.NAMA_BARANG || ""}</td>
 
-                <td>
-                    ${a.NAMA_GEDUNG || ""}
-                </td>
+                <td>${a.NAMA_GEDUNG || ""}</td>
 
-                <td>
-                    ${a.NAMA_RUANGAN || ""}
-                </td>
+                <td>${a.NAMA_RUANGAN || ""}</td>
 
             </tr>
 
@@ -1053,10 +1045,28 @@ async function cariAsetMutasi(){
 
                 <tr>
 
-                    <th>Pilih</th>
+                    <th>
+
+                        <input
+                            type="checkbox"
+                            onclick="
+                            document
+                            .querySelectorAll(
+                            '.asetMutasi'
+                            )
+                            .forEach(
+                            c=>c.checked=
+                            this.checked
+                            )">
+
+                    </th>
+
                     <th>NUP</th>
+
                     <th>Nama Barang</th>
+
                     <th>Gedung</th>
+
                     <th>Ruangan</th>
 
                 </tr>
