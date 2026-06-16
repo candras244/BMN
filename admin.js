@@ -121,6 +121,8 @@ async function loadDashboard(){
                 "getStatistik"
             );
 
+        console.log(data);
+
         setContent(`
 
         <div class="summary-grid">
