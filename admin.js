@@ -1293,7 +1293,7 @@ async function simpanMutasi(){
 
 }
 
-function loadKondisi(){
+async function loadKondisi(){
 
     setPageTitle(
         "Perubahan Kondisi"
@@ -1301,14 +1301,263 @@ function loadKondisi(){
 
     setContent(`
 
-        <div class="card">
+    <div class="card">
 
-            Module Kondisi
-            belum dibuat.
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:20px;
+            ">
+
+            <h3>
+                Riwayat Perubahan Kondisi
+            </h3>
+
+            <button
+                class="btn btn-success"
+                onclick="formTambahKondisi()">
+
+                + Ubah Kondisi
+
+            </button>
 
         </div>
 
+        <div id="listKondisi">
+
+            Loading...
+
+        </div>
+
+    </div>
+
     `);
+
+    await loadRiwayatKondisi();
+
+}
+
+async function formTambahKondisi(){
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Perubahan Kondisi Aset
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Barang
+            </label>
+
+            <input
+                id="filterKodeBarang"
+                class="form-control">
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="cariAsetKondisi()">
+
+            Cari
+
+        </button>
+
+        <br><br>
+
+        <div id="hasilKondisi">
+
+            Silakan cari aset.
+
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+
+            <label>
+                Kondisi Baru
+            </label>
+
+            <select
+                id="kondisiBaru"
+                class="form-control">
+
+                <option>Baik</option>
+                <option>Rusak Ringan</option>
+                <option>Rusak Berat</option>
+                <option>Hilang</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Keterangan
+            </label>
+
+            <textarea
+                id="keterangan"
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanKondisi()">
+
+            Simpan Perubahan
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadKondisi()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function cariAsetKondisi(){
+
+    try{
+
+        const kodeBarang =
+            document.getElementById(
+                "filterKodeBarang"
+            ).value
+            .toLowerCase();
+
+        const aset =
+            await getAPI(
+                "getMasterAset"
+            );
+
+        const hasil =
+            aset.filter(a=>{
+
+                const cocokKode =
+
+                    !kodeBarang ||
+
+                    String(
+                        a.KODE_BARANG || ""
+                    )
+                    .toLowerCase()
+                    .includes(
+                        kodeBarang
+                    );
+
+                return cocokKode;
+
+            });
+
+        let rows = "";
+
+        hasil.forEach(a=>{
+
+            rows += `
+
+            <tr>
+
+                <td>
+
+                    <input
+                        type="checkbox"
+                        class="asetKondisi"
+                        value="${a.ID_ASET}">
+
+                </td>
+
+                <td>${a.NUP || ""}</td>
+
+                <td>${a.NAMA_BARANG || ""}</td>
+
+                <td>${a.NAMA_GEDUNG || ""}</td>
+
+                <td>${a.NAMA_RUANGAN || ""}</td>
+
+                <td>${a.KONDISI || ""}</td>
+
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "hasilKondisi"
+        ).innerHTML = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+
+                        <input
+                            type="checkbox"
+                            onclick="
+                            document
+                            .querySelectorAll(
+                            '.asetKondisi'
+                            )
+                            .forEach(
+                            c=>c.checked=
+                            this.checked
+                            )">
+
+                    </th>
+
+                    <th>NUP</th>
+
+                    <th>Nama Barang</th>
+
+                    <th>Gedung</th>
+
+                    <th>Ruangan</th>
+
+                    <th>Kondisi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+        `;
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
 
 }
 
