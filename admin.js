@@ -294,6 +294,42 @@ async function loadDashboard(){
          
          </div>
 
+               <br>
+               
+               <div class="card">
+               
+                   <h3>
+                       Aktivitas Tahun Berjalan
+                   </h3>
+               
+                   <br>
+               
+                   <table>
+               
+                       <thead>
+               
+                           <tr>
+               
+                               <th>Tahun</th>
+                               <th>Mutasi</th>
+                               <th>Kondisi</th>
+                               <th>BAST</th>
+                               <th>Perawatan</th>
+               
+                           </tr>
+               
+                       </thead>
+               
+                       <tbody>
+               
+                           ${rowsAktivitas}
+               
+                       </tbody>
+               
+                   </table>
+               
+               </div>
+
         `);
 
     }catch(err){
