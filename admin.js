@@ -1561,6 +1561,84 @@ async function cariAsetKondisi(){
 
 }
 
+async function simpanKondisi(){
+
+    try{
+
+        const checked =
+            document.querySelectorAll(
+                ".asetKondisi:checked"
+            );
+
+        if(
+            checked.length === 0
+        ){
+
+            alert(
+                "Pilih minimal 1 aset"
+            );
+
+            return;
+
+        }
+
+        const asetIds = [];
+
+        checked.forEach(c=>{
+
+            asetIds.push(
+                c.value
+            );
+
+        });
+
+        const result =
+            await postAPI({
+
+                action:
+                    "tambahKondisiAset",
+
+                ASET_IDS:
+                    asetIds,
+
+                KONDISI_BARU:
+                    document.getElementById(
+                        "kondisiBaru"
+                    ).value,
+
+                KETERANGAN:
+                    document.getElementById(
+                        "keterangan"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Perubahan kondisi berhasil disimpan"
+            );
+
+            loadKondisi();
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
 function loadBAST(){
 
     setPageTitle(
