@@ -782,6 +782,87 @@ async function loadMutasi(){
 
     `);
 
+      await loadRiwayatMutasi();
+   
+}
+
+async function loadRiwayatMutasi(){
+
+    const data =
+        await getAPI(
+            "getMutasi"
+        );
+
+    let rows = "";
+
+    data.reverse().forEach((m,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${m.TANGGAL_MUTASI || ""}</td>
+
+            <td>${m.ID_ASET || ""}</td>
+
+            <td>${m.GEDUNG_ASAL || ""}</td>
+
+            <td>${m.RUANGAN_ASAL || ""}</td>
+
+            <td>${m.GEDUNG_TUJUAN || ""}</td>
+
+            <td>${m.RUANGAN_TUJUAN || ""}</td>
+
+            <td>${m.KETERANGAN || ""}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById(
+        "listMutasi"
+    ).innerHTML = `
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>No</th>
+
+                <th>Tanggal</th>
+
+                <th>ID Aset</th>
+
+                <th>Gedung Asal</th>
+
+                <th>Ruangan Asal</th>
+
+                <th>Gedung Tujuan</th>
+
+                <th>Ruangan Tujuan</th>
+
+                <th>Keterangan</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            ${rows}
+
+        </tbody>
+
+    </table>
+
+    `;
+
 }
 
 async function formTambahMutasi(){
@@ -840,28 +921,19 @@ async function formTambahMutasi(){
              onclick="cariAsetMutasi()">
 
              Cari
-
-</button>
-
-<br><br>
-
-<div id="hasilMutasi">
-
-    Silakan cari aset.
-
-</div>
+            
+            <br><br>
+            
+            <div id="hasilMutasi">
+            
+                Silakan cari aset.
+            
+            </div>
          
          </button>
          
          <br><br>
 
-        <div id="hasilMutasi">
-
-             <table>
-                 ...
-             </table>
-         
-         </div>
 
         <hr>
 
