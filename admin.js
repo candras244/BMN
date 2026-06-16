@@ -836,22 +836,32 @@ async function formTambahMutasi(){
          </div>
          
          <div class="form-group">
-         
+
              <label>
-                 Nama Barang
+                 Kode Barang
              </label>
          
              <input
-                 id="filterNamaBarang"
+                 id="filterKodeBarang"
                  class="form-control">
-         
+
          </div>
          
          <button
              class="btn btn-primary"
              onclick="cariAsetMutasi()">
-         
+
              Cari
+
+</button>
+
+<br><br>
+
+<div id="hasilMutasi">
+
+    Silakan cari aset.
+
+</div>
          
          </button>
          
@@ -959,50 +969,29 @@ async function cariAsetMutasi(){
             ).value
             .toLowerCase();
 
-        const namaBarang =
-            document.getElementById(
-                "filterNamaBarang"
-            ).value
-            .toLowerCase();
-
         const aset =
             await getAPI(
                 "getMasterAset"
             );
 
-        const hasil =
-            aset.filter(a=>{
-
-                const cocokKode =
-
-                    !kodeBarang ||
-
-                    String(
-                        a.KODE_BARANG || ""
-                    )
-                    .toLowerCase()
-                    .includes(
-                        kodeBarang
-                    );
-
-                const cocokNama =
-
-                    !namaBarang ||
-
-                    String(
-                        a.NAMA_BARANG || ""
-                    )
-                    .toLowerCase()
-                    .includes(
-                        namaBarang
-                    );
-
-                return (
-                    cocokKode &&
-                    cocokNama
-                );
-
-            });
+            const hasil =
+                aset.filter(a=>{
+            
+                    const cocokKode =
+            
+                        !kodeBarang ||
+            
+                        String(
+                            a.KODE_BARANG || ""
+                        )
+                        .toLowerCase()
+                        .includes(
+                            kodeBarang
+                        );
+            
+                    return cocokKode;
+            
+                });
 
         let rows = "";
 
