@@ -823,18 +823,6 @@ async function formTambahMutasi(){
 
         <br>
 
-        <div class="form-group">
-
-             <label>
-                 Kode Barang
-             </label>
-         
-             <input
-                 id="filterKodeBarang"
-                 class="form-control">
-         
-         </div>
-         
          <div class="form-group">
 
              <label>
