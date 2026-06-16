@@ -152,6 +152,31 @@ async function loadDashboard(){
              `;
          
          });
+
+         let rowsAktivitas = "";
+
+         (data.aktivitasTahunan || [])
+         .forEach(a=>{
+         
+             rowsAktivitas += `
+         
+             <tr>
+         
+                 <td>${a.tahun}</td>
+         
+                 <td>${a.mutasi}</td>
+         
+                 <td>${a.kondisi}</td>
+         
+                 <td>${a.bast}</td>
+         
+                 <td>${a.perawatan}</td>
+         
+             </tr>
+         
+             `;
+         
+         });
        
         setContent(`
 
