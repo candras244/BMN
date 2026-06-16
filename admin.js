@@ -123,6 +123,10 @@ async function loadDashboard(){
 
         console.log(data);
 
+        console.log(
+                data.infrastrukturGedung
+         );
+
          let rowsInfrastruktur = "";
          
          (data.infrastrukturGedung || [])
