@@ -127,6 +127,10 @@ async function loadDashboard(){
                 data.infrastrukturGedung
          );
 
+        console.log(
+             data.aktivitasTahunan
+         );
+
          let rowsInfrastruktur = "";
          
          (data.infrastrukturGedung || [])
