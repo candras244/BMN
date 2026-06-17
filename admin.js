@@ -3059,22 +3059,242 @@ async function simpanPerawatan(){
 
 }
 
-function loadPenghapusan(){
+async function loadPengaturan(){
 
     setPageTitle(
-        "Penghapusan"
+        "Pengaturan"
     );
 
-    setContent(`
+    showLoading();
+
+    try{
+
+        const p =
+            await getAPI(
+                "getPengaturan"
+            );
+
+        setContent(`
 
         <div class="card">
 
-            Module Penghapusan
-            belum dibuat.
+            <h3>
+                Informasi Instansi
+            </h3>
+
+            <br>
+
+            <input
+                id="NAMA_INSTANSI"
+                class="form-control"
+                placeholder="Nama Instansi"
+                value="${p.NAMA_INSTANSI || ""}"
+            >
+
+            <br>
+
+            <input
+                id="ALAMAT"
+                class="form-control"
+                placeholder="Alamat"
+                value="${p.ALAMAT || ""}"
+            >
+
+            <br>
+
+            <input
+                id="TELEPON"
+                class="form-control"
+                placeholder="Telepon"
+                value="${p.TELEPON || ""}"
+            >
+
+            <br>
+
+            <input
+                id="EMAIL"
+                class="form-control"
+                placeholder="Email"
+                value="${p.EMAIL || ""}"
+            >
+
+            <br>
+
+            <input
+                id="WEBSITE"
+                class="form-control"
+                placeholder="Website"
+                value="${p.WEBSITE || ""}"
+            >
+
+            <br>
+
+            <input
+                id="LOGO_URL"
+                class="form-control"
+                placeholder="URL Logo"
+                value="${p.LOGO_URL || ""}"
+            >
 
         </div>
 
-    `);
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Penandatangan
+            </h3>
+
+            <br>
+
+            <input
+                id="KASUBAG_NAMA"
+                class="form-control"
+                placeholder="Nama Kasubag"
+                value="${p.KASUBAG_NAMA || ""}"
+            >
+
+            <br>
+
+            <input
+                id="KASUBAG_NIP"
+                class="form-control"
+                placeholder="NIP Kasubag"
+                value="${p.KASUBAG_NIP || ""}"
+            >
+
+            <br>
+
+            <input
+                id="PJ_NAMA"
+                class="form-control"
+                placeholder="Nama Penanggung Jawab"
+                value="${p.PJ_NAMA || ""}"
+            >
+
+            <br>
+
+            <input
+                id="PJ_NIP"
+                class="form-control"
+                placeholder="NIP Penanggung Jawab"
+                value="${p.PJ_NIP || ""}"
+            >
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Tampilan Publik
+            </h3>
+
+            <br>
+
+            <label>
+                <input type="checkbox" id="SHOW_STATISTIK"
+                ${p.SHOW_STATISTIK == "TRUE" ? "checked" : ""}>
+                Statistik
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_INFO_GEDUNG"
+                ${p.SHOW_INFO_GEDUNG == "TRUE" ? "checked" : ""}>
+                Informasi Gedung
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_FOTO_GEDUNG"
+                ${p.SHOW_FOTO_GEDUNG == "TRUE" ? "checked" : ""}>
+                Foto Gedung
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_DBR_GEDUNG"
+                ${p.SHOW_DBR_GEDUNG == "TRUE" ? "checked" : ""}>
+                DBR Gedung
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_DBR_RUANGAN"
+                ${p.SHOW_DBR_RUANGAN == "TRUE" ? "checked" : ""}>
+                DBR Ruangan
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_GRAFIK"
+                ${p.SHOW_GRAFIK == "TRUE" ? "checked" : ""}>
+                Grafik
+            </label>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Sistem
+            </h3>
+
+            <br>
+
+            <input
+                id="TAHUN_PERENCANAAN"
+                class="form-control"
+                value="${p.TAHUN_PERENCANAAN || ""}"
+            >
+
+            <br>
+
+            <input
+                id="UMUR_PENGGANTIAN"
+                class="form-control"
+                value="${p.UMUR_PENGGANTIAN || ""}"
+            >
+
+            <br>
+
+            <input
+                id="UMUR_PENGHAPUSAN"
+                class="form-control"
+                value="${p.UMUR_PENGHAPUSAN || ""}"
+            >
+
+            <br>
+
+            <button
+                class="btn btn-primary"
+                onclick="simpanPengaturan()">
+                Simpan Pengaturan
+            </button>
+
+        </div>
+
+        `);
+
+    }catch(err){
+
+        setContent(`
+            <div class="card">
+                ${err}
+            </div>
+        `);
+
+    }
 
 }
 
@@ -3097,22 +3317,369 @@ function loadStatistik(){
 
 }
 
-function loadPengaturan(){
+async function loadPengaturan(){
 
     setPageTitle(
         "Pengaturan"
     );
 
-    setContent(`
+    showLoading();
+
+    try{
+
+        const p =
+            await getAPI(
+                "getPengaturan"
+            );
+
+        setContent(`
 
         <div class="card">
 
-            Module Pengaturan
-            belum dibuat.
+            <h3>
+                Informasi Instansi
+            </h3>
+
+            <br>
+
+            <input
+                id="NAMA_INSTANSI"
+                class="form-control"
+                placeholder="Nama Instansi"
+                value="${p.NAMA_INSTANSI || ""}"
+            >
+
+            <br>
+
+            <input
+                id="ALAMAT"
+                class="form-control"
+                placeholder="Alamat"
+                value="${p.ALAMAT || ""}"
+            >
+
+            <br>
+
+            <input
+                id="TELEPON"
+                class="form-control"
+                placeholder="Telepon"
+                value="${p.TELEPON || ""}"
+            >
+
+            <br>
+
+            <input
+                id="EMAIL"
+                class="form-control"
+                placeholder="Email"
+                value="${p.EMAIL || ""}"
+            >
+
+            <br>
+
+            <input
+                id="WEBSITE"
+                class="form-control"
+                placeholder="Website"
+                value="${p.WEBSITE || ""}"
+            >
+
+            <br>
+
+            <input
+                id="LOGO_URL"
+                class="form-control"
+                placeholder="URL Logo"
+                value="${p.LOGO_URL || ""}"
+            >
 
         </div>
 
-    `);
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Penandatangan
+            </h3>
+
+            <br>
+
+            <input
+                id="KASUBAG_NAMA"
+                class="form-control"
+                placeholder="Nama Kasubag"
+                value="${p.KASUBAG_NAMA || ""}"
+            >
+
+            <br>
+
+            <input
+                id="KASUBAG_NIP"
+                class="form-control"
+                placeholder="NIP Kasubag"
+                value="${p.KASUBAG_NIP || ""}"
+            >
+
+            <br>
+
+            <input
+                id="PJ_NAMA"
+                class="form-control"
+                placeholder="Nama Penanggung Jawab"
+                value="${p.PJ_NAMA || ""}"
+            >
+
+            <br>
+
+            <input
+                id="PJ_NIP"
+                class="form-control"
+                placeholder="NIP Penanggung Jawab"
+                value="${p.PJ_NIP || ""}"
+            >
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Tampilan Publik
+            </h3>
+
+            <br>
+
+            <label>
+                <input type="checkbox" id="SHOW_STATISTIK"
+                ${p.SHOW_STATISTIK == "TRUE" ? "checked" : ""}>
+                Statistik
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_INFO_GEDUNG"
+                ${p.SHOW_INFO_GEDUNG == "TRUE" ? "checked" : ""}>
+                Informasi Gedung
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_FOTO_GEDUNG"
+                ${p.SHOW_FOTO_GEDUNG == "TRUE" ? "checked" : ""}>
+                Foto Gedung
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_DBR_GEDUNG"
+                ${p.SHOW_DBR_GEDUNG == "TRUE" ? "checked" : ""}>
+                DBR Gedung
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_DBR_RUANGAN"
+                ${p.SHOW_DBR_RUANGAN == "TRUE" ? "checked" : ""}>
+                DBR Ruangan
+            </label>
+
+            <br><br>
+
+            <label>
+                <input type="checkbox" id="SHOW_GRAFIK"
+                ${p.SHOW_GRAFIK == "TRUE" ? "checked" : ""}>
+                Grafik
+            </label>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Sistem
+            </h3>
+
+            <br>
+
+            <input
+                id="TAHUN_PERENCANAAN"
+                class="form-control"
+                value="${p.TAHUN_PERENCANAAN || ""}"
+            >
+
+            <br>
+
+            <input
+                id="UMUR_PENGGANTIAN"
+                class="form-control"
+                value="${p.UMUR_PENGGANTIAN || ""}"
+            >
+
+            <br>
+
+            <input
+                id="UMUR_PENGHAPUSAN"
+                class="form-control"
+                value="${p.UMUR_PENGHAPUSAN || ""}"
+            >
+
+            <br>
+
+            <button
+                class="btn btn-primary"
+                onclick="simpanPengaturan()">
+                Simpan Pengaturan
+            </button>
+
+        </div>
+
+        `);
+
+    }catch(err){
+
+        setContent(`
+            <div class="card">
+                ${err}
+            </div>
+        `);
+
+    }
+
+}
+
+async function simpanPengaturan(){
+
+    const data = {
+
+        action : "savePengaturan",
+
+        NAMA_INSTANSI :
+            document.getElementById(
+                "NAMA_INSTANSI"
+            ).value,
+
+        ALAMAT :
+            document.getElementById(
+                "ALAMAT"
+            ).value,
+
+        TELEPON :
+            document.getElementById(
+                "TELEPON"
+            ).value,
+
+        EMAIL :
+            document.getElementById(
+                "EMAIL"
+            ).value,
+
+        WEBSITE :
+            document.getElementById(
+                "WEBSITE"
+            ).value,
+
+        LOGO_URL :
+            document.getElementById(
+                "LOGO_URL"
+            ).value,
+
+        KASUBAG_NAMA :
+            document.getElementById(
+                "KASUBAG_NAMA"
+            ).value,
+
+        KASUBAG_NIP :
+            document.getElementById(
+                "KASUBAG_NIP"
+            ).value,
+
+        PJ_NAMA :
+            document.getElementById(
+                "PJ_NAMA"
+            ).value,
+
+        PJ_NIP :
+            document.getElementById(
+                "PJ_NIP"
+            ).value,
+
+        SHOW_STATISTIK :
+            document.getElementById(
+                "SHOW_STATISTIK"
+            ).checked
+            ? "TRUE"
+            : "FALSE",
+
+        SHOW_INFO_GEDUNG :
+            document.getElementById(
+                "SHOW_INFO_GEDUNG"
+            ).checked
+            ? "TRUE"
+            : "FALSE",
+
+        SHOW_FOTO_GEDUNG :
+            document.getElementById(
+                "SHOW_FOTO_GEDUNG"
+            ).checked
+            ? "TRUE"
+            : "FALSE",
+
+        SHOW_DBR_GEDUNG :
+            document.getElementById(
+                "SHOW_DBR_GEDUNG"
+            ).checked
+            ? "TRUE"
+            : "FALSE",
+
+        SHOW_DBR_RUANGAN :
+            document.getElementById(
+                "SHOW_DBR_RUANGAN"
+            ).checked
+            ? "TRUE"
+            : "FALSE",
+
+        SHOW_GRAFIK :
+            document.getElementById(
+                "SHOW_GRAFIK"
+            ).checked
+            ? "TRUE"
+            : "FALSE",
+
+        TAHUN_PERENCANAAN :
+            document.getElementById(
+                "TAHUN_PERENCANAAN"
+            ).value,
+
+        UMUR_PENGGANTIAN :
+            document.getElementById(
+                "UMUR_PENGGANTIAN"
+            ).value,
+
+        UMUR_PENGHAPUSAN :
+            document.getElementById(
+                "UMUR_PENGHAPUSAN"
+            ).value
+
+    };
+
+    const result =
+        await postAPI(
+            data
+        );
+
+    alert(
+        result.message ||
+        "Pengaturan berhasil disimpan"
+    );
 
 }
 
