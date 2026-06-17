@@ -278,6 +278,98 @@ async function loadDashboard(){
         <br>
 
         <div class="card">
+            
+                <h3>
+                    TO DO LIST SARPRAS
+                </h3>
+            
+                <br>
+            
+                <table>
+            
+                    <tr>
+            
+                        <td>
+                            Lengkapi BAST
+                        </td>
+            
+                        <td>
+                            ${data.todoBAST || 0}
+                        </td>
+            
+                    </tr>
+            
+                    <tr>
+            
+                        <td>
+                            Periksa Aset Rusak Ringan
+                        </td>
+            
+                        <td>
+                            ${data.todoRusakRingan || 0}
+                        </td>
+            
+                    </tr>
+            
+                    <tr>
+            
+                        <td>
+                            Tindak Lanjuti Aset Rusak Berat
+                        </td>
+            
+                        <td>
+                            ${data.todoRusakBerat || 0}
+                        </td>
+            
+                    </tr>
+            
+                </table>
+            
+            </div>
+
+            <br>
+
+            <div class="card">
+            
+                <h3>
+                    PERENCANAAN TAHUN DEPAN
+                </h3>
+            
+                <br>
+            
+                <table>
+            
+                    <tr>
+            
+                        <td>
+                            Aset Perlu Penggantian
+                        </td>
+            
+                        <td>
+                            ${data.asetUsia5Tahun || 0}
+                        </td>
+            
+                    </tr>
+            
+                    <tr>
+            
+                        <td>
+                            Kandidat Penghapusan
+                        </td>
+            
+                        <td>
+                            ${data.asetRusakBerat || 0}
+                        </td>
+            
+                    </tr>
+            
+                </table>
+            
+            </div>
+
+        <br>
+
+        <div class="card">
 
              <h3>
                  Infrastruktur
@@ -491,37 +583,6 @@ async function loadDashboard(){
                         ${rowsRusakBerat}
             
                     </tbody>
-            
-                </table>
-            
-            </div>
-
-            <br>
-            
-            <div class="card">
-            
-                <h3>
-                    Ringkasan Audit Otomatis
-                </h3>
-            
-                <br>
-            
-                <table>
-            
-                    <tr>
-                        <td>Aset Tanpa Gedung</td>
-                        <td>${data.asetTanpaGedung || 0}</td>
-                    </tr>
-            
-                    <tr>
-                        <td>Aset Tanpa Ruangan</td>
-                        <td>${data.asetTanpaRuangan || 0}</td>
-                    </tr>
-            
-                    <tr>
-                        <td>Duplikat Kode Barang</td>
-                        <td>${data.asetDuplikatKode || 0}</td>
-                    </tr>
             
                 </table>
             
