@@ -125,6 +125,8 @@ async function loadDashboard(){
                 "getStatistik"
             );
 
+          alert("DATA MASUK");
+
         console.log(data);
 
         console.log(
@@ -396,7 +398,7 @@ async function loadDashboard(){
             
             </div>
 
-          ``);
+          `);
 
    }catch(err){
    
@@ -417,6 +419,7 @@ async function loadDashboard(){
    }
    
 }
+
 /* =====================================
    PLACEHOLDER MENU
 ===================================== */
