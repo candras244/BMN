@@ -396,25 +396,29 @@ async function loadDashboard(){
             
             </div>
 
-    }catch(err){
-
-        `);   
-
-        setContent(`
-
-            <div class="card">
-
-                ERROR :
-
-                <br><br>
-
-                ${err}
-
-            </div>
-
-        `);
-
-    }
+          `); 
+    
+       setContent(`
+   
+       Ringkasan
+   
+       Infrastruktur
+   
+       Aktivitas Tahunan
+   
+       Risiko & Peringatan
+   
+   `);
+   
+   }catch(err){
+   
+       setContent(`
+   
+           ERROR
+   
+       `);
+   
+   }
 
 }
 
