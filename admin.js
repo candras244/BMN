@@ -209,6 +209,27 @@ async function loadDashboard(){
                 `;
             
             });
+
+         let rowsAktivitasTerakhir = "";
+            
+            (data.aktivitasTerakhir || [])
+            .forEach(a=>{
+            
+                rowsAktivitasTerakhir += `
+            
+                <tr>
+            
+                    <td>${a.tanggal}</td>
+            
+                    <td>${a.jenis}</td>
+            
+                    <td>${a.keterangan}</td>
+            
+                </tr>
+            
+                `;
+            
+            });
        
         setContent(`
 
