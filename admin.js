@@ -425,6 +425,42 @@ async function loadDashboard(){
             </div>
 
             <br>
+            
+            <div class="card">
+            
+                <h3>
+                    Aktivitas Terakhir
+                </h3>
+            
+                <br>
+            
+                <table>
+            
+                    <thead>
+            
+                        <tr>
+            
+                            <th>Tanggal</th>
+            
+                            <th>Jenis</th>
+            
+                            <th>Keterangan</th>
+            
+                        </tr>
+            
+                    </thead>
+            
+                    <tbody>
+            
+                        ${rowsAktivitasTerakhir}
+            
+                    </tbody>
+            
+                </table>
+            
+            </div>
+
+            <br>
 
             <div class="card">
             
