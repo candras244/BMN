@@ -618,33 +618,6 @@ async function loadDashboard(){
              `);
          
          }
-            
-       <br>
-   
-       <table>
-   
-           <tr>
-               <td>Aset Tanpa Gedung</td>
-               <td>${data.asetTanpaGedung || 0}</td>
-           </tr>
-   
-           <tr>
-               <td>Aset Tanpa Ruangan</td>
-               <td>${data.asetTanpaRuangan || 0}</td>
-           </tr>
-   
-           <tr>
-               <td>Duplikat Kode Barang</td>
-               <td>${data.asetDuplikatKode || 0}</td>
-           </tr>
-   
-       </table>
-   
-   </div>
-       
-       `);
-   
-   }
    
 }
 
