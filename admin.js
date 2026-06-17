@@ -355,9 +355,7 @@ async function loadDashboard(){
                
                </div>
 
-        `);
-
-            <br>
+               <br>
 
             <div class="card">
             
@@ -399,6 +397,8 @@ async function loadDashboard(){
             </div>
 
     }catch(err){
+
+        `);   
 
         setContent(`
 
