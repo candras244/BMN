@@ -454,7 +454,7 @@ async function loadDashboard(){
                <div class="card">
                
                    <h3>
-                       Aktivitas Tahun Berjalan
+                       Aktivitas Tahun
                    </h3>
                
                    <br>
@@ -601,28 +601,24 @@ async function loadDashboard(){
 
           `);
 
-   }catch(err){
-   
-       setContent(`
-   
-           <div class="card">
-   
-               ERROR :
-   
-               <br><br>
-   
-               ${err}
-   
-           </div>
-   
-       <br>
+       }catch(err){
 
-   <div class="card">
-   
-       <h3>
-           Ringkasan Audit Otomatis
-       </h3>
-   
+             setContent(`
+         
+                 <div class="card">
+         
+                     ERROR :
+         
+                     <br><br>
+         
+                     ${err}
+         
+                 </div>
+         
+             `);
+         
+         }
+            
        <br>
    
        <table>
