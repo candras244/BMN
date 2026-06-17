@@ -398,6 +398,42 @@ async function loadDashboard(){
             
             </div>
 
+            <br>
+
+            <div class="card">
+            
+                <h3>
+                    Detail Aset Rusak Berat
+                </h3>
+            
+                <br>
+            
+                <table>
+            
+                    <thead>
+            
+                        <tr>
+            
+                            <th>Kode Barang</th>
+            
+                            <th>Nama Barang</th>
+            
+                            <th>Kondisi</th>
+            
+                        </tr>
+            
+                    </thead>
+            
+                    <tbody>
+            
+                        ${rowsRusakBerat}
+            
+                    </tbody>
+            
+                </table>
+            
+            </div>
+
           `);
 
    }catch(err){
