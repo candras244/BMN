@@ -357,48 +357,48 @@ async function loadDashboard(){
 
         `);
 
-    }catch(err){
+            <br>
 
-         <br>
-         
-         <div class="card">
-         
-             <h3>
-                 Risiko & Peringatan
-             </h3>
-         
-             <br>
-         
-             <table>
-         
-                 <tr>
-                     <td>⚠ Aset Rusak Berat</td>
-                     <td>${data.asetRusakBerat || 0}</td>
-                 </tr>
-         
-                 <tr>
-                     <td>⚠ Aset Hilang</td>
-                     <td>${data.asetHilang || 0}</td>
-                 </tr>
-         
-                 <tr>
-                     <td>⚠ Aset Usia > 5 Tahun</td>
-                     <td>${data.asetUsia5Tahun || 0}</td>
-                 </tr>
-         
-                 <tr>
-                     <td>⚠ Aset Siap Hapus</td>
-                     <td>${data.asetSiapHapus || 0}</td>
-                 </tr>
-         
-                 <tr>
-                     <td>⚠ Ruangan Tidak Aktif</td>
-                     <td>${data.jumlahRuanganTidakAktif || 0}</td>
-                 </tr>
-         
-             </table>
-         
-         </div>
+            <div class="card">
+            
+                <h3>
+                    Risiko & Peringatan
+                </h3>
+            
+                <br>
+            
+                <table>
+            
+                    <tr>
+                        <td>⚠ Aset Rusak Berat</td>
+                        <td>${data.asetRusakBerat || 0}</td>
+                    </tr>
+            
+                    <tr>
+                        <td>⚠ Aset Hilang</td>
+                        <td>${data.asetHilang || 0}</td>
+                    </tr>
+            
+                    <tr>
+                        <td>⚠ Aset Usia > 5 Tahun</td>
+                        <td>${data.asetUsia5Tahun || 0}</td>
+                    </tr>
+            
+                    <tr>
+                        <td>⚠ Aset Siap Hapus</td>
+                        <td>${data.asetSiapHapus || 0}</td>
+                    </tr>
+            
+                    <tr>
+                        <td>⚠ Ruangan Tidak Aktif</td>
+                        <td>${data.jumlahRuanganTidakAktif || 0}</td>
+                    </tr>
+            
+                </table>
+            
+            </div>
+
+    }catch(err){
 
         setContent(`
 
