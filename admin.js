@@ -631,7 +631,159 @@ async function lihatAktivitasTahunan(
       + tahun
     );
 
-  console.log(data);
+  let rowsMutasi = "";
+
+  (data.mutasi || []).forEach(m=>{
+
+    rowsMutasi += `
+      <tr>
+        <td>${m.TANGGAL_MUTASI || "-"}</td>
+        <td>${m.ID_ASET || "-"}</td>
+        <td>${m.KETERANGAN || "-"}</td>
+      </tr>
+    `;
+
+  });
+
+  let rowsKondisi = "";
+
+  (data.kondisi || []).forEach(k=>{
+
+    rowsKondisi += `
+      <tr>
+        <td>${k.TANGGAL || "-"}</td>
+        <td>${k.ID_ASET || "-"}</td>
+        <td>${k.KONDISI_BARU || "-"}</td>
+      </tr>
+    `;
+
+  });
+
+  let rowsBAST = "";
+
+  (data.bast || []).forEach(b=>{
+
+    rowsBAST += `
+      <tr>
+        <td>${b.TANGGAL_BAST || "-"}</td>
+        <td>${b.NOMOR_BAST || "-"}</td>
+        <td>${b.JENIS_BAST || "-"}</td>
+      </tr>
+    `;
+
+  });
+
+  let rowsPerawatan = "";
+
+  (data.perawatan || []).forEach(p=>{
+
+    rowsPerawatan += `
+      <tr>
+        <td>${p.TANGGAL_PERAWATAN || "-"}</td>
+        <td>${p.NAMA_GEDUNG || "-"}</td>
+        <td>${p.JENIS_PERAWATAN || "-"}</td>
+      </tr>
+    `;
+
+  });
+
+  setPageTitle(
+    "Aktivitas Tahun " + tahun
+  );
+
+  setContent(`
+
+    <div class="card">
+
+      <button
+        class="btn"
+        onclick="loadDashboard()">
+        ← Kembali Dashboard
+      </button>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+      <h3>Mutasi</h3>
+
+      <table>
+
+        <tr>
+          <th>Tanggal</th>
+          <th>ID Aset</th>
+          <th>Keterangan</th>
+        </tr>
+
+        ${rowsMutasi}
+
+      </table>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+      <h3>Perubahan Kondisi</h3>
+
+      <table>
+
+        <tr>
+          <th>Tanggal</th>
+          <th>ID Aset</th>
+          <th>Kondisi Baru</th>
+        </tr>
+
+        ${rowsKondisi}
+
+      </table>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+      <h3>BAST</h3>
+
+      <table>
+
+        <tr>
+          <th>Tanggal</th>
+          <th>Nomor</th>
+          <th>Jenis</th>
+        </tr>
+
+        ${rowsBAST}
+
+      </table>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+      <h3>Perawatan</h3>
+
+      <table>
+
+        <tr>
+          <th>Tanggal</th>
+          <th>Gedung</th>
+          <th>Jenis</th>
+        </tr>
+
+        ${rowsPerawatan}
+
+      </table>
+
+    </div>
+
+  `);
 
 }
 
