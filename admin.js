@@ -181,6 +181,27 @@ async function loadDashboard(){
              `;
          
          });
+
+          let rowsRusakBerat = "";
+   
+            (data.detailRusakBerat || [])
+            .forEach(a=>{
+            
+                rowsRusakBerat += `
+            
+                <tr>
+            
+                    <td>${a.KODE_BARANG}</td>
+            
+                    <td>${a.NAMA_BARANG}</td>
+            
+                    <td>${a.KONDISI}</td>
+            
+                </tr>
+            
+                `;
+            
+            });
        
         setContent(`
 
@@ -378,27 +399,6 @@ async function loadDashboard(){
              </table>
          
          </div>
-
-       let rowsRusakBerat = "";
-
-         (data.detailRusakBerat || [])
-         .forEach(a=>{
-         
-             rowsRusakBerat += `
-         
-             <tr>
-         
-                 <td>${a.KODE_BARANG}</td>
-         
-                 <td>${a.NAMA_BARANG}</td>
-         
-                 <td>${a.KONDISI}</td>
-         
-             </tr>
-         
-             `;
-         
-         });
 
         setContent(`
 
