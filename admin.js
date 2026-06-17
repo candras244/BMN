@@ -396,22 +396,27 @@ async function loadDashboard(){
             
             </div>
 
-          `); 
+          ``);
+
+   }catch(err){
    
-      `);
-      
-      }catch(err){
-      
-          setContent(`
-      
-              ERROR
-      
-          `);
-      
-      }
+       setContent(`
+   
+           <div class="card">
+   
+               ERROR :
+   
+               <br><br>
+   
+               ${err}
+   
+           </div>
+   
+       `);
    
    }
-
+   
+}
 /* =====================================
    PLACEHOLDER MENU
 ===================================== */
