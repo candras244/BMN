@@ -397,30 +397,20 @@ async function loadDashboard(){
             </div>
 
           `); 
-    
-       setContent(`
    
-       Ringkasan
-   
-       Infrastruktur
-   
-       Aktivitas Tahunan
-   
-       Risiko & Peringatan
-   
-   `);
-   
-   }catch(err){
-   
-       setContent(`
-   
-           ERROR
-   
-       `);
+      `);
+      
+      }catch(err){
+      
+          setContent(`
+      
+              ERROR
+      
+          `);
+      
+      }
    
    }
-
-}
 
 /* =====================================
    PLACEHOLDER MENU
