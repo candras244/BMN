@@ -170,22 +170,32 @@ async function loadDashboard(){
          .forEach(a=>{
          
              rowsAktivitas += `
-         
-             <tr>
-         
-                 <td>${a.tahun}</td>
-         
-                 <td>${a.mutasi}</td>
-         
-                 <td>${a.kondisi}</td>
-         
-                 <td>${a.bast}</td>
-         
-                 <td>${a.perawatan}</td>
-         
-             </tr>
-         
-             `;
+               <tr>
+               
+               <td>${a.tahun}</td>
+               
+               <td>${a.mutasi}</td>
+               
+               <td>${a.kondisi}</td>
+               
+               <td>${a.bast}</td>
+               
+               <td>${a.perawatan}</td>
+               
+               <td>
+               
+               <button
+               class="btn btn-primary"
+               onclick="lihatAktivitasTahunan('${a.tahun}')">
+               
+               Detail
+               
+               </button>
+               
+               </td>
+               
+               </tr>
+               `;
          
          });
 
@@ -460,6 +470,7 @@ async function loadDashboard(){
                                <th>Kondisi</th>
                                <th>BAST</th>
                                <th>Perawatan</th>
+                               <th>Aksi</th>
                
                            </tr>
                
@@ -639,6 +650,20 @@ async function loadDashboard(){
    
    }
    
+}
+
+async function lihatAktivitasTahunan(
+  tahun
+){
+
+  const data =
+    await getAPI(
+      "getAktivitasTahunanDetail&tahun="
+      + tahun
+    );
+
+  console.log(data);
+
 }
 
 /* =====================================
