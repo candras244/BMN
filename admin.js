@@ -125,6 +125,11 @@ async function loadDashboard(){
                 "getStatistik"
             );
 
+       console.log(
+             "DETAIL RUSAK BERAT",
+             data.detailRusakBerat
+            );
+
           alert("DATA MASUK");
 
         console.log(data);
