@@ -748,3 +748,14 @@ td{
     font-weight:600;
 
 }
+
+.badge-proses{
+
+    background:#f59e0b;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:600;
+
+}
