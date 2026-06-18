@@ -607,11 +607,9 @@ td{
 }
 
 .dashboard-grid{
-...
 }
 
 .mini-card{
-...
 }
 
 .page-title{
@@ -758,4 +756,28 @@ td{
     font-size:12px;
     font-weight:600;
 
+}
+#content table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+}
+
+#content th{
+    background:#0f172a;
+    color:#fff;
+    white-space:nowrap;
+}
+
+#content td{
+    vertical-align:middle;
+}
+
+#content .btn-primary{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
 }
