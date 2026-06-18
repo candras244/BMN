@@ -183,66 +183,46 @@ async function loadHome(){
 
     </div>
 
-    <div class="card">
-
+        <div class="card">
+    
+            <h2>
+                Ringkasan Infrastruktur
+            </h2>
+    
+            <br>
+    
+            <div class="card">
+    
         <h2>
-            Ringkasan Infrastruktur
+            Infrastruktur Gedung
         </h2>
-
+    
         <br>
-
-        <div class="dashboard-grid">
-
-            <div class="mini-card">
-
-                <h3>
-                    Ruang Kelas
-                </h3>
-
-                <h1>
-                    ${statistik.jumlahKelas || 0}
-                </h1>
-
-            </div>
-
-            <div class="mini-card">
-
-                <h3>
-                    Laboratorium
-                </h3>
-
-                <h1>
-                    ${statistik.jumlahLab || 0}
-                </h1>
-
-            </div>
-
-            <div class="mini-card">
-
-                <h3>
-                    Ruang Kantor
-                </h3>
-
-                <h1>
-                    ${statistik.jumlahKantor || 0}
-                </h1>
-
-            </div>
-
-            <div class="mini-card">
-
-                <h3>
-                    Ruang Rapat
-                </h3>
-
-                <h1>
-                    ${statistik.jumlahRapat || 0}
-                </h1>
-
-            </div>
-
-        </div>
-
+    
+        <table>
+    
+            <thead>
+    
+                <tr>
+    
+                    <th>Gedung</th>
+                    <th>Kelas</th>
+                    <th>Lab</th>
+                    <th>Kantor</th>
+                    <th>Rapat</th>
+    
+                </tr>
+    
+            </thead>
+    
+            <tbody>
+    
+                ${rowsInfrastruktur}
+    
+            </tbody>
+    
+        </table>
+    
     </div>
 
     <div class="card">
