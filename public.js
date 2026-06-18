@@ -317,17 +317,48 @@ async function loadHome(){
 
 async function loadGedung(){
 
-    const response = await fetch(
-        `${API_URL}?action=getGedung`
-    );
+    const response =
+        await fetch(
+            `${API_URL}?action=getGedung`
+        );
 
-    const result = await response.json();
+    const gedung =
+        await response.json();
+
+    const ruanganRes =
+        await fetch(
+            `${API_URL}?action=getRuangan`
+        );
+
+    const ruangan =
+        await ruanganRes.json();
 
     let html = `
-        <div class="gedung-grid">
+
+    <div class="page-title">
+
+        <h2>
+            Daftar Gedung
+        </h2>
+
+    </div>
+
+    <div class="gedung-grid">
+
     `;
 
-    result.data.forEach(g => {
+    gedung.forEach(g=>{
+
+        const jumlahRuangan =
+            ruangan.filter(
+                r =>
+                    String(
+                        r.KODE_GEDUNG
+                    ) ===
+                    String(
+                        g.KODE_GEDUNG
+                    )
+            ).length;
 
         html += `
 
@@ -336,7 +367,10 @@ async function loadGedung(){
             <div class="gedung-image">
 
                 <img
-                    src="https://placehold.co/600x300"
+                    src="${
+                        g.FOTO_GEDUNG ||
+                        'https://placehold.co/600x300'
+                    }"
                     alt="${g.NAMA_GEDUNG}">
 
             </div>
@@ -347,11 +381,30 @@ async function loadGedung(){
                     ${g.NAMA_GEDUNG}
                 </h3>
 
+                <p>
+
+                    ${
+                        g.DESKRIPSI ||
+                        "Belum ada deskripsi gedung"
+                    }
+
+                </p>
+
+                <p>
+
+                    <b>
+                        ${jumlahRuangan}
+                    </b>
+
+                    Ruangan
+
+                </p>
+
                 <button
                     onclick="
                     showGedungDetail(
-                    '${g.KODE_GEDUNG}',
-                    '${g.NAMA_GEDUNG}'
+                        '${g.KODE_GEDUNG}',
+                        '${g.NAMA_GEDUNG}'
                     )">
 
                     Lihat Detail
@@ -367,7 +420,9 @@ async function loadGedung(){
     });
 
     html += `
-        </div>
+
+    </div>
+
     `;
 
     setContent(html);
