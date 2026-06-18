@@ -1,8 +1,13 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbxzBRWFCeSGayQi7SfBHbYHYudpwkMnPd_2DyDGJtEM5-nQoOQnW0884PSRiCburnPB/exec";
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadPage("home");
-});
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadPage("home");
+
+    }
+);
 
 function loadPage(page){
 
@@ -10,18 +15,6 @@ function loadPage(page){
 
         case "home":
             loadHome();
-            break;
-
-        case "gedung":
-            loadGedung();
-            break;
-
-        case "dbr":
-            loadDBR();
-            break;
-
-        case "statistik":
-            loadStatistik();
             break;
 
         default:
@@ -32,7 +25,11 @@ function loadPage(page){
 }
 
 function setContent(html){
-    document.getElementById("content").innerHTML = html;
+
+    document.getElementById(
+        "content"
+    ).innerHTML = html;
+
 }
 
 /* =====================================
@@ -66,9 +63,12 @@ async function loadHome(){
             (ruangan.data || ruangan)
             .filter(
                 r =>
-                    String(r.KODE_GEDUNG)
-                    ===
-                    String(g.KODE_GEDUNG)
+                    String(
+                        r.KODE_GEDUNG
+                    ) ===
+                    String(
+                        g.KODE_GEDUNG
+                    )
             );
 
         let kelas = 0;
@@ -82,9 +82,29 @@ async function loadHome(){
                     r.JENIS_RUANGAN || ""
                 ).toUpperCase();
 
-            if(jenis.includes("KELAS")) kelas++;
-            if(jenis.includes("LAB")) lab++;
-            if(jenis.includes("KANTOR")) kantor++;
+            if(
+                jenis.includes(
+                    "KELAS"
+                )
+            ){
+                kelas++;
+            }
+
+            if(
+                jenis.includes(
+                    "LAB"
+                )
+            ){
+                lab++;
+            }
+
+            if(
+                jenis.includes(
+                    "KANTOR"
+                )
+            ){
+                kantor++;
+            }
 
         });
 
@@ -92,54 +112,46 @@ async function loadHome(){
 
         <tr>
 
-            <td>${g.NAMA_GEDUNG}</td>
+            <td>
+                ${g.NAMA_GEDUNG}
+            </td>
 
-            <td>${kelas}</td>
+            <td>
+                ${kelas}
+            </td>
 
-            <td>${lab}</td>
+            <td>
+                ${lab}
+            </td>
 
-            <td>${kantor}</td>
+            <td>
+                ${kantor}
+            </td>
 
             <td>
 
                 <button
                     class="btn-primary"
                     disabled>
-            
+
                     DBR
-            
+
                 </button>
-            
+
             </td>
-            
+
             <td>
-            
+
                 <button
                     class="btn-primary"
                     onclick="
-                        showGedungDetail(
+                        showRuanganByGedung(
                             '${g.KODE_GEDUNG}',
                             '${g.NAMA_GEDUNG}'
                         )
                     ">
-            
+
                     Ruangan
-            
-                </button>
-            
-            </td>
-            <td>
-
-                <button
-                    class="btn-primary"
-                    onclick="
-                        showGedungDetail(
-                            '${g.KODE_GEDUNG}',
-                            '${g.NAMA_GEDUNG}'
-                        )
-                    ">
-
-                    Detail
 
                 </button>
 
@@ -167,126 +179,28 @@ async function loadHome(){
 
                 <tr>
 
-                    <th>Gedung</th>
-                    <th>Kelas</th>
-                    <th>Lab</th>
-                    <th>Kantor</th>
-                    <th>Perawatan</th>
-                    <th>DBR Gedung</th>
-                    <th>Detail</th>
+                    <th>
+                        Gedung
+                    </th>
 
-                </tr>
+                    <th>
+                        Kelas
+                    </th>
 
-            </thead>
+                    <th>
+                        Lab
+                    </th>
 
-            <tbody>
+                    <th>
+                        Kantor
+                    </th>
 
-                ${rows}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    `);
-
-}
-
-/* =====================================
-   GEDUNG
-===================================== */
-
-async function showGedungDetail(
-    kodeGedung,
-    namaGedung
-){
-
-    const ruanganRes =
-        await fetch(
-            `${API_URL}?action=getRuanganByGedung&kodeGedung=${kodeGedung}`
-        );
-
-    const ruangan =
-        await ruanganRes.json();
-
-    let rows = "";
-
-    (ruangan.data || ruangan)
-    .forEach(r=>{
-
-        rows += `
-
-        <tr>
-
-            <td>
-                ${r.NAMA_RUANGAN}
-            </td>
-
-            <td>
-                ${r.JENIS_RUANGAN || "-"}
-            </td>
-
-            <td>
-
-                <button
-                    class="btn"
-                    disabled>
-
-                    Proses
-
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
-    setContent(`
-
-    <div class="card">
-
-        <button
-            class="btn"
-            onclick="loadHome()">
-
-            ← Kembali
-
-        </button>
-
-        <br><br>
-
-        <h2>
-
-            ${namaGedung}
-
-        </h2>
-
-    </div>
-
-    <br>
-
-    <div class="card">
-
-        <table>
-
-            <thead>
-
-                <tr>
+                    <th>
+                        DBR Gedung
+                    </th>
 
                     <th>
                         Ruangan
-                    </th>
-
-                    <th>
-                        Jenis Ruangan
-                    </th>
-
-                    <th>
-                        DBR Ruangan
                     </th>
 
                 </tr>
