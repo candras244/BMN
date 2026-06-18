@@ -87,238 +87,229 @@ async function loadHome(){
     setContent(`
 
     <section class="hero-banner">
-    
+
         <div class="hero-overlay">
-    
+
             <h1>
-                Selamat Datang di
-                SIM-DBR
+                ${pengaturan.NAMA_INSTANSI || "SIM-DBR"}
             </h1>
-    
+
             <p>
                 Sistem Informasi
                 Manajemen Daftar
                 Barang Ruangan
             </p>
-    
+
         </div>
-    
+
     </section>
-    
-    <div class="stat-grid">
-    
-        <div class="stat-box">
-    
-            <h2>
-                ${statistik.totalGedung || 0}
-            </h2>
-    
-            <p>
-                Total Gedung
-            </p>
-    
-        </div>
-    
-        <div class="stat-box">
-    
-            <h2>
-                ${statistik.totalRuangan || 0}
-            </h2>
-    
-            <p>
-                Total Ruangan
-            </p>
-    
-        </div>
-    
-        <div class="stat-box">
-    
-            <h2>
-                ${statistik.totalAset || 0}
-            </h2>
-    
-            <p>
-                Total Aset
-            </p>
-    
-        </div>
-    
-        <div class="stat-box">
-    
-            <h2>
-    
-                Rp
-                ${(statistik.totalNilai || 0)
-                .toLocaleString("id-ID")}
-    
-            </h2>
-    
-            <p>
-                Nilai Aset
-            </p>
-    
-        </div>
-    
-    </div>
-    
+
     <div class="card">
-    
+
         <h2>
             Profil Pengelolaan Sarana dan Prasarana
         </h2>
-    
+
         <br>
-    
+
         <p>
-            SIM-DBR digunakan untuk
-            pengelolaan aset, gedung,
-            ruangan, mutasi aset,
-            perubahan kondisi,
-            BAST, perawatan gedung,
-            penghapusan aset,
-            statistik dan perencanaan
-            kebutuhan sarana prasarana.
+
+            Sistem Informasi Daftar Barang
+            Ruangan (SIM-DBR) digunakan
+            untuk pengelolaan aset,
+            gedung, ruangan, mutasi,
+            perubahan kondisi, BAST,
+            perawatan gedung dan
+            penghapusan aset secara
+            terintegrasi.
+
         </p>
-    
-        <br>
-    
-        <p>
-            Sistem ini terintegrasi
-            dengan database aset
-            sehingga seluruh informasi
-            dapat dimonitor secara
-            real time.
-        </p>
-    
+
     </div>
-    
+
+    <div class="stat-grid">
+
+        <div class="stat-box">
+
+            <h2>
+                ${statistik.totalGedung || 0}
+            </h2>
+
+            <p>
+                Total Gedung
+            </p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>
+                ${statistik.totalRuangan || 0}
+            </h2>
+
+            <p>
+                Total Ruangan
+            </p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>
+                ${statistik.totalAset || 0}
+            </h2>
+
+            <p>
+                Total Aset
+            </p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>
+
+                Rp
+                ${(statistik.totalNilai || 0)
+                .toLocaleString("id-ID")}
+
+            </h2>
+
+            <p>
+                Nilai Aset
+            </p>
+
+        </div>
+
+    </div>
+
     <div class="card">
-    
+
         <h2>
             Ringkasan Infrastruktur
         </h2>
-    
+
         <br>
-    
+
         <div class="dashboard-grid">
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Ruang Kelas
                 </h3>
-    
+
                 <h1>
                     ${statistik.jumlahKelas || 0}
                 </h1>
-    
+
             </div>
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Laboratorium
                 </h3>
-    
+
                 <h1>
                     ${statistik.jumlahLab || 0}
                 </h1>
-    
+
             </div>
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Ruang Kantor
                 </h3>
-    
+
                 <h1>
                     ${statistik.jumlahKantor || 0}
                 </h1>
-    
+
             </div>
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Ruang Rapat
                 </h3>
-    
+
                 <h1>
                     ${statistik.jumlahRapat || 0}
                 </h1>
-    
+
             </div>
-    
+
         </div>
-    
+
     </div>
 
     <div class="card">
-    
+
         <h2>
-            Statistik Aset
+            Kondisi Aset
         </h2>
-    
+
         <br>
-    
+
         <div class="dashboard-grid">
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Rusak Berat
                 </h3>
-    
+
                 <h1>
                     ${statistik.asetRusakBerat || 0}
                 </h1>
-    
+
             </div>
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Aset Hilang
                 </h3>
-    
+
                 <h1>
                     ${statistik.asetHilang || 0}
                 </h1>
-    
+
             </div>
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Usia > 5 Tahun
                 </h3>
-    
+
                 <h1>
                     ${statistik.asetUsia5Tahun || 0}
                 </h1>
-    
+
             </div>
-    
+
             <div class="mini-card">
-    
+
                 <h3>
                     Siap Hapus
                 </h3>
-    
+
                 <h1>
                     ${statistik.asetSiapHapus || 0}
                 </h1>
-    
+
             </div>
-    
+
         </div>
-    
+
     </div>
-    
+
     `);
 
-    
+}
 
 /* =====================================
    GEDUNG
