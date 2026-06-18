@@ -434,105 +434,89 @@ async function showGedungDetail(
     namaGedung
 ){
 
-    const response = await fetch(
-        `${API_URL}?action=getRuanganByGedung&kodeGedung=${kodeGedung}`
-    );
+    const ruanganRes =
+        await fetch(
+            `${API_URL}?action=getRuanganByGedung&kodeGedung=${kodeGedung}`
+        );
 
-    const result = await response.json();
+    const ruangan =
+        await ruanganRes.json();
 
-    let html = `
+    const asetRes =
+        await fetch(
+            `${API_URL}?action=getMasterAset`
+        );
 
-    <div class="card">
+    const aset =
+        await asetRes.json();
 
-        <h2>${namaGedung}</h2>
+    const asetGedung =
+        aset.filter(
+            a =>
+                String(
+                    a.KODE_GEDUNG
+                ) ===
+                String(
+                    kodeGedung
+                )
+        );
 
-        <p>
-            Daftar Ruangan
-        </p>
+    let totalNilai = 0;
 
-    </div>
+    asetGedung.forEach(a=>{
 
-    `;
-
-    result.data.forEach(r => {
-
-        html += `
-
-        <div class="card">
-
-            <h3>
-                ${r.NAMA_RUANGAN}
-            </h3>
-
-            <button
-                onclick="
-                showRuanganDetail(
-                '${r.KODE_RUANGAN}',
-                '${r.NAMA_RUANGAN}'
-                )">
-
-                Lihat DBR
-
-            </button>
-
-        </div>
-
-        `;
+        totalNilai +=
+            Number(
+                a.NILAI_PEROLEHAN || 0
+            );
 
     });
 
-    setContent(html);
+    let rowsRuangan = "";
 
-}
+    ruangan.forEach(r=>{
 
-async function showRuanganDetail(
-    kodeRuangan,
-    namaRuangan
-){
+        const jumlahAset =
+            asetGedung.filter(
+                a =>
+                    String(
+                        a.KODE_RUANGAN
+                    ) ===
+                    String(
+                        r.KODE_RUANGAN
+                    )
+            ).length;
 
-    const response = await fetch(
-        `${API_URL}?action=getAsetByRuangan&kodeRuangan=${kodeRuangan}`
-    );
-
-    const result = await response.json();
-
-    let html = `
-
-    <div class="card">
-
-        <h2>
-            ${namaRuangan}
-        </h2>
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>ID</th>
-                    <th>Barang</th>
-                    <th>Kondisi</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-    result.data.forEach(a => {
-
-        html += `
+        rowsRuangan += `
 
         <tr>
 
-            <td>${a.ID_ASET}</td>
+            <td>
+                ${r.NAMA_RUANGAN}
+            </td>
 
-            <td>${a.NAMA_BARANG}</td>
+            <td>
+                ${r.JENIS_RUANGAN || "-"}
+            </td>
 
-            <td>${a.KONDISI}</td>
+            <td>
+                ${jumlahAset}
+            </td>
+
+            <td>
+
+                <button
+                    onclick="
+                    showRuanganDetail(
+                        '${r.KODE_RUANGAN}',
+                        '${r.NAMA_RUANGAN}'
+                    )">
+
+                    DBR
+
+                </button>
+
+            </td>
 
         </tr>
 
@@ -540,7 +524,106 @@ async function showRuanganDetail(
 
     });
 
-    html += `
+    setContent(`
+
+    <div class="card">
+
+        <button
+            class="btn-back"
+            onclick="loadGedung()">
+
+            ← Kembali
+
+        </button>
+
+        <h2>
+
+            ${namaGedung}
+
+        </h2>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="mini-card">
+
+            <h3>
+                Total Ruangan
+            </h3>
+
+            <h1>
+                ${ruangan.length}
+            </h1>
+
+        </div>
+
+        <div class="mini-card">
+
+            <h3>
+                Total Aset
+            </h3>
+
+            <h1>
+                ${asetGedung.length}
+            </h1>
+
+        </div>
+
+        <div class="mini-card">
+
+            <h3>
+                Nilai Aset
+            </h3>
+
+            <h1>
+
+                Rp
+                ${totalNilai.toLocaleString("id-ID")}
+
+            </h1>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>
+            Daftar Ruangan
+        </h3>
+
+        <br>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Nama Ruangan
+                    </th>
+
+                    <th>
+                        Jenis
+                    </th>
+
+                    <th>
+                        Aset
+                    </th>
+
+                    <th>
+                        DBR
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rowsRuangan}
 
             </tbody>
 
@@ -548,9 +631,7 @@ async function showRuanganDetail(
 
     </div>
 
-    `;
-
-    setContent(html);
+    `);
 
 }
 
