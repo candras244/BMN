@@ -583,7 +583,7 @@ async function showGedungDetail(
             
                 Lihat DBR
             
-            </butto>
+            </button>
 
             </td>
 
