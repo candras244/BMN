@@ -253,6 +253,68 @@ async function loadHome(){
         </div>
     
     </div>
+
+    <div class="card">
+    
+        <h2>
+            Statistik Aset
+        </h2>
+    
+        <br>
+    
+        <div class="dashboard-grid">
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Rusak Berat
+                </h3>
+    
+                <h1>
+                    ${statistik.asetRusakBerat || 0}
+                </h1>
+    
+            </div>
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Aset Hilang
+                </h3>
+    
+                <h1>
+                    ${statistik.asetHilang || 0}
+                </h1>
+    
+            </div>
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Usia > 5 Tahun
+                </h3>
+    
+                <h1>
+                    ${statistik.asetUsia5Tahun || 0}
+                </h1>
+    
+            </div>
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Siap Hapus
+                </h3>
+    
+                <h1>
+                    ${statistik.asetSiapHapus || 0}
+                </h1>
+    
+            </div>
+    
+        </div>
+    
+    </div>
     
     `);
 
