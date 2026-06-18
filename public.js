@@ -268,3 +268,24 @@ function detailGedung(
     );
 
 }
+
+function lihatDBRGedung(kodeGedung){
+
+    window.open(
+        API_URL +
+        "?action=cetakDBRGedung" +
+        "&kodeGedung=" +
+        kodeGedung,
+        "_blank"
+    );
+
+}
+
+function detailGedung(kodeGedung){
+
+    alert(
+        "Detail Gedung : " +
+        kodeGedung
+    );
+
+}
