@@ -41,115 +41,6 @@ function setContent(html){
 
 async function loadHome(){
 
-    setContent(`
-
-    <div class="card">
-
-        <h1>
-            SIM-DBR
-        </h1>
-
-        <br>
-
-        <p>
-
-            Sistem Informasi
-            Daftar Barang Ruangan
-
-        </p>
-
-        <br>
-
-        <p>
-
-            Selamat datang di
-            Sistem Informasi
-            Daftar Barang Ruangan.
-
-        </p>
-
-        <br>
-
-        <table>
-
-            <tr>
-
-                <td>
-                    DBR Gedung
-                </td>
-
-                <td>
-                    :
-                </td>
-
-                <td>
-                    Tersedia
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>
-                    DBR Ruangan
-                </td>
-
-                <td>
-                    :
-                </td>
-
-                <td>
-                    Tersedia
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>
-                    Perawatan Gedung
-                </td>
-
-                <td>
-                    :
-                </td>
-
-                <td>
-                    Proses
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>
-                    Monitoring Gedung
-                </td>
-
-                <td>
-                    :
-                </td>
-
-                <td>
-                    Proses
-                </td>
-
-            </tr>
-
-        </table>
-
-    </div>
-
-    `);
-
-}
-
-/* =====================================
-   GEDUNG
-===================================== */
-
-async function loadGedung(){
-
     const gedungRes =
         await fetch(
             `${API_URL}?action=getGedung`
@@ -175,12 +66,9 @@ async function loadGedung(){
             (ruangan.data || ruangan)
             .filter(
                 r =>
-                    String(
-                        r.KODE_GEDUNG
-                    ) ===
-                    String(
-                        g.KODE_GEDUNG
-                    )
+                    String(r.KODE_GEDUNG)
+                    ===
+                    String(g.KODE_GEDUNG)
             );
 
         let kelas = 0;
@@ -194,29 +82,9 @@ async function loadGedung(){
                     r.JENIS_RUANGAN || ""
                 ).toUpperCase();
 
-            if(
-                jenis.includes(
-                    "KELAS"
-                )
-            ){
-                kelas++;
-            }
-
-            if(
-                jenis.includes(
-                    "LAB"
-                )
-            ){
-                lab++;
-            }
-
-            if(
-                jenis.includes(
-                    "KANTOR"
-                )
-            ){
-                kantor++;
-            }
+            if(jenis.includes("KELAS")) kelas++;
+            if(jenis.includes("LAB")) lab++;
+            if(jenis.includes("KANTOR")) kantor++;
 
         });
 
@@ -224,45 +92,35 @@ async function loadGedung(){
 
         <tr>
 
-            <td>
-                ${g.NAMA_GEDUNG}
-            </td>
+            <td>${g.NAMA_GEDUNG}</td>
 
-            <td>
-                ${ruangGedung.length}
-            </td>
+            <td>${kelas}</td>
 
-            <td>
-                ${kelas}
-            </td>
+            <td>${lab}</td>
 
-            <td>
-                ${lab}
-            </td>
-
-            <td>
-                ${kantor}
-            </td>
+            <td>${kantor}</td>
 
             <td>
 
-                <span
-                    class="badge-proses">
+                <button
+                    class="btn"
+                    disabled>
 
                     Proses
 
-                </span>
+                </button>
 
             </td>
 
             <td>
 
-                <span
-                    class="badge-proses">
+                <button
+                    class="btn"
+                    disabled>
 
                     Proses
 
-                </span>
+                </button>
 
             </td>
 
@@ -306,19 +164,11 @@ async function loadGedung(){
                 <tr>
 
                     <th>Gedung</th>
-
-                    <th>Ruangan</th>
-
                     <th>Kelas</th>
-
                     <th>Lab</th>
-
                     <th>Kantor</th>
-
                     <th>Perawatan</th>
-
                     <th>DBR Gedung</th>
-
                     <th>Detail</th>
 
                 </tr>
@@ -339,3 +189,116 @@ async function loadGedung(){
 
 }
 
+/* =====================================
+   GEDUNG
+===================================== */
+
+async function showGedungDetail(
+    kodeGedung,
+    namaGedung
+){
+
+    const ruanganRes =
+        await fetch(
+            `${API_URL}?action=getRuanganByGedung&kodeGedung=${kodeGedung}`
+        );
+
+    const ruangan =
+        await ruanganRes.json();
+
+    let rows = "";
+
+    (ruangan.data || ruangan)
+    .forEach(r=>{
+
+        rows += `
+
+        <tr>
+
+            <td>
+                ${r.NAMA_RUANGAN}
+            </td>
+
+            <td>
+                ${r.JENIS_RUANGAN || "-"}
+            </td>
+
+            <td>
+
+                <button
+                    class="btn"
+                    disabled>
+
+                    Proses
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <button
+            class="btn"
+            onclick="loadHome()">
+
+            ← Kembali
+
+        </button>
+
+        <br><br>
+
+        <h2>
+
+            ${namaGedung}
+
+        </h2>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Ruangan
+                    </th>
+
+                    <th>
+                        Jenis Ruangan
+                    </th>
+
+                    <th>
+                        DBR Ruangan
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `);
+
+}
