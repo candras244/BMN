@@ -82,6 +82,14 @@ async function loadHome(){
                     (jenisCount[jenis] || 0) + 1;
             
             });
+
+        const jenisText =
+            Object.entries(jenisCount)
+            .map(
+                ([nama,jumlah]) =>
+                `${nama}: ${jumlah}`
+            )
+            .join("<br>");
         
         rows += `
 
@@ -146,17 +154,11 @@ async function loadHome(){
                         Gedung
                     </th>
 
-                    <th>
-                        Kelas
-                    </th>
+                    <td>
 
-                    <th>
-                        Lab
-                    </th>
-
-                    <th>
-                        Kantor
-                    </th>
+                        ${jenisText}
+                    
+                    </td>
 
                     <th>
                         DBR Gedung
