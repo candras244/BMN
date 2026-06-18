@@ -41,207 +41,100 @@ function setContent(html){
 
 async function loadHome(){
 
-    const gedungRes =
-        await fetch(
-            `${API_URL}?action=getGedung`
-        );
-
-    const gedung =
-        await gedungRes.json();
-
-    const ruanganRes =
-        await fetch(
-            `${API_URL}?action=getRuangan`
-        );
-
-    const ruangan =
-        await ruanganRes.json();
-
-    let rows = "";
-
-    (gedung.data || gedung)
-    .forEach(g=>{
-
-        const ruangGedung =
-            (ruangan.data || ruangan)
-            .filter(
-                r =>
-                    String(
-                        r.KODE_GEDUNG
-                    ) ===
-                    String(
-                        g.KODE_GEDUNG
-                    )
-            );
-
-        let kelas = 0;
-        let lab = 0;
-        let kantor = 0;
-
-        ruangGedung.forEach(r=>{
-
-            const jenis =
-                String(
-                    r.JENIS_RUANGAN || ""
-                )
-                .toUpperCase();
-
-            if(
-                jenis.includes("KELAS")
-            ){
-                kelas++;
-            }
-
-            if(
-                jenis.includes("LAB")
-            ){
-                lab++;
-            }
-
-            if(
-                jenis.includes("KANTOR")
-            ){
-                kantor++;
-            }
-
-        });
-
-        rows += `
-
-        <tr>
-
-            <td>
-
-                ${g.NAMA_GEDUNG}
-
-            </td>
-
-            <td>
-
-                ${ruangGedung.length}
-
-            </td>
-
-            <td>
-
-                ${kelas}
-
-            </td>
-
-            <td>
-
-                ${lab}
-
-            </td>
-
-            <td>
-
-                ${kantor}
-
-            </td>
-
-            <td>
-
-                <span
-                    class="badge-proses">
-
-                    Proses
-
-                </span>
-
-            </td>
-
-            <td>
-
-                <span
-                    class="badge-proses">
-
-                    Proses
-
-                </span>
-
-            </td>
-
-            <td>
-
-                <button
-                    class="btn-primary"
-                    onclick="
-                        showGedungDetail(
-                            '${g.KODE_GEDUNG}',
-                            '${g.NAMA_GEDUNG}'
-                        )
-                    ">
-
-                    Detail
-
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
     setContent(`
 
     <div class="card">
 
-        <h2>
-            Daftar Gedung
-        </h2>
+        <h1>
+            SIM-DBR
+        </h1>
+
+        <br>
+
+        <p>
+
+            Sistem Informasi
+            Daftar Barang Ruangan
+
+        </p>
+
+        <br>
+
+        <p>
+
+            Selamat datang di
+            Sistem Informasi
+            Daftar Barang Ruangan.
+
+        </p>
 
         <br>
 
         <table>
 
-            <thead>
+            <tr>
 
-                <tr>
+                <td>
+                    DBR Gedung
+                </td>
 
-                    <th>
-                        Gedung
-                    </th>
+                <td>
+                    :
+                </td>
 
-                    <th>
-                        Ruangan
-                    </th>
+                <td>
+                    Tersedia
+                </td>
 
-                    <th>
-                        Kelas
-                    </th>
+            </tr>
 
-                    <th>
-                        Lab
-                    </th>
+            <tr>
 
-                    <th>
-                        Kantor
-                    </th>
+                <td>
+                    DBR Ruangan
+                </td>
 
-                    <th>
-                        Perawatan
-                    </th>
+                <td>
+                    :
+                </td>
 
-                    <th>
-                        DBR Gedung
-                    </th>
+                <td>
+                    Tersedia
+                </td>
 
-                    <th>
-                        Detail
-                    </th>
+            </tr>
 
-                </tr>
+            <tr>
 
-            </thead>
+                <td>
+                    Perawatan Gedung
+                </td>
 
-            <tbody>
+                <td>
+                    :
+                </td>
 
-                ${rows}
+                <td>
+                    Proses
+                </td>
 
-            </tbody>
+            </tr>
+
+            <tr>
+
+                <td>
+                    Monitoring Gedung
+                </td>
+
+                <td>
+                    :
+                </td>
+
+                <td>
+                    Proses
+                </td>
+
+            </tr>
 
         </table>
 
@@ -446,142 +339,3 @@ async function loadGedung(){
 
 }
 
-/* =====================================
-   DBR
-===================================== */
-
-async function loadDBR(){
-
-    const response = await fetch(
-        `${API_URL}?action=getGedung`
-    );
-
-    const result = await response.json();
-
-    let html = `
-
-    <div class="card">
-
-        <h2>DBR</h2>
-
-        <p>
-            Pilih Gedung
-        </p>
-
-    </div>
-
-    `;
-
-    result.data.forEach(g => {
-
-        html += `
-
-        <div class="card">
-
-            <h3>
-                ${g.NAMA_GEDUNG}
-            </h3>
-
-            <button
-                onclick="
-                showGedungDetail(
-                '${g.KODE_GEDUNG}',
-                '${g.NAMA_GEDUNG}'
-                )">
-
-                Buka
-
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-    setContent(html);
-
-}
-
-/* =====================================
-   STATISTIK
-===================================== */
-
-async function loadStatistik(){
-
-    const response = await fetch(
-        `${API_URL}?action=getAset`
-    );
-
-    const result = await response.json();
-
-    let total = 0;
-    let baik = 0;
-    let rusakRingan = 0;
-    let rusakBerat = 0;
-
-    result.data.forEach(a => {
-
-        if(
-            a.STATUS_ASET === "Dihapus"
-        ){
-            return;
-        }
-
-        total++;
-
-        if(a.KONDISI === "Baik"){
-            baik++;
-        }
-
-        if(a.KONDISI === "Rusak Ringan"){
-            rusakRingan++;
-        }
-
-        if(a.KONDISI === "Rusak Berat"){
-            rusakBerat++;
-        }
-
-    });
-
-    setContent(`
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-
-                <h3>Total Aset</h3>
-
-                <h2>${total}</h2>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h3>Baik</h3>
-
-                <h2>${baik}</h2>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h3>Rusak Ringan</h3>
-
-                <h2>${rusakRingan}</h2>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h3>Rusak Berat</h3>
-
-                <h2>${rusakBerat}</h2>
-
-            </div>
-
-        </div>
-
-    `);
-
-}
