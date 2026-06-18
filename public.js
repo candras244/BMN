@@ -71,43 +71,18 @@ async function loadHome(){
                     )
             );
 
-        let kelas = 0;
-        let lab = 0;
-        let kantor = 0;
-
-        ruangGedung.forEach(r=>{
-
-            const jenis =
-                String(
-                    r.JENIS_RUANGAN || ""
-                ).toUpperCase();
-
-            if(
-                jenis.includes(
-                    "KELAS"
-                )
-            ){
-                kelas++;
-            }
-
-            if(
-                jenis.includes(
-                    "LAB"
-                )
-            ){
-                lab++;
-            }
-
-            if(
-                jenis.includes(
-                    "KANTOR"
-                )
-            ){
-                kantor++;
-            }
-
-        });
-
+        const jenisCount = {};
+        
+            ruangGedung.forEach(r=>{
+            
+                const jenis =
+                    r.JENIS_RUANGAN || "Lainnya";
+            
+                jenisCount[jenis] =
+                    (jenisCount[jenis] || 0) + 1;
+            
+            });
+        
         rows += `
 
         <tr>
