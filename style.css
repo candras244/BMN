@@ -613,3 +613,83 @@ td{
 .mini-card{
 ...
 }
+
+.page-title{
+
+    margin-bottom:20px;
+
+}
+
+.gedung-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(320px,1fr)
+        );
+
+    gap:25px;
+
+}
+
+.gedung-card{
+
+    background:white;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.08);
+
+}
+
+.gedung-image img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+
+}
+
+.gedung-body{
+
+    padding:20px;
+
+}
+
+.gedung-body h3{
+
+    margin-top:0;
+
+}
+
+.gedung-body p{
+
+    color:#555;
+
+}
+
+.gedung-body button{
+
+    width:100%;
+
+    border:none;
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
