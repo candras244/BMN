@@ -3353,8 +3353,6 @@ async function simpanPengaturan(){
 
        const data = {
    
-           const data = {
-   
        action : "savePengaturan",
    
        NAMA_INSTANSI :
