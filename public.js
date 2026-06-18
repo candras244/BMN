@@ -91,97 +91,95 @@ async function loadHome(){
             )
             .join("<br>");
         
-        rows += `
-
-        <tr>
-
-            <td>
-                ${g.NAMA_GEDUNG}
-            </td>
-
-            <td>
-
-                <button
-                    class="btn-primary"
-                    disabled>
-
-                    DBR
-
-                </button>
-
-            </td>
-
-            <td>
-
-                <button
-                    class="btn-primary"
-                    onclick="
-                        showRuanganByGedung(
-                            '${g.KODE_GEDUNG}',
-                            '${g.NAMA_GEDUNG}'
-                        )
-                    ">
-
-                    Ruangan
-
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
+            rows += `
+    
+    <tr>
+    
+        <td>
+            ${g.NAMA_GEDUNG}
+        </td>
+    
+        <td>
+            ${jenisText}
+        </td>
+    
+        <td>
+    
+            <button
+                class="btn-primary"
+                disabled>
+    
+                DBR
+    
+            </button>
+    
+        </td>
+    
+        <td>
+    
+            <button
+                class="btn-primary"
+                onclick="
+                    showRuanganByGedung(
+                        '${g.KODE_GEDUNG}',
+                        '${g.NAMA_GEDUNG}'
+                    )
+                ">
+    
+                Ruangan
+    
+            </button>
+    
+        </td>
+    
+    </tr>
+    
+    `;
 
     setContent(`
 
     <div class="card">
-
+    
         <h2>
             Daftar Gedung
         </h2>
-
+    
         <br>
-
+    
         <table>
-
+    
             <thead>
-
+    
                 <tr>
-
+    
                     <th>
                         Gedung
                     </th>
-
-                    <td>
-
-                        ${jenisText}
-                    
-                    </td>
-
+    
+                    <th>
+                        Jenis Ruangan
+                    </th>
+    
                     <th>
                         DBR Gedung
                     </th>
-
+    
                     <th>
                         Ruangan
                     </th>
-
+    
                 </tr>
-
+    
             </thead>
-
+    
             <tbody>
-
+    
                 ${rows}
-
+    
             </tbody>
-
+    
         </table>
-
+    
     </div>
-
+    
     `);
-
-}
