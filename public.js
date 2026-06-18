@@ -303,6 +303,40 @@ async function loadHome(){
 
     </div>
 
+    <div class="card">
+    
+        <h2>
+            Aktivitas Perawatan
+        </h2>
+    
+        <br>
+    
+        <table>
+    
+            <thead>
+    
+                <tr>
+    
+                    <th>Tanggal</th>
+    
+                    <th>Gedung</th>
+    
+                    <th>Ruangan</th>
+    
+                </tr>
+    
+            </thead>
+    
+            <tbody>
+    
+                ${rowsPerawatan}
+    
+            </tbody>
+    
+        </table>
+    
+    </div>
+
     `);
 
 }
