@@ -506,14 +506,15 @@ async function showGedungDetail(
             <td>
 
                 <button
+                    class="btn-primary"
                     onclick="
                     showRuanganDetail(
                         '${r.KODE_RUANGAN}',
                         '${r.NAMA_RUANGAN}'
                     )">
-
-                    DBR
-
+                
+                    Lihat DBR
+                
                 </button>
 
             </td>
@@ -542,9 +543,9 @@ async function showGedungDetail(
 
         </h2>
 
-    </div>
+        <br>
 
-    <div class="dashboard-grid">
+        <div class="dashboard-grid">
 
         <div class="mini-card">
 
@@ -570,22 +571,65 @@ async function showGedungDetail(
 
         </div>
 
-        <div class="mini-card">
+     <div class="mini-card">
 
-            <h3>
-                Nilai Aset
-            </h3>
+    <h3>
+        Nilai Aset
+    </h3>
 
-            <h1>
+    <h1>
 
-                Rp
-                ${totalNilai.toLocaleString("id-ID")}
+        Rp
+        ${totalNilai.toLocaleString("id-ID")}
 
-            </h1>
+    </h1>
+
+</div>
 
         </div>
 
-    </div>
+    </div>   
+
+    <div class="card">
+
+    <h3>
+        DBR Gedung
+    </h3>
+
+    <br>
+
+    <p>
+
+        Rekapitulasi seluruh aset
+        dalam Gedung
+        ${namaGedung}
+
+    </p>
+
+    <br>
+
+        <button
+        class="btn-primary"
+        style="
+            width:100%;
+            padding:15px;
+            font-size:16px;
+        "
+        onclick="
+            window.open(
+                API_URL +
+                '?action=previewDBRGedung&kodeGedung=${kodeGedung}',
+                '_blank'
+            );
+        ">
+
+        Lihat DBR Gedung
+
+    </button>
+
+</div>
+
+<br>
 
     <div class="card">
 
