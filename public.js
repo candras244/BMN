@@ -178,6 +178,16 @@ async function loadHome(){
 
     </div>
 
+        <div class="card">
+    
+        <h2>
+            Statistik Aset
+        </h2>
+    
+        ...
+    
+    </div>
+
     `);
 
 }
