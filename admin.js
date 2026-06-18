@@ -3121,7 +3121,15 @@ async function loadPengaturan(){
 
         </div>
 
-        <div id="pengaturanContent"></div>
+       <div id="pengaturanContent"></div>
+
+      <br>
+      
+      <button
+          class="btn btn-primary"
+          onclick="simpanPengaturan()">
+          Simpan Pengaturan
+      </button>
 
     </div>
 
@@ -3313,18 +3321,6 @@ function showPengaturanTab(tab){
 
     }
 
-    html += `
-
-    <br>
-
-    <button
-        class="btn btn-primary"
-        onclick="simpanPengaturan()">
-        Simpan
-    </button>
-
-    `;
-
     document.getElementById(
         "pengaturanContent"
     ).innerHTML = html;
@@ -3375,16 +3371,6 @@ async function simpanPengaturan(){
         KASUBAG_NIP :
             document.getElementById(
                 "KASUBAG_NIP"
-            ).value,
-
-        PJ_NAMA :
-            document.getElementById(
-                "PJ_NAMA"
-            ).value,
-
-        PJ_NIP :
-            document.getElementById(
-                "PJ_NIP"
             ).value,
 
         SHOW_STATISTIK :
