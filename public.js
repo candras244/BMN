@@ -41,336 +41,210 @@ function setContent(html){
 
 async function loadHome(){
 
-    const statistikRes =
+    const gedungRes =
         await fetch(
-            `${API_URL}?action=getStatistik`
+            `${API_URL}?action=getGedung`
         );
 
-    const statistik =
-        await statistikRes.json();
+    const gedung =
+        await gedungRes.json();
 
-    const pengaturanRes =
+    const ruanganRes =
         await fetch(
-            `${API_URL}?action=getPengaturan`
+            `${API_URL}?action=getRuangan`
         );
 
-    const pengaturan =
-        await pengaturanRes.json();
-        let rowsInfrastruktur = "";
-    
-    (statistik.infrastrukturGedung || [])
+    const ruangan =
+        await ruanganRes.json();
+
+    let rows = "";
+
+    (gedung.data || gedung)
     .forEach(g=>{
-    
-        rowsInfrastruktur += `
-    
+
+        const ruangGedung =
+            (ruangan.data || ruangan)
+            .filter(
+                r =>
+                    String(
+                        r.KODE_GEDUNG
+                    ) ===
+                    String(
+                        g.KODE_GEDUNG
+                    )
+            );
+
+        let kelas = 0;
+        let lab = 0;
+        let kantor = 0;
+
+        ruangGedung.forEach(r=>{
+
+            const jenis =
+                String(
+                    r.JENIS_RUANGAN || ""
+                )
+                .toUpperCase();
+
+            if(
+                jenis.includes("KELAS")
+            ){
+                kelas++;
+            }
+
+            if(
+                jenis.includes("LAB")
+            ){
+                lab++;
+            }
+
+            if(
+                jenis.includes("KANTOR")
+            ){
+                kantor++;
+            }
+
+        });
+
+        rows += `
+
         <tr>
-    
-            <td>${g.namaGedung}</td>
-    
-            <td>${g.kelas}</td>
-    
-            <td>${g.lab}</td>
-    
-            <td>${g.kantor}</td>
-    
-            <td>${g.rapat}</td>
-    
+
+            <td>
+
+                ${g.NAMA_GEDUNG}
+
+            </td>
+
+            <td>
+
+                ${ruangGedung.length}
+
+            </td>
+
+            <td>
+
+                ${kelas}
+
+            </td>
+
+            <td>
+
+                ${lab}
+
+            </td>
+
+            <td>
+
+                ${kantor}
+
+            </td>
+
+            <td>
+
+                <span
+                    class="badge-proses">
+
+                    Proses
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span
+                    class="badge-proses">
+
+                    Proses
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                    class="btn-primary"
+                    onclick="
+                        showGedungDetail(
+                            '${g.KODE_GEDUNG}',
+                            '${g.NAMA_GEDUNG}'
+                        )
+                    ">
+
+                    Detail
+
+                </button>
+
+            </td>
+
         </tr>
-    
+
         `;
-    
+
     });
-
-    const perawatanRes =
-        await fetch(
-            `${API_URL}?action=getPerawatanGedung`
-        );
-    
-    const perawatan =
-        await perawatanRes.json();
-    
-    let rowsPerawatan = "";
-    
-    (perawatan || [])
-    .slice(0,5)
-    .forEach(p=>{
-    
-        rowsPerawatan += `
-    
-        <tr>
-    
-            <td>
-                ${p.TANGGAL_PERAWATAN || "-"}
-            </td>
-    
-            <td>
-                ${p.NAMA_GEDUNG || "-"}
-            </td>
-    
-            <td>
-                ${p.JENIS_PERAWATAN || "-"}
-            </td>
-    
-        </tr>
-    
-        `;
-    
-    });
-    
-    document.getElementById(
-        "namaInstansi"
-    ).innerText =
-        pengaturan.NAMA_INSTANSI ||
-        "SIM-DBR";
-
-    if(
-        pengaturan.LOGO_URL
-    ){
-
-        document.getElementById(
-            "logoInstansi"
-        ).src =
-            pengaturan.LOGO_URL;
-
-    }
-
-    document.getElementById(
-        "footerEmail"
-    ).innerText =
-        pengaturan.EMAIL || "-";
-
-    document.getElementById(
-        "footerTelepon"
-    ).innerText =
-        pengaturan.TELEPON || "-";
 
     setContent(`
 
-    <section class="hero-banner">
-
-        <div class="hero-overlay">
-
-            <h1>
-                ${pengaturan.NAMA_INSTANSI || "SIM-DBR"}
-            </h1>
-
-            <p>
-                Sistem Informasi
-                Manajemen Daftar
-                Barang Ruangan
-            </p>
-
-        </div>
-
-    </section>
-
     <div class="card">
 
         <h2>
-            Profil Pengelolaan Sarana dan Prasarana
+            Daftar Gedung
         </h2>
 
         <br>
 
-        <p>
-
-            Sistem Informasi Daftar Barang
-            Ruangan (SIM-DBR) digunakan
-            untuk pengelolaan aset,
-            gedung, ruangan, mutasi,
-            perubahan kondisi, BAST,
-            perawatan gedung dan
-            penghapusan aset secara
-            terintegrasi.
-
-        </p>
-
-    </div>
-
-    <div class="stat-grid">
-
-        <div class="stat-box">
-
-            <h2>
-                ${statistik.totalGedung || 0}
-            </h2>
-
-            <p>
-                Total Gedung
-            </p>
-
-        </div>
-
-        <div class="stat-box">
-
-            <h2>
-                ${statistik.totalRuangan || 0}
-            </h2>
-
-            <p>
-                Total Ruangan
-            </p>
-
-        </div>
-
-        <div class="stat-box">
-
-            <h2>
-                ${statistik.totalAset || 0}
-            </h2>
-
-            <p>
-                Total Aset
-            </p>
-
-        </div>
-
-        <div class="stat-box">
-
-            <h2>
-
-                Rp
-                ${(statistik.totalNilai || 0)
-                .toLocaleString("id-ID")}
-
-            </h2>
-
-            <p>
-                Nilai Aset
-            </p>
-
-        </div>
-
-    </div>
-
-        <div class="card">
-    
-        <h2>
-            Infrastruktur Gedung
-        </h2>
-    
-        <br>
-    
         <table>
-    
+
             <thead>
-    
+
                 <tr>
-    
-                    <th>Gedung</th>
-                    <th>Kelas</th>
-                    <th>Lab</th>
-                    <th>Kantor</th>
-                    <th>Rapat</th>
-    
+
+                    <th>
+                        Gedung
+                    </th>
+
+                    <th>
+                        Ruangan
+                    </th>
+
+                    <th>
+                        Kelas
+                    </th>
+
+                    <th>
+                        Lab
+                    </th>
+
+                    <th>
+                        Kantor
+                    </th>
+
+                    <th>
+                        Perawatan
+                    </th>
+
+                    <th>
+                        DBR Gedung
+                    </th>
+
+                    <th>
+                        Detail
+                    </th>
+
                 </tr>
-    
+
             </thead>
-    
+
             <tbody>
-    
-                ${rowsInfrastruktur}
-    
+
+                ${rows}
+
             </tbody>
-    
+
         </table>
-    
-    </div>
 
-    <div class="card">
-
-        <h2>
-            Kondisi Aset
-        </h2>
-
-        <br>
-
-        <div class="dashboard-grid">
-
-            <div class="mini-card">
-
-                <h3>
-                    Rusak Berat
-                </h3>
-
-                <h1>
-                    ${statistik.asetRusakBerat || 0}
-                </h1>
-
-            </div>
-
-            <div class="mini-card">
-
-                <h3>
-                    Aset Hilang
-                </h3>
-
-                <h1>
-                    ${statistik.asetHilang || 0}
-                </h1>
-
-            </div>
-
-            <div class="mini-card">
-
-                <h3>
-                    Usia > 5 Tahun
-                </h3>
-
-                <h1>
-                    ${statistik.asetUsia5Tahun || 0}
-                </h1>
-
-            </div>
-
-            <div class="mini-card">
-
-                <h3>
-                    Siap Hapus
-                </h3>
-
-                <h1>
-                    ${statistik.asetSiapHapus || 0}
-                </h1>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="card">
-    
-        <h2>
-            Aktivitas Perawatan
-        </h2>
-    
-        <br>
-    
-        <table>
-    
-            <thead>
-    
-                <tr>
-    
-                    <th>Tanggal</th>
-    
-                    <th>Gedung</th>
-    
-                    <th>Jenis Perawatan</th>
-    
-                </tr>
-    
-            </thead>
-    
-            <tbody>
-    
-                ${rowsPerawatan}
-    
-            </tbody>
-    
-        </table>
-    
     </div>
 
     `);
@@ -383,13 +257,13 @@ async function loadHome(){
 
 async function loadGedung(){
 
-    const response =
+    const gedungRes =
         await fetch(
             `${API_URL}?action=getGedung`
         );
 
     const gedung =
-        await response.json();
+        await gedungRes.json();
 
     const ruanganRes =
         await fetch(
@@ -399,25 +273,14 @@ async function loadGedung(){
     const ruangan =
         await ruanganRes.json();
 
-    let html = `
+    let rows = "";
 
-    <div class="page-title">
-
-        <h2>
-            Daftar Gedung
-        </h2>
-
-    </div>
-
-    <div class="gedung-grid">
-
-    `;
-
-        (gedung.data || gedung)
+    (gedung.data || gedung)
     .forEach(g=>{
 
-        const jumlahRuangan =
-            ruangan.filter(
+        const ruangGedung =
+            (ruangan.data || ruangan)
+            .filter(
                 r =>
                     String(
                         r.KODE_GEDUNG
@@ -425,166 +288,105 @@ async function loadGedung(){
                     String(
                         g.KODE_GEDUNG
                     )
-            ).length;
-
-        html += `
-
-        <div class="gedung-card">
-
-            <div class="gedung-image">
-
-                <img
-                    src="${
-                        g.FOTO_GEDUNG ||
-                        'https://placehold.co/600x300'
-                    }"
-                    alt="${g.NAMA_GEDUNG}">
-
-            </div>
-
-            <div class="gedung-body">
-
-                <h3>
-                    ${g.NAMA_GEDUNG}
-                </h3>
-
-                <p>
-
-                    ${
-                        g.DESKRIPSI ||
-                        "Belum ada deskripsi gedung"
-                    }
-
-                </p>
-
-                <p>
-
-                    <b>
-                        ${jumlahRuangan}
-                    </b>
-
-                    Ruangan
-
-                </p>
-
-                <button
-                    onclick="
-                    showGedungDetail(
-                        '${g.KODE_GEDUNG}',
-                        '${g.NAMA_GEDUNG}'
-                    )">
-
-                    Lihat Detail
-
-                </button>
-
-            </div>
-
-        </div>
-
-        `;
-
-    });
-
-    html += `
-
-    </div>
-
-    `;
-
-    setContent(html);
-
-}
-
-async function showGedungDetail(
-    kodeGedung,
-    namaGedung
-){
-
-    const ruanganRes =
-        await fetch(
-            `${API_URL}?action=getRuanganByGedung&kodeGedung=${kodeGedung}`
-        );
-
-    const ruangan =
-        await ruanganRes.json();
-
-    const asetRes =
-        await fetch(
-            `${API_URL}?action=getMasterAset`
-        );
-
-    const aset =
-        await asetRes.json();
-
-    const asetGedung =
-        aset.filter(
-            a =>
-                String(
-                    a.KODE_GEDUNG
-                ) ===
-                String(
-                    kodeGedung
-                )
-        );
-
-    let totalNilai = 0;
-
-    asetGedung.forEach(a=>{
-
-        totalNilai +=
-            Number(
-                a.NILAI_PEROLEHAN || 0
             );
 
-    });
+        let kelas = 0;
+        let lab = 0;
+        let kantor = 0;
 
-    let rowsRuangan = "";
+        ruangGedung.forEach(r=>{
 
-    ruangan.forEach(r=>{
+            const jenis =
+                String(
+                    r.JENIS_RUANGAN || ""
+                ).toUpperCase();
 
-        const jumlahAset =
-            asetGedung.filter(
-                a =>
-                    String(
-                        a.KODE_RUANGAN
-                    ) ===
-                    String(
-                        r.KODE_RUANGAN
-                    )
-            ).length;
+            if(
+                jenis.includes(
+                    "KELAS"
+                )
+            ){
+                kelas++;
+            }
 
-        rowsRuangan += `
+            if(
+                jenis.includes(
+                    "LAB"
+                )
+            ){
+                lab++;
+            }
+
+            if(
+                jenis.includes(
+                    "KANTOR"
+                )
+            ){
+                kantor++;
+            }
+
+        });
+
+        rows += `
 
         <tr>
 
             <td>
-                ${r.NAMA_RUANGAN}
+                ${g.NAMA_GEDUNG}
             </td>
 
             <td>
-                ${r.JENIS_RUANGAN || "-"}
+                ${ruangGedung.length}
             </td>
 
             <td>
-                ${jumlahAset}
+                ${kelas}
+            </td>
+
+            <td>
+                ${lab}
+            </td>
+
+            <td>
+                ${kantor}
+            </td>
+
+            <td>
+
+                <span
+                    class="badge-proses">
+
+                    Proses
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <span
+                    class="badge-proses">
+
+                    Proses
+
+                </span>
+
             </td>
 
             <td>
 
                 <button
-                class="btn-primary"
-                onclick="
-                    window.open(
-                        API_URL +
-                        '?action=previewDBRRuangan&kodeRuangan=${r.KODE_RUANGAN}',
-                        '_blank'
-                    );
-                ">
-            
-                Lihat DBR
-            
-            </button>
+                    class="btn-primary"
+                    onclick="
+                        showGedungDetail(
+                            '${g.KODE_GEDUNG}',
+                            '${g.NAMA_GEDUNG}'
+                        )
+                    ">
+
+                    Detail
+
+                </button>
 
             </td>
 
@@ -598,113 +400,9 @@ async function showGedungDetail(
 
     <div class="card">
 
-        <button
-            class="btn-back"
-            onclick="loadGedung()">
-
-            ← Kembali
-
-        </button>
-
         <h2>
-
-            ${namaGedung}
-
+            Daftar Gedung
         </h2>
-
-        <br>
-
-        <div class="dashboard-grid">
-
-        <div class="mini-card">
-
-            <h3>
-                Total Ruangan
-            </h3>
-
-            <h1>
-                ${ruangan.length}
-            </h1>
-
-        </div>
-
-        <div class="mini-card">
-
-            <h3>
-                Total Aset
-            </h3>
-
-            <h1>
-                ${asetGedung.length}
-            </h1>
-
-        </div>
-
-     <div class="mini-card">
-
-    <h3>
-        Nilai Aset
-    </h3>
-
-    <h1>
-
-        Rp
-        ${totalNilai.toLocaleString("id-ID")}
-
-    </h1>
-
-</div>
-
-        </div>
-
-    </div>   
-
-    <div class="card">
-
-    <h3>
-        DBR Gedung
-    </h3>
-
-    <br>
-
-    <p>
-
-        Rekapitulasi seluruh aset
-        dalam Gedung
-        ${namaGedung}
-
-    </p>
-
-    <br>
-
-        <button
-        class="btn-primary"
-        style="
-            width:100%;
-            padding:15px;
-            font-size:16px;
-        "
-        onclick="
-            window.open(
-                API_URL +
-                '?action=previewDBRGedung&kodeGedung=${kodeGedung}',
-                '_blank'
-            );
-        ">
-
-        Lihat DBR Gedung
-
-    </button>
-
-</div>
-
-<br>
-
-    <div class="card">
-
-        <h3>
-            Daftar Ruangan
-        </h3>
 
         <br>
 
@@ -714,21 +412,21 @@ async function showGedungDetail(
 
                 <tr>
 
-                    <th>
-                        Nama Ruangan
-                    </th>
+                    <th>Gedung</th>
 
-                    <th>
-                        Jenis
-                    </th>
+                    <th>Ruangan</th>
 
-                    <th>
-                        Aset
-                    </th>
+                    <th>Kelas</th>
 
-                    <th>
-                        DBR
-                    </th>
+                    <th>Lab</th>
+
+                    <th>Kantor</th>
+
+                    <th>Perawatan</th>
+
+                    <th>DBR Gedung</th>
+
+                    <th>Detail</th>
 
                 </tr>
 
@@ -736,7 +434,7 @@ async function showGedungDetail(
 
             <tbody>
 
-                ${rowsRuangan}
+                ${rows}
 
             </tbody>
 
