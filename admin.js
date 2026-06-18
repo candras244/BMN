@@ -3327,110 +3327,88 @@ function showPengaturanTab(tab){
 
 }
 
+function getValue(id){
+
+    const el =
+        document.getElementById(id);
+
+    return el
+        ? el.value
+        : "";
+
+}
+
+function getChecked(id){
+
+    const el =
+        document.getElementById(id);
+
+    return el
+        ? (el.checked ? "TRUE" : "FALSE")
+        : "";
+
+}
+
 async function simpanPengaturan(){
 
-    const data = {
-
-        action : "savePengaturan",
-
-        NAMA_INSTANSI :
-            document.getElementById(
-                "NAMA_INSTANSI"
-            ).value,
-
-        ALAMAT :
-            document.getElementById(
-                "ALAMAT"
-            ).value,
-
-        TELEPON :
-            document.getElementById(
-                "TELEPON"
-            ).value,
-
-        EMAIL :
-            document.getElementById(
-                "EMAIL"
-            ).value,
-
-        WEBSITE :
-            document.getElementById(
-                "WEBSITE"
-            ).value,
-
-        LOGO_URL :
-            document.getElementById(
-                "LOGO_URL"
-            ).value,
-
-        KASUBAG_NAMA :
-            document.getElementById(
-                "KASUBAG_NAMA"
-            ).value,
-
-        KASUBAG_NIP :
-            document.getElementById(
-                "KASUBAG_NIP"
-            ).value,
-
-        SHOW_STATISTIK :
-            document.getElementById(
-                "SHOW_STATISTIK"
-            ).checked
-            ? "TRUE"
-            : "FALSE",
-
-        SHOW_INFO_GEDUNG :
-            document.getElementById(
-                "SHOW_INFO_GEDUNG"
-            ).checked
-            ? "TRUE"
-            : "FALSE",
-
-        SHOW_FOTO_GEDUNG :
-            document.getElementById(
-                "SHOW_FOTO_GEDUNG"
-            ).checked
-            ? "TRUE"
-            : "FALSE",
-
-        SHOW_DBR_GEDUNG :
-            document.getElementById(
-                "SHOW_DBR_GEDUNG"
-            ).checked
-            ? "TRUE"
-            : "FALSE",
-
-        SHOW_DBR_RUANGAN :
-            document.getElementById(
-                "SHOW_DBR_RUANGAN"
-            ).checked
-            ? "TRUE"
-            : "FALSE",
-
-        SHOW_GRAFIK :
-            document.getElementById(
-                "SHOW_GRAFIK"
-            ).checked
-            ? "TRUE"
-            : "FALSE",
-
-        TAHUN_PERENCANAAN :
-            document.getElementById(
-                "TAHUN_PERENCANAAN"
-            ).value,
-
-        UMUR_PENGGANTIAN :
-            document.getElementById(
-                "UMUR_PENGGANTIAN"
-            ).value,
-
-        UMUR_PENGHAPUSAN :
-            document.getElementById(
-                "UMUR_PENGHAPUSAN"
-            ).value
-
-    };
+       const data = {
+   
+           const data = {
+   
+       action : "savePengaturan",
+   
+       NAMA_INSTANSI :
+           getValue("NAMA_INSTANSI"),
+   
+       ALAMAT :
+           getValue("ALAMAT"),
+   
+       TELEPON :
+           getValue("TELEPON"),
+   
+       EMAIL :
+           getValue("EMAIL"),
+   
+       WEBSITE :
+           getValue("WEBSITE"),
+   
+       LOGO_URL :
+           getValue("LOGO_URL"),
+   
+       KASUBAG_NAMA :
+           getValue("KASUBAG_NAMA"),
+   
+       KASUBAG_NIP :
+           getValue("KASUBAG_NIP"),
+   
+       SHOW_STATISTIK :
+           getChecked("SHOW_STATISTIK"),
+   
+       SHOW_INFO_GEDUNG :
+           getChecked("SHOW_INFO_GEDUNG"),
+   
+       SHOW_FOTO_GEDUNG :
+           getChecked("SHOW_FOTO_GEDUNG"),
+   
+       SHOW_DBR_GEDUNG :
+           getChecked("SHOW_DBR_GEDUNG"),
+   
+       SHOW_DBR_RUANGAN :
+           getChecked("SHOW_DBR_RUANGAN"),
+   
+       SHOW_GRAFIK :
+           getChecked("SHOW_GRAFIK"),
+   
+       TAHUN_PERENCANAAN :
+           getValue("TAHUN_PERENCANAAN"),
+   
+       UMUR_PENGGANTIAN :
+           getValue("UMUR_PENGGANTIAN"),
+   
+       UMUR_PENGHAPUSAN :
+           getValue("UMUR_PENGHAPUSAN")
+   
+   };
 
     const result =
         await postAPI(
