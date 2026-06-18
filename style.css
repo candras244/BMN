@@ -625,12 +625,31 @@ td{
     display:grid;
 
     grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(320px,1fr)
-        );
+        repeat(3,1fr);
 
-    gap:25px;
+    gap:20px;
+
+}
+
+@media(max-width:900px){
+
+    .gedung-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .gedung-grid{
+
+        grid-template-columns:
+            repeat(1,1fr);
+
+    }
 
 }
 
@@ -691,5 +710,23 @@ td{
     border-radius:8px;
 
     cursor:pointer;
+
+}
+
+.btn-back{
+
+    background:#64748b;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 15px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    margin-bottom:15px;
 
 }
