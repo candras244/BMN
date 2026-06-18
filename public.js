@@ -103,27 +103,31 @@ async function loadHome(){
             <td>
 
                 <button
-                    class="btn"
+                    class="btn-primary"
                     disabled>
-
-                    Proses
-
+            
+                    DBR
+            
                 </button>
-
+            
             </td>
-
+            
             <td>
-
+            
                 <button
-                    class="btn"
-                    disabled>
-
-                    Proses
-
+                    class="btn-primary"
+                    onclick="
+                        showGedungDetail(
+                            '${g.KODE_GEDUNG}',
+                            '${g.NAMA_GEDUNG}'
+                        )
+                    ">
+            
+                    Ruangan
+            
                 </button>
-
+            
             </td>
-
             <td>
 
                 <button
