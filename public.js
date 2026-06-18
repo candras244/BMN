@@ -92,18 +92,6 @@ async function loadHome(){
             </td>
 
             <td>
-                ${kelas}
-            </td>
-
-            <td>
-                ${lab}
-            </td>
-
-            <td>
-                ${kantor}
-            </td>
-
-            <td>
 
                 <button
                     class="btn-primary"
