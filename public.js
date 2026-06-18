@@ -169,22 +169,117 @@ async function loadHome(){
 
         <br>
 
+            <p>
+                Sistem informasi untuk
+                pengelolaan aset, gedung,
+                ruangan dan DBR secara
+                terintegrasi.
+            </p>
+    
+        </div>
+    
+            <div class="card">
+        
+            <h2>
+                Statistik Aset
+            </h2>
+        
+            <div class="card">
+    
+        <h2>
+            Profil Pengelolaan Sarana dan Prasarana
+        </h2>
+    
+        <br>
+    
         <p>
-            Sistem informasi untuk
+    
+            SIM-DBR digunakan untuk
             pengelolaan aset, gedung,
-            ruangan dan DBR secara
-            terintegrasi.
+            ruangan, mutasi aset,
+            perubahan kondisi,
+            BAST, perawatan gedung,
+            penghapusan aset,
+            statistik dan perencanaan
+            kebutuhan sarana prasarana.
+    
         </p>
-
+    
+        <br>
+    
+        <p>
+    
+            Sistem ini terintegrasi
+            dengan database aset
+            sehingga seluruh informasi
+            dapat dimonitor secara
+            real time.
+    
+        </p>
+    
     </div>
-
+        
+        </div>
+    
         <div class="card">
     
         <h2>
-            Statistik Aset
+            Ringkasan Infrastruktur
         </h2>
     
-        ...
+        <br>
+    
+        <div class="dashboard-grid">
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Ruang Kelas
+                </h3>
+    
+                <h1>
+                    ${statistik.jumlahKelas || 0}
+                </h1>
+    
+            </div>
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Laboratorium
+                </h3>
+    
+                <h1>
+                    ${statistik.jumlahLab || 0}
+                </h1>
+    
+            </div>
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Ruang Kantor
+                </h3>
+    
+                <h1>
+                    ${statistik.jumlahKantor || 0}
+                </h1>
+    
+            </div>
+    
+            <div class="mini-card">
+    
+                <h3>
+                    Ruang Rapat
+                </h3>
+    
+                <h1>
+                    ${statistik.jumlahRapat || 0}
+                </h1>
+    
+            </div>
+    
+        </div>
     
     </div>
 
