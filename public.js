@@ -357,7 +357,7 @@ async function loadHome(){
     
                     <th>Gedung</th>
     
-                    <th>Ruangan</th>
+                    <th>Jenis Perawatan</th>
     
                 </tr>
     
@@ -413,7 +413,8 @@ async function loadGedung(){
 
     `;
 
-    gedung.forEach(g=>{
+        (gedung.data || gedung)
+    .forEach(g=>{
 
         const jumlahRuangan =
             ruangan.filter(
