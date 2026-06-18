@@ -135,6 +135,8 @@ async function loadHome(){
     </tr>
     
     `;
+        
+    });
 
     setContent(`
 
