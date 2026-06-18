@@ -506,16 +506,18 @@ async function showGedungDetail(
             <td>
 
                 <button
-                    class="btn-primary"
-                    onclick="
-                    showRuanganDetail(
-                        '${r.KODE_RUANGAN}',
-                        '${r.NAMA_RUANGAN}'
-                    )">
-                
-                    Lihat DBR
-                
-                </button>
+                class="btn-primary"
+                onclick="
+                    window.open(
+                        API_URL +
+                        '?action=previewDBRRuangan&kodeRuangan=${r.KODE_RUANGAN}',
+                        '_blank'
+                    );
+                ">
+            
+                Lihat DBR
+            
+            </butto
 
             </td>
 
