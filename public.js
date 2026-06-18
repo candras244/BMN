@@ -41,60 +41,147 @@ function setContent(html){
 
 async function loadHome(){
 
-    const response = await fetch(
-        `${API_URL}?action=getStatistik`
-    );
+    const statistikRes =
+        await fetch(
+            `${API_URL}?action=getStatistik`
+        );
 
-    const result = await response.json();
+    const statistik =
+        await statistikRes.json();
+
+    const pengaturanRes =
+        await fetch(
+            `${API_URL}?action=getPengaturan`
+        );
+
+    const pengaturan =
+        await pengaturanRes.json();
+
+    document.getElementById(
+        "namaInstansi"
+    ).innerText =
+        pengaturan.NAMA_INSTANSI ||
+        "SIM-DBR";
+
+    if(
+        pengaturan.LOGO_URL
+    ){
+
+        document.getElementById(
+            "logoInstansi"
+        ).src =
+            pengaturan.LOGO_URL;
+
+    }
+
+    document.getElementById(
+        "footerEmail"
+    ).innerText =
+        pengaturan.EMAIL || "-";
+
+    document.getElementById(
+        "footerTelepon"
+    ).innerText =
+        pengaturan.TELEPON || "-";
 
     setContent(`
 
-    <section class="hero">
+    <section class="hero-banner">
 
-        <h2>
-            Sistem Informasi Daftar Barang Ruangan
-        </h2>
+        <div class="hero-overlay">
 
-        <p>
-            Monitoring aset, gedung,
-            ruangan, dan DBR secara
-            terintegrasi.
-        </p>
+            <h1>
+                Selamat Datang di
+                SIM-DBR
+            </h1>
 
-    </section>
-
-    <div class="stats-grid">
-
-        <div class="stat-card">
-
-            <h3>Total Aset</h3>
-
-            <h2>
-                ${result.totalAset || 0}
-            </h2>
+            <p>
+                Sistem Informasi
+                Manajemen Daftar
+                Barang Ruangan
+            </p>
 
         </div>
 
-        <div class="stat-card">
+    </section>
 
-            <h3>Total Nilai Aset</h3>
+    <div class="stat-grid">
+
+        <div class="stat-box">
+
+            <h2>
+                ${statistik.totalGedung || 0}
+            </h2>
+
+            <p>
+                Total Gedung
+            </p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>
+                ${statistik.totalRuangan || 0}
+            </h2>
+
+            <p>
+                Total Ruangan
+            </p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>
+                ${statistik.totalAset || 0}
+            </h2>
+
+            <p>
+                Total Aset
+            </p>
+
+        </div>
+
+        <div class="stat-box">
 
             <h2>
 
                 Rp
-
-                ${(result.totalNilai || 0)
+                ${(statistik.totalNilai || 0)
                 .toLocaleString("id-ID")}
 
             </h2>
 
+            <p>
+                Nilai Aset
+            </p>
+
         </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            Profil Pengelolaan Sarpras
+        </h2>
+
+        <br>
+
+        <p>
+            Sistem informasi untuk
+            pengelolaan aset, gedung,
+            ruangan dan DBR secara
+            terintegrasi.
+        </p>
 
     </div>
 
     `);
 
 }
+
 /* =====================================
    GEDUNG
 ===================================== */
