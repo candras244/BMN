@@ -4960,3 +4960,15 @@ async function simpanRuangan(
     }
 
 }
+
+async function loadPenghapusan(){
+
+    setPageTitle("Penghapusan");
+
+    setContent(`
+        <div class="card">
+            Modul Penghapusan
+        </div>
+    `);
+
+}
