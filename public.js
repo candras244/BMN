@@ -56,6 +56,30 @@ async function loadHome(){
 
     const pengaturan =
         await pengaturanRes.json();
+        let rowsInfrastruktur = "";
+    
+    (statistik.infrastrukturGedung || [])
+    .forEach(g=>{
+    
+        rowsInfrastruktur += `
+    
+        <tr>
+    
+            <td>${g.namaGedung}</td>
+    
+            <td>${g.kelas}</td>
+    
+            <td>${g.lab}</td>
+    
+            <td>${g.kantor}</td>
+    
+            <td>${g.rapat}</td>
+    
+        </tr>
+    
+        `;
+    
+    });
 
     document.getElementById(
         "namaInstansi"
@@ -184,14 +208,6 @@ async function loadHome(){
     </div>
 
         <div class="card">
-    
-            <h2>
-                Ringkasan Infrastruktur
-            </h2>
-    
-            <br>
-    
-            <div class="card">
     
         <h2>
             Infrastruktur Gedung
@@ -497,7 +513,7 @@ async function showGedungDetail(
             
                 Lihat DBR
             
-            </butto
+            </butto>
 
             </td>
 
