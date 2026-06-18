@@ -87,104 +87,81 @@ async function loadHome(){
     setContent(`
 
     <section class="hero-banner">
-
+    
         <div class="hero-overlay">
-
+    
             <h1>
                 Selamat Datang di
                 SIM-DBR
             </h1>
-
+    
             <p>
                 Sistem Informasi
                 Manajemen Daftar
                 Barang Ruangan
             </p>
-
+    
         </div>
-
+    
     </section>
-
+    
     <div class="stat-grid">
-
+    
         <div class="stat-box">
-
+    
             <h2>
                 ${statistik.totalGedung || 0}
             </h2>
-
+    
             <p>
                 Total Gedung
             </p>
-
+    
         </div>
-
+    
         <div class="stat-box">
-
+    
             <h2>
                 ${statistik.totalRuangan || 0}
             </h2>
-
+    
             <p>
                 Total Ruangan
             </p>
-
+    
         </div>
-
+    
         <div class="stat-box">
-
+    
             <h2>
                 ${statistik.totalAset || 0}
             </h2>
-
+    
             <p>
                 Total Aset
             </p>
-
+    
         </div>
-
+    
         <div class="stat-box">
-
+    
             <h2>
-
+    
                 Rp
                 ${(statistik.totalNilai || 0)
                 .toLocaleString("id-ID")}
-
+    
             </h2>
-
+    
             <p>
                 Nilai Aset
             </p>
-
+    
         </div>
-
+    
     </div>
-
+    
     <div class="card">
-
-        <h2>
-            Profil Pengelolaan Sarpras
-        </h2>
-
-        <br>
-
-            <p>
-                Sistem informasi untuk
-                pengelolaan aset, gedung,
-                ruangan dan DBR secara
-                terintegrasi.
-            </p>
-    
-        </div>
-    
-            <div class="card">
-        
-            <h2>
-                Statistik Aset
-            </h2>
-        
-            <div class="card">
     
         <h2>
             Profil Pengelolaan Sarana dan Prasarana
@@ -193,7 +170,6 @@ async function loadHome(){
         <br>
     
         <p>
-    
             SIM-DBR digunakan untuk
             pengelolaan aset, gedung,
             ruangan, mutasi aset,
@@ -202,26 +178,21 @@ async function loadHome(){
             penghapusan aset,
             statistik dan perencanaan
             kebutuhan sarana prasarana.
-    
         </p>
     
         <br>
     
         <p>
-    
             Sistem ini terintegrasi
             dengan database aset
             sehingga seluruh informasi
             dapat dimonitor secara
             real time.
-    
         </p>
     
     </div>
-        
-        </div>
     
-        <div class="card">
+    <div class="card">
     
         <h2>
             Ringkasan Infrastruktur
@@ -282,10 +253,10 @@ async function loadHome(){
         </div>
     
     </div>
-
+    
     `);
 
-}
+    
 
 /* =====================================
    GEDUNG
