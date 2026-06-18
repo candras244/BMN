@@ -81,6 +81,42 @@ async function loadHome(){
     
     });
 
+    const perawatanRes =
+        await fetch(
+            `${API_URL}?action=getPerawatanGedung`
+        );
+    
+    const perawatan =
+        await perawatanRes.json();
+    
+    let rowsPerawatan = "";
+    
+    (perawatan || [])
+    .slice(0,5)
+    .forEach(p=>{
+    
+        rowsPerawatan += `
+    
+        <tr>
+    
+            <td>
+                ${p.TANGGAL_PERAWATAN || "-"}
+            </td>
+    
+            <td>
+                ${p.NAMA_GEDUNG || "-"}
+            </td>
+    
+            <td>
+                ${p.JENIS_PERAWATAN || "-"}
+            </td>
+    
+        </tr>
+    
+        `;
+    
+    });
+    
     document.getElementById(
         "namaInstansi"
     ).innerText =
