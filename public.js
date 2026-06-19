@@ -132,6 +132,23 @@ async function loadHome(){
                 <td>${jumlahPerawatan}</td>
 
                 <td>
+                
+                    <button
+                        class="btn-primary"
+                        onclick="
+                            bukaPerawatan(
+                                '${g.KODE_GEDUNG}',
+                                '${g.NAMA_GEDUNG}'
+                            )
+                        ">
+                
+                        Perawatan
+                
+                    </button>
+                
+                </td>
+
+                <td>
 
                     <button
                         class="btn-primary"
@@ -366,5 +383,195 @@ function lihatDBRRuangan(
         kodeRuangan,
         "_blank"
     );
+
+}
+
+async function bukaPerawatan(
+    kodeGedung,
+    namaGedung
+){
+
+    setContent(`
+
+    <div class="card">
+
+        <button
+            class="btn-primary"
+            onclick="loadHome()">
+
+            Kembali
+
+        </button>
+
+        <br><br>
+
+        <h2>
+            PERAWATAN GEDUNG
+        </h2>
+
+        <h3>
+            ${namaGedung}
+        </h3>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Tabel 1 - Monitoring dan Evaluasi Gedung
+            </h3>
+
+            <br>
+
+            <table>
+
+                <tr>
+                    <th>No</th>
+                    <th>Instrumen Monev</th>
+                    <th>Baik</th>
+                    <th>Cukup Baik</th>
+                    <th>Rusak</th>
+                    <th>Keterangan</th>
+                </tr>
+
+                <tr>
+                    <td colspan="6">
+
+                        Loading Data Monev...
+
+                    </td>
+                </tr>
+
+            </table>
+
+            <br>
+
+            <button class="btn-success">
+
+                Download Excel
+
+            </button>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Tabel 2 - Daftar Barang Per Ruangan
+            </h3>
+
+            <br>
+
+            <div
+                style="
+                    max-height:350px;
+                    overflow-y:auto;
+                ">
+
+                <table>
+
+                    <tr>
+
+                        <th>No</th>
+                        <th>Ruangan</th>
+                        <th>Nama Aset</th>
+                        <th>Jumlah</th>
+                        <th>Kondisi</th>
+                        <th>Keterangan</th>
+
+                    </tr>
+
+                    <tr>
+
+                        <td colspan="6">
+
+                            Loading Data Aset...
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <br>
+
+            <button class="btn-success">
+
+                Download Excel
+
+            </button>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+            <h3>
+                Tabel 3 - Riwayat Perawatan Aset
+
+            </h3>
+
+            <br>
+
+            <select>
+
+                <option>
+                    Semua Tahun
+                </option>
+
+            </select>
+
+            <br><br>
+
+            <div
+                style="
+                    max-height:350px;
+                    overflow-y:auto;
+                ">
+
+                <table>
+
+                    <tr>
+
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Ruangan</th>
+                        <th>Aset</th>
+                        <th>Keterangan</th>
+
+                    </tr>
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            Loading Data Riwayat...
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <br>
+
+            <button class="btn-success">
+
+                Download Excel
+
+            </button>
+
+        </div>
+
+    </div>
+
+    `);
 
 }
