@@ -246,46 +246,125 @@ function lihatDBRGedung(
 ){
 
     window.open(
-
         API_URL +
-        "?action=cetakDBRGedung" +
+        "?action=previewDBRGedung" +
         "&kodeGedung=" +
         kodeGedung,
-
         "_blank"
-
     );
 
 }
 
-function detailGedung(
+async function detailGedung(
     kodeGedung
 ){
 
-    alert(
-        "Detail Gedung : " +
-        kodeGedung
-    );
+    const res =
+        await fetch(
+            API_URL +
+            "?action=getRuanganByGedung" +
+            "&kodeGedung=" +
+            kodeGedung
+        );
+
+    const data =
+        await res.json();
+
+    let rows = "";
+
+    data.forEach((r,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${r.NAMA_RUANGAN || ""}</td>
+
+            <td>${r.JENIS_RUANGAN || ""}</td>
+
+            <td>
+
+                <button
+                    class="btn-primary"
+                    onclick="
+                        lihatDBRRuangan(
+                            '${r.KODE_RUANGAN}'
+                        )
+                    ">
+
+                    DBR
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <button
+            class="btn-primary"
+            onclick="loadHome()">
+
+            Kembali
+
+        </button>
+
+        <br><br>
+
+        <h2>
+            Daftar Ruangan
+        </h2>
+
+        <br>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Ruangan</th>
+                    <th>Jenis</th>
+                    <th>DBR</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `);
 
 }
 
-function lihatDBRGedung(kodeGedung){
+function lihatDBRRuangan(
+    kodeRuangan
+){
 
     window.open(
         API_URL +
-        "?action=cetakDBRGedung" +
-        "&kodeGedung=" +
-        kodeGedung,
+        "?action=previewDBRRuangan" +
+        "&kodeRuangan=" +
+        kodeRuangan,
         "_blank"
-    );
-
-}
-
-function detailGedung(kodeGedung){
-
-    alert(
-        "Detail Gedung : " +
-        kodeGedung
     );
 
 }
