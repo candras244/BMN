@@ -129,8 +129,6 @@ async function loadHome(){
 
                 <td>${jumlahLainnya}</td>
 
-                <td>${jumlahPerawatan}</td>
-
                 <td>
                 
                     <button
