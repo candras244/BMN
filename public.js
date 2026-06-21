@@ -416,7 +416,7 @@ async function bukaPerawatan(
         <div class="card">
 
             <h3>
-                Tabel 1 - Monitoring dan Evaluasi Gedung
+                Monitoring dan Evaluasi Gedung
             </h3>
 
             <br>
@@ -457,7 +457,7 @@ async function bukaPerawatan(
         <div class="card">
 
             <h3>
-                Tabel 2 - Daftar Barang Per Ruangan
+                Daftar Barang Per Ruangan
             </h3>
 
             <br>
@@ -510,7 +510,7 @@ async function bukaPerawatan(
         <div class="card">
 
             <h3>
-                Tabel 3 - Riwayat Perawatan Aset
+                Riwayat Perawatan Aset
 
             </h3>
 
