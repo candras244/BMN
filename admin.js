@@ -647,17 +647,22 @@ async function lihatAktivitasTahunan(
 
   let rowsKondisi = "";
 
-  (data.kondisi || []).forEach(k=>{
+  const kondisiList =
+    Array.isArray(data.kondisi)
+    ? data.kondisi
+    : [];
 
-    rowsKondisi += `
-      <tr>
-        <td>${k.TANGGAL || "-"}</td>
-        <td>${k.ID_ASET || "-"}</td>
-        <td>${k.KONDISI_BARU || "-"}</td>
-      </tr>
-    `;
-
-  });
+      kondisiList.forEach(k=>{
+      
+          rowsKondisi += `
+            <tr>
+              <td>${k?.TANGGAL || "-"}</td>
+              <td>${k?.ID_ASET || "-"}</td>
+              <td>${k?.KONDISI_BARU || "-"}</td>
+            </tr>
+          `;
+      
+      });
 
   let rowsBAST = "";
 
