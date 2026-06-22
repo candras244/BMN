@@ -603,7 +603,7 @@ async function loadTabelAsetPerRuangan(kodeGedung){
 
             <tr>
 
-                <td>${index+1}</td>
+                <td>${index + 1}</td>
 
                 <td>${a.NAMA_RUANGAN || "-"}</td>
 
@@ -634,6 +634,8 @@ async function loadTabelAsetPerRuangan(kodeGedung){
 
     }catch(err){
 
+        console.error(err);
+
         const target =
             document.getElementById(
                 "tblAsetPerRuangan"
@@ -656,8 +658,6 @@ async function loadTabelAsetPerRuangan(kodeGedung){
             `;
 
         }
-
-        console.error(err);
 
     }
 
