@@ -806,16 +806,32 @@ async function loadMasterAset(){
 
     try{
 
-       const data =
-          await getAPI(
-              "getMasterAset"
-          );
-
-       alert(JSON.stringify(data));
-
+       let data =
+            await getAPI(
+                "getMasterAset"
+            );
+         
+         if(
+             ROLE ===
+             "ADMIN_GEDUNG"
+         ){
+         
+             data =
+             data.filter(
+                 item =>
+                 String(
+                     item.KODE_GEDUNG
+                 ) ===
+                 String(
+                     KODE_GEDUNG
+                 )
+             );
+         
+         }
+         
          let rows = "";
-
-        console.log(data);
+         
+         console.log(data);
   
         data.forEach(
             (item,index)=>{
@@ -1378,15 +1394,40 @@ async function loadMutasi(){
 
 async function loadRiwayatMutasi(){
 
-    const data =
-        await getAPI(
-            "getMutasi"
-        );
-
-    let rows = "";
-
-    data.reverse().forEach((m,index)=>{
-
+    let data =
+          await getAPI(
+              "getMutasi"
+          );
+      
+      if(
+          ROLE ===
+          "ADMIN_GEDUNG"
+      ){
+      
+          data =
+          data.filter(
+              m =>
+              String(
+                  m.GEDUNG_TUJUAN || ""
+              ) ===
+              String(
+                  KODE_GEDUNG
+              )
+              ||
+              String(
+                  m.GEDUNG_ASAL || ""
+              ) ===
+              String(
+                  KODE_GEDUNG
+              )
+          );
+      
+      }
+      
+      let rows = "";
+      
+      data.reverse().forEach((m,index)=>{
+         
         rows += `
 
         <tr>
@@ -1931,10 +1972,45 @@ async function loadKondisi(){
 
 async function loadRiwayatKondisi(){
 
-    const data =
-        await getAPI(
-            "getKondisiAset"
-        );
+    let data =
+          await getAPI(
+              "getKondisiAset"
+          );
+      
+      if(
+          ROLE ===
+          "ADMIN_GEDUNG"
+      ){
+      
+          const masterAset =
+              await getAPI(
+                  "getMasterAset"
+              );
+      
+          const asetGedung =
+              masterAset
+              .filter(
+                  a =>
+                  String(
+                      a.KODE_GEDUNG
+                  ) ===
+                  String(
+                      KODE_GEDUNG
+                  )
+              )
+              .map(
+                  a => a.ID_ASET
+              );
+      
+          data =
+              data.filter(
+                  k =>
+                  asetGedung.includes(
+                      k.ID_ASET
+                  )
+              );
+      
+      }
 
     let rows = "";
 
@@ -2105,10 +2181,28 @@ async function cariAsetKondisi(){
             ).value
             .toLowerCase();
 
-        const aset =
-            await getAPI(
-                "getMasterAset"
-            );
+        let aset =
+             await getAPI(
+                 "getMasterAset"
+             );
+         
+         if(
+             ROLE ===
+             "ADMIN_GEDUNG"
+         ){
+         
+             aset =
+             aset.filter(
+                 a =>
+                 String(
+                     a.KODE_GEDUNG
+                 ) ===
+                 String(
+                     KODE_GEDUNG
+                 )
+             );
+         
+         }
 
         const hasil =
             aset.filter(a=>{
@@ -2348,14 +2442,49 @@ async function loadBAST(){
 
 async function loadRiwayatBAST(){
 
-    const data =
-        await getAPI(
-            "getBAST"
-        );
-
-    let rows = "";
-
-    data.reverse().forEach((b,index)=>{
+    let data =
+          await getAPI(
+              "getBAST"
+          );
+      
+      if(
+          ROLE ===
+          "ADMIN_GEDUNG"
+      ){
+      
+          const masterAset =
+              await getAPI(
+                  "getMasterAset"
+              );
+      
+          const asetGedung =
+              masterAset
+              .filter(
+                  a =>
+                  String(
+                      a.KODE_GEDUNG
+                  ) ===
+                  String(
+                      KODE_GEDUNG
+                  )
+              )
+              .map(
+                  a => a.ID_ASET
+              );
+      
+          data =
+              data.filter(
+                  b =>
+                  asetGedung.includes(
+                      b.ID_ASET
+                  )
+              );
+      
+      }
+      
+      let rows = "";
+      
+      data.reverse().forEach((b,index)=>{
 
         rows += `
 
@@ -2807,10 +2936,28 @@ async function loadPerawatan(){
 
 async function formTambahPerawatan(){
 
-    const gedung =
-        await getAPI(
-            "getGedung"
-        );
+    let gedung =
+          await getAPI(
+              "getGedung"
+          );
+      
+      if(
+          ROLE ===
+          "ADMIN_GEDUNG"
+      ){
+      
+          gedung =
+          gedung.filter(
+              g =>
+              String(
+                  g.KODE_GEDUNG
+              ) ===
+              String(
+                  KODE_GEDUNG
+              )
+          );
+      
+      }
 
     let gedungOption =
         `<option value="">
@@ -2931,14 +3078,32 @@ async function formTambahPerawatan(){
 
 async function loadRiwayatPerawatan(){
 
-    const data =
-        await getAPI(
-            "getPerawatanGedung"
-        );
-
-    let rows = "";
-
-    data.reverse().forEach((p,index)=>{
+    let data =
+       await getAPI(
+           "getPerawatanGedung"
+       );
+   
+   if(
+       ROLE ===
+       "ADMIN_GEDUNG"
+   ){
+   
+       data =
+       data.filter(
+           p =>
+           String(
+               p.KODE_GEDUNG
+           ) ===
+           String(
+               KODE_GEDUNG
+           )
+       );
+   
+   }
+   
+   let rows = "";
+   
+   data.reverse().forEach((p,index)=>{
 
         rows += `
 
@@ -3011,9 +3176,15 @@ async function simpanPerawatan(){
                     "tambahPerawatanGedung",
 
                 KODE_GEDUNG:
-                    document.getElementById(
-                        "kodeGedung"
-                    ).value,
+
+                   ROLE ===
+                   "ADMIN_GEDUNG"
+               
+                   ? KODE_GEDUNG
+               
+                   : document.getElementById(
+                       "kodeGedung"
+                     ).value,
 
                 JENIS_PERAWATAN:
                     document.getElementById(
@@ -3084,6 +3255,27 @@ function loadStatistik(){
 }
 
 async function loadPengaturan(){
+
+    if(
+        ROLE ===
+        "ADMIN_GEDUNG"
+    ){
+
+        setContent(`
+
+        <div class="card">
+
+            Anda tidak memiliki
+            hak akses ke menu
+            Pengaturan.
+
+        </div>
+
+        `);
+
+        return;
+
+    }
 
     setPageTitle(
         "Pengaturan"
@@ -3893,10 +4085,28 @@ async function loadGedungAdmin(){
 
     try{
 
-        const gedung =
-            await getAPI(
-                "getGedung"
-            );
+        let gedung =
+             await getAPI(
+                 "getGedung"
+             );
+         
+         if(
+             ROLE ===
+             "ADMIN_GEDUNG"
+         ){
+         
+             gedung =
+             gedung.filter(
+                 g =>
+                 String(
+                     g.KODE_GEDUNG
+                 ) ===
+                 String(
+                     KODE_GEDUNG
+                 )
+             );
+         
+         }
 
         let gedungList = "";
 
