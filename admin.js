@@ -5357,3 +5357,75 @@ async function loadAdminList(){
     }
 
 }
+
+async function simpanAdmin(){
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "tambahAdmin",
+
+                NAMA:
+                    document.getElementById(
+                        "namaAdmin"
+                    ).value,
+
+                USERNAME:
+                    document.getElementById(
+                        "username"
+                    ).value,
+
+                PASSWORD:
+                    document.getElementById(
+                        "password"
+                    ).value,
+
+                ROLE:
+                    document.getElementById(
+                        "role"
+                    ).value,
+
+                KODE_GEDUNG:
+                    document.getElementById(
+                        "kodeGedung"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Admin berhasil disimpan"
+            );
+
+            loadPengaturan();
+
+            setTimeout(
+                ()=>{
+                    showPengaturanTab(
+                        "admin"
+                    );
+                },
+                500
+            );
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            err
+        );
+
+    }
+
+}
