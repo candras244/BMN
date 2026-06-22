@@ -722,3 +722,116 @@ setContent(`
 loadTabelAsetPerRuangan(
     kodeGedung
 );
+
+<div class="card">
+
+    <h3>
+        Daftar Barang Per Ruangan
+    </h3>
+
+    <br>
+
+    <div
+        style="
+            max-height:350px;
+            overflow-y:auto;
+        ">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Ruangan</th>
+                    <th>Nama Aset</th>
+                    <th>Jumlah</th>
+                    <th>Kondisi</th>
+                    <th>Keterangan</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="tblAsetPerRuangan">
+
+                <tr>
+
+                    <td colspan="6">
+
+                        Loading Data Aset...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+async function loadTabelAsetPerRuangan(
+    kodeGedung
+){
+
+    const res =
+        await fetch(
+            API_URL +
+            "?action=getMasterAset"
+        );
+
+    const aset =
+        await res.json();
+
+    const data =
+        (aset.data || aset || [])
+        .filter(
+            a =>
+            String(a.KODE_GEDUNG) ===
+            String(kodeGedung)
+        );
+
+    let rows = "";
+
+    data.forEach((a,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index + 1}</td>
+
+            <td>
+                ${a.NAMA_RUANGAN || "-"}
+            </td>
+
+            <td>
+                ${a.NAMA_BARANG || "-"}
+            </td>
+
+            <td>1</td>
+
+            <td>
+                ${a.KONDISI || "-"}
+            </td>
+
+            <td>
+                ${a.KETERANGAN || "-"}
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById(
+        "tblAsetPerRuangan"
+    ).innerHTML = rows;
+
+}
