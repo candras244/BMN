@@ -503,12 +503,6 @@ async function loadHome(){
                         "
                     >
 
-                        <span>
-
-                            ${jumlahPerawatan}
-
-                        </span>
-
                         <button
                             class="btn-primary"
                             onclick="
