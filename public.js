@@ -621,27 +621,43 @@ async function loadTabelAsetPerRuangan(kodeGedung){
 
         });
 
-        document.getElementById(
-            "tblAsetPerRuangan"
-        ).innerHTML = rows;
+        const target =
+            document.getElementById(
+                "tblAsetPerRuangan"
+            );
+
+        if(target){
+
+            target.innerHTML = rows;
+
+        }
 
     }catch(err){
 
-        document.getElementById(
-            "tblAsetPerRuangan"
-        ).innerHTML = `
+        const target =
+            document.getElementById(
+                "tblAsetPerRuangan"
+            );
 
-        <tr>
+        if(target){
 
-            <td colspan="6">
+            target.innerHTML = `
 
-                Loading Data Aset...
+            <tr>
 
-            </td>
+                <td colspan="6">
 
-        </tr>
+                    Gagal memuat data
 
-        `;
+                </td>
+
+            </tr>
+
+            `;
+
+        }
+
+        console.error(err);
 
     }
 
