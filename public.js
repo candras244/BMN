@@ -663,6 +663,8 @@ async function loadTabelAsetPerRuangan(kodeGedung){
 
 }
 
+setContent(`
+
 <div class="card">
 
     <h3>
@@ -714,6 +716,8 @@ async function loadTabelAsetPerRuangan(kodeGedung){
     </div>
 
 </div>
+
+`);
 
 loadTabelAsetPerRuangan(
     kodeGedung
