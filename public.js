@@ -439,17 +439,6 @@ async function loadHome(){
                 jumlahKelas -
                 jumlahLab;
 
-            const jumlahPerawatan =
-                perawatan.filter(
-                    p =>
-                    String(
-                        p.KODE_GEDUNG
-                    ) ===
-                    String(
-                        g.KODE_GEDUNG
-                    )
-                ).length;
-
             rows += `
 
             <tr>
