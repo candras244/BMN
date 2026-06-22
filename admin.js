@@ -40,7 +40,7 @@ if(
     );
 
     window.location.href =
-        "index.html";
+        "login.html";
 
 }
 
@@ -5185,5 +5185,52 @@ async function loadPenghapusan(){
             Modul Penghapusan
         </div>
     `);
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    ()=>{
+
+        const adminName =
+            document.getElementById(
+                "adminName"
+            );
+
+        if(
+            adminName
+        ){
+
+            adminName.textContent =
+                localStorage.getItem(
+                    "SIMDBR_NAMA"
+                ) ||
+                "Administrator";
+
+        }
+
+    }
+);
+
+function logout(){
+
+    localStorage.removeItem(
+        "SIMDBR_LOGIN"
+    );
+
+    localStorage.removeItem(
+        "SIMDBR_NAMA"
+    );
+
+    localStorage.removeItem(
+        "SIMDBR_ROLE"
+    );
+
+    localStorage.removeItem(
+        "SIMDBR_KODE_GEDUNG"
+    );
+
+    window.location.href =
+        "login.html";
 
 }
