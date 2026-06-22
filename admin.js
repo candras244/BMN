@@ -3354,6 +3354,11 @@ async function loadPengaturan(){
                 Sistem
             </button>
 
+            <button class="btn"
+                onclick="showPengaturanTab('admin')">
+                Admin
+            </button>
+
         </div>
 
        <div id="pengaturanContent"></div>
@@ -3556,6 +3561,39 @@ function showPengaturanTab(tab){
 
     }
 
+   if(tab=="admin"){
+   
+       html = `
+   
+       <h3>Manajemen Admin</h3>
+   
+       <br>
+   
+       <button
+           class="btn btn-success"
+           onclick="formTambahAdmin()">
+   
+           + Tambah Admin
+   
+       </button>
+   
+       <br><br>
+   
+       <div id="adminArea">
+   
+           Loading...
+   
+       </div>
+   
+       `;
+   
+       setTimeout(
+           loadAdminList,
+           100
+       );
+   
+   }
+   
     document.getElementById(
         "pengaturanContent"
     ).innerHTML = html;
@@ -5232,5 +5270,90 @@ function logout(){
 
     window.location.href =
         "login.html";
+
+}
+
+async function loadAdminList(){
+
+    try{
+
+        const data =
+            await getAPI(
+                "getAdmin"
+            );
+
+        let rows = "";
+
+        data.forEach((a,index)=>{
+
+            rows += `
+
+            <tr>
+
+                <td>${index+1}</td>
+
+                <td>${a.NAMA || ""}</td>
+
+                <td>${a.USERNAME || ""}</td>
+
+                <td>${a.ROLE || ""}</td>
+
+                <td>${a.KODE_GEDUNG || "-"}</td>
+
+                <td>
+
+                    <button
+                        class="btn btn-warning">
+
+                        Edit
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "adminArea"
+        ).innerHTML = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Gedung</th>
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+        `;
+
+    }catch(err){
+
+        document.getElementById(
+            "adminArea"
+        ).innerHTML = err;
+
+    }
 
 }
