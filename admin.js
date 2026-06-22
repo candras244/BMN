@@ -5429,3 +5429,109 @@ async function simpanAdmin(){
     }
 
 }
+
+async function formTambahAdmin(){
+
+    const gedung =
+        await getAPI(
+            "getGedung"
+        );
+
+    let opsiGedung =
+        `<option value="">
+            Semua Gedung
+        </option>`;
+
+    gedung.forEach(g=>{
+
+        opsiGedung += `
+
+        <option
+            value="${g.KODE_GEDUNG}">
+
+            ${g.NAMA_GEDUNG}
+
+        </option>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Tambah Admin
+        </h3>
+
+        <br>
+
+        <input
+            id="namaAdmin"
+            class="form-control"
+            placeholder="Nama">
+
+        <br>
+
+        <input
+            id="username"
+            class="form-control"
+            placeholder="Username">
+
+        <br>
+
+        <input
+            id="password"
+            class="form-control"
+            placeholder="Password">
+
+        <br>
+
+        <select
+            id="role"
+            class="form-control">
+
+            <option value="SUPER_ADMIN">
+                SUPER_ADMIN
+            </option>
+
+            <option value="ADMIN_GEDUNG">
+                ADMIN_GEDUNG
+            </option>
+
+        </select>
+
+        <br>
+
+        <select
+            id="kodeGedung"
+            class="form-control">
+
+            ${opsiGedung}
+
+        </select>
+
+        <br>
+
+        <button
+            class="btn btn-success"
+            onclick="simpanAdmin()">
+
+            Simpan
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadPengaturan()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
