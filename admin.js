@@ -6,6 +6,44 @@
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxzBRWFCeSGayQi7SfBHbYHYudpwkMnPd_2DyDGJtEM5-nQoOQnW0884PSRiCburnPB/exec";
 
+/* =====================================================
+   LOGIN & ROLE
+===================================================== */
+
+const ROLE =
+    localStorage.getItem(
+        "SIMDBR_ROLE"
+    ) || "";
+
+const KODE_GEDUNG =
+    localStorage.getItem(
+        "SIMDBR_KODE_GEDUNG"
+    ) || "";
+
+const NAMA_ADMIN =
+    localStorage.getItem(
+        "SIMDBR_NAMA"
+    ) || "";
+
+/* =====================================================
+   CEK LOGIN
+===================================================== */
+
+if(
+    localStorage.getItem(
+        "SIMDBR_LOGIN"
+    ) !== "true"
+){
+
+    alert(
+        "Silakan login terlebih dahulu"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
 /* =====================================
    HELPER
 ===================================== */
