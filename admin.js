@@ -5397,20 +5397,15 @@ async function simpanAdmin(){
 
         if(result.success){
 
-            alert(
-                "Admin berhasil disimpan"
-            );
-
-            loadPengaturan();
-
-            setTimeout(
-                ()=>{
-                    showPengaturanTab(
-                        "admin"
-                    );
-                },
-                500
-            );
+             alert(
+                 "Admin berhasil disimpan"
+             );
+         
+             await loadPengaturan();
+         
+             showPengaturanTab(
+                 "admin"
+             );
 
         }else{
 
