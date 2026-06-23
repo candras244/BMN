@@ -6392,21 +6392,26 @@ async function uploadDokumenMonitoring(){
             try{
 
                 const result =
-                    await postAPI({
-
-                        action:
-                            "uploadMonitoringFile",
-
-                        fileName:
-                            file.name,
-
-                        mimeType:
-                            file.type,
-
-                        fileData:
-                            base64
-
-                    });
+                      await postAPI({
+                  
+                          action:
+                              "uploadMonitoringFile",
+                  
+                          fileName:
+                              file.name,
+                  
+                          mimeType:
+                              file.type,
+                  
+                          fileData:
+                              base64
+                  
+                      });
+                  
+                  console.log(
+                      "UPLOAD RESULT",
+                      result
+                  );
 
                 console.log(result);
 
