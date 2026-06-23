@@ -6438,7 +6438,7 @@ async function simpanMonitoringGedung(
 
         const dokumenUrl =
             await uploadDokumenMonitoring();
-   
+
         const result =
             await postAPI({
 
@@ -6470,9 +6470,13 @@ async function simpanMonitoringGedung(
                     dokumenUrl,
 
                 PETUGAS:
-                    NAMA_ADMIN
+                    (
+                        localStorage.getItem(
+                            "SIMDBR_NAMA"
+                        ) || ""
+                    )
 
-         });
+            });
 
         if(result.success){
 
@@ -6480,7 +6484,7 @@ async function simpanMonitoringGedung(
                 "Monitoring berhasil disimpan"
             );
 
-            bukaMonitoringGedung(
+            await bukaMonitoringGedung(
                 kodeGedung,
                 namaGedung
             );
