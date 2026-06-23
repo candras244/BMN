@@ -6436,6 +6436,9 @@ async function simpanMonitoringGedung(
 
     try{
 
+        const dokumenUrl =
+            await uploadDokumenMonitoring();
+   
         const result =
             await postAPI({
 
@@ -6464,9 +6467,7 @@ async function simpanMonitoringGedung(
                     ).value,
 
                 DOKUMEN:
-                    document.getElementById(
-                        "dokumenMonev"
-                    ).value,
+                    dokumenUrl
 
                 PETUGAS:
                     NAMA_ADMIN
