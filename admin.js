@@ -2926,6 +2926,134 @@ async function simpanBAST(){
 
 }
 
+/* =====================================================
+   MONITORING GEDUNG
+===================================================== */
+
+async function loadMonitoringGedungHome(){
+
+    setPageTitle(
+        "Perawatan Gedung"
+    );
+
+    let gedung =
+        await getAPI(
+            "getGedung"
+        );
+
+    if(
+        ROLE ===
+        "ADMIN_GEDUNG"
+    ){
+
+        gedung =
+        gedung.filter(
+            g =>
+            String(
+                g.KODE_GEDUNG
+            ) ===
+            String(
+                KODE_GEDUNG
+            )
+        );
+
+    }
+
+    let rows = "";
+
+    gedung.forEach(g=>{
+
+        rows += `
+
+        <tr>
+
+            <td>
+
+                ${g.NAMA_GEDUNG}
+
+            </td>
+
+            <td>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="
+                    loadMonitoringGedung(
+                    '${g.KODE_GEDUNG}',
+                    '${g.NAMA_GEDUNG}'
+                    )">
+
+                    Monitoring
+
+                </button>
+
+            </td>
+
+            <td>
+
+                <button
+                    class="btn btn-success"
+                    onclick="
+                    loadRiwayatPerawatanGedung(
+                    '${g.KODE_GEDUNG}'
+                    )">
+
+                    Riwayat Perawatan
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Daftar Gedung
+        </h3>
+
+        <br>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Gedung</th>
+
+                    <th>Monitoring</th>
+
+                    <th>Riwayat Perawatan</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `);
+
+}
+
+/* =====================================================
+   PERAWATAN GEDUNG
+===================================================== */
+
 async function loadPerawatan(){
 
     setPageTitle(
