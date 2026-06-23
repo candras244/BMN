@@ -5674,3 +5674,75 @@ async function editAdmin(idAdmin){
     `);
 
 }
+
+async function updateAdmin(){
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "updateAdmin",
+
+                ID_ADMIN:
+                    document.getElementById(
+                        "idAdmin"
+                    ).value,
+
+                NAMA:
+                    document.getElementById(
+                        "namaAdmin"
+                    ).value,
+
+                USERNAME:
+                    document.getElementById(
+                        "username"
+                    ).value,
+
+                PASSWORD:
+                    document.getElementById(
+                        "password"
+                    ).value,
+
+                ROLE:
+                    document.getElementById(
+                        "role"
+                    ).value,
+
+                KODE_GEDUNG:
+                    document.getElementById(
+                        "kodeGedung"
+                    ).value
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Admin berhasil diupdate"
+            );
+
+            await loadPengaturan();
+
+            showPengaturanTab(
+                "admin"
+            );
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            err
+        );
+
+    }
+
+}
