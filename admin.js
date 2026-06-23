@@ -6472,7 +6472,7 @@ async function simpanMonitoringGedung(
                 PETUGAS:
                     NAMA_ADMIN
 
-            });
+         });
 
         if(result.success){
 
