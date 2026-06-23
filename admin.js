@@ -6408,9 +6408,21 @@ async function uploadDokumenMonitoring(){
 
                     });
 
-                resolve(
-                    result.url || ""
-                );
+                console.log(result);
+
+                const url =
+
+                   result.url
+               
+                   ||
+               
+                   (
+                     result.data
+                     ? result.data.url
+                     : ""
+                   );
+               
+               resolve(url);
 
             }catch(err){
 
