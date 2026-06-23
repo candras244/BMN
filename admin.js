@@ -5303,7 +5303,8 @@ async function loadAdminList(){
                 <td>
 
                     <button
-                        class="btn btn-warning">
+                        class="btn btn-warning"
+                        onclick="editAdmin('${a.ID_ADMIN}')">
 
                         Edit
 
@@ -5514,6 +5515,149 @@ async function formTambahAdmin(){
             onclick="simpanAdmin()">
 
             Simpan
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadPengaturan()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function editAdmin(idAdmin){
+
+    const admins =
+        await getAPI(
+            "getAdmin"
+        );
+
+    const admin =
+        admins.find(
+            a =>
+            String(
+                a.ID_ADMIN
+            ) ===
+            String(
+                idAdmin
+            )
+        );
+
+    if(!admin){
+
+        alert(
+            "Admin tidak ditemukan"
+        );
+
+        return;
+
+    }
+
+    const gedung =
+        await getAPI(
+            "getGedung"
+        );
+
+    let opsiGedung = "";
+
+    gedung.forEach(g=>{
+
+        opsiGedung += `
+
+        <option
+            value="${g.KODE_GEDUNG}"
+            ${g.KODE_GEDUNG===admin.KODE_GEDUNG ? "selected" : ""}>
+
+            ${g.NAMA_GEDUNG}
+
+        </option>
+
+        `;
+
+    });
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Edit Admin
+        </h3>
+
+        <br>
+
+        <input
+            type="hidden"
+            id="idAdmin"
+            value="${admin.ID_ADMIN}">
+
+        <input
+            id="namaAdmin"
+            class="form-control"
+            value="${admin.NAMA || ""}">
+
+        <br>
+
+        <input
+            id="username"
+            class="form-control"
+            value="${admin.USERNAME || ""}">
+
+        <br>
+
+        <input
+            id="password"
+            class="form-control"
+            value="${admin.PASSWORD || ""}">
+
+        <br>
+
+        <select
+            id="role"
+            class="form-control">
+
+            <option
+                value="SUPER_ADMIN"
+                ${admin.ROLE==="SUPER_ADMIN" ? "selected" : ""}>
+
+                SUPER_ADMIN
+
+            </option>
+
+            <option
+                value="ADMIN_GEDUNG"
+                ${admin.ROLE==="ADMIN_GEDUNG" ? "selected" : ""}>
+
+                ADMIN_GEDUNG
+
+            </option>
+
+        </select>
+
+        <br>
+
+        <select
+            id="kodeGedung"
+            class="form-control">
+
+            ${opsiGedung}
+
+        </select>
+
+        <br>
+
+        <button
+            class="btn btn-success"
+            onclick="updateAdmin()">
+
+            Update
 
         </button>
 
