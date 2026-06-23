@@ -6321,6 +6321,7 @@ async function formMonitoringGedung(
             </label>
 
             <input
+                type="file"
                 id="dokumenMonev"
                 class="form-control">
 
@@ -6354,6 +6355,76 @@ async function formMonitoringGedung(
     </div>
 
     `);
+
+}
+
+async function uploadDokumenMonitoring(){
+
+    const fileInput =
+        document.getElementById(
+            "dokumenMonev"
+        );
+
+    if(
+        !fileInput.files.length
+    ){
+
+        return "";
+
+    }
+
+    const file =
+        fileInput.files[0];
+
+    return new Promise(
+        (resolve,reject)=>{
+
+        const reader =
+            new FileReader();
+
+        reader.onload =
+            async function(e){
+
+            const base64 =
+                e.target.result
+                .split(",")[1];
+
+            try{
+
+                const result =
+                    await postAPI({
+
+                        action:
+                            "uploadMonitoringFile",
+
+                        fileName:
+                            file.name,
+
+                        mimeType:
+                            file.type,
+
+                        fileData:
+                            base64
+
+                    });
+
+                resolve(
+                    result.url || ""
+                );
+
+            }catch(err){
+
+                reject(err);
+
+            }
+
+        };
+
+        reader.readAsDataURL(
+            file
+        );
+
+    });
 
 }
 
