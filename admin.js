@@ -2930,7 +2930,7 @@ async function simpanBAST(){
    MONITORING GEDUNG
 ===================================================== */
 
-async function loadMonitoringGedungHome(){
+async function loadMonitoringGedung(){
 
     setPageTitle(
         "Perawatan Gedung"
@@ -6057,5 +6057,359 @@ async function loadMonitoringGedung(){
     </div>
 
     `);
+
+}
+
+async function bukaMonitoringGedung(
+    kodeGedung,
+    namaGedung
+){
+
+      const data =
+          await getAPI(
+              "getMonevGedung"
+          );
+
+    let rows = "";
+
+      instrumen.forEach(i=>{
+      
+          const terakhir =
+      
+              data
+              .filter(
+                  m =>
+      
+                  String(
+                      m.KODE_GEDUNG
+                  ) ===
+                  String(
+                      kodeGedung
+                  )
+      
+                  &&
+      
+                  String(
+                      m.INSTRUMEN
+                  ) ===
+                  String(
+                      i
+                  )
+      
+              )
+              .sort(
+                  (a,b)=>
+      
+                  new Date(
+                      b.TANGGAL
+                  ) -
+      
+                  new Date(
+                      a.TANGGAL
+                  )
+      
+              )[0];
+      
+          rows += `
+      
+          <tr>
+      
+              <td>${i}</td>
+      
+              <td>
+      
+                  ${
+                      terakhir
+                      ? terakhir.KONDISI
+                      : "-"
+                  }
+      
+              </td>
+      
+              <td>
+      
+                  ${
+                      terakhir
+                      ? terakhir.TANGGAL
+                      : "-"
+                  }
+      
+              </td>
+      
+              <td>
+      
+                  <button
+                      class="btn btn-warning"
+                      onclick="
+                      formMonitoringGedung(
+                      '${kodeGedung}',
+                      '${namaGedung}',
+                      '${i}'
+                      )">
+      
+                      Edit
+      
+                  </button>
+      
+              </td>
+      
+          </tr>
+      
+          `;
+      
+      });
+   
+    setPageTitle(
+        namaGedung
+    );
+
+    setContent(`
+
+    <div class="card">
+
+        <button
+            class="btn"
+            onclick="
+            loadMonitoringGedung()
+            ">
+
+            ← Kembali
+
+        </button>
+
+        <br><br>
+
+        <h3>
+
+            Monitoring Gedung
+
+            <br>
+
+            ${namaGedung}
+
+        </h3>
+
+        <br>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Instrumen</th>
+                    <th>Kondisi</th>
+                    <th>Monitoring Terakhir</th>
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    `);
+
+}
+
+async function formMonitoringGedung(
+    kodeGedung,
+    namaGedung,
+    instrumen
+){
+
+    setContent(`
+
+    <div class="card">
+
+        <button
+            class="btn"
+            onclick="
+            bukaMonitoringGedung(
+            '${kodeGedung}',
+            '${namaGedung}'
+            )">
+
+            ← Kembali
+
+        </button>
+
+        <br><br>
+
+        <h3>
+
+            ${namaGedung}
+
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Instrumen
+            </label>
+
+            <input
+                class="form-control"
+                value="${instrumen}"
+                readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Tanggal Monitoring
+            </label>
+
+            <input
+                type="date"
+                id="tanggalMonev"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Kondisi
+            </label>
+
+            <select
+                id="kondisiMonev"
+                class="form-control">
+
+                <option>Baik</option>
+                <option>Rusak Ringan</option>
+                <option>Rusak Berat</option>
+                <option>Perlu Perhatian</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Dokumen
+            </label>
+
+            <input
+                id="dokumenMonev"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Keterangan
+            </label>
+
+            <textarea
+                id="keteranganMonev"
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="
+            simpanMonitoringGedung(
+            '${kodeGedung}',
+            '${namaGedung}',
+            '${instrumen}'
+            )">
+
+            Simpan
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function simpanMonitoringGedung(
+    kodeGedung,
+    namaGedung,
+    instrumen
+){
+
+    try{
+
+        const result =
+            await postAPI({
+
+                action:
+                    "tambahMonevGedung",
+
+                TANGGAL:
+                    document.getElementById(
+                        "tanggalMonev"
+                    ).value,
+
+                KODE_GEDUNG:
+                    kodeGedung,
+
+                INSTRUMEN:
+                    instrumen,
+
+                KONDISI:
+                    document.getElementById(
+                        "kondisiMonev"
+                    ).value,
+
+                KETERANGAN:
+                    document.getElementById(
+                        "keteranganMonev"
+                    ).value,
+
+                DOKUMEN:
+                    document.getElementById(
+                        "dokumenMonev"
+                    ).value,
+
+                PETUGAS:
+                    NAMA_ADMIN
+
+            });
+
+        if(result.success){
+
+            alert(
+                "Monitoring berhasil disimpan"
+            );
+
+            bukaMonitoringGedung(
+                kodeGedung,
+                namaGedung
+            );
+
+        }else{
+
+            alert(
+                result.message
+            );
+
+        }
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
 
 }
