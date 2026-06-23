@@ -6392,44 +6392,57 @@ async function uploadDokumenMonitoring(){
             try{
 
                 const result =
-                      await postAPI({
-                  
-                          action:
-                              "uploadMonitoringFile",
-                  
-                          fileName:
-                              file.name,
-                  
-                          mimeType:
-                              file.type,
-                  
-                          fileData:
-                              base64
-                  
-                      });
-                  
-                  console.log(
-                      "UPLOAD RESULT",
-                      result
-                  );
+                    await postAPI({
 
-                console.log(result);
+                        action:
+                            "uploadMonitoringFile",
+
+                        fileName:
+                            file.name,
+
+                        mimeType:
+                            file.type,
+
+                        fileData:
+                            base64
+
+                    });
+
+                console.log(
+                    "UPLOAD RESULT = ",
+                    result
+                );
+
+                alert(
+                    JSON.stringify(result)
+                );
 
                 const url =
 
-                   result.url
-               
-                   ||
-               
-                   (
-                     result.data
-                     ? result.data.url
-                     : ""
-                   );
-               
-               resolve(url);
+                    result.url
+
+                    ||
+
+                    (
+                        result.data
+                        ? result.data.url
+                        : ""
+                    )
+
+                    ||
+
+                    "";
+
+                console.log(
+                    "URL = ",
+                    url
+                );
+
+                resolve(url);
 
             }catch(err){
+
+                console.error(err);
 
                 reject(err);
 
