@@ -5302,15 +5302,31 @@ async function loadAdminList(){
 
                 <td>
 
-                    <button
-                        class="btn btn-warning"
-                        onclick="editAdmin('${a.ID_ADMIN}')">
-
-                        Edit
-
-                    </button>
-
-                </td>
+                   <button
+                       class="btn btn-warning"
+                       onclick="editAdmin('${a.ID_ADMIN}')">
+               
+                       Edit
+               
+                   </button>
+               
+                   <button
+                       class="btn btn-primary"
+                       onclick="resetPasswordAdmin('${a.ID_ADMIN}')">
+               
+                       Reset
+               
+                   </button>
+               
+                   <button
+                       class="btn btn-danger"
+                       onclick="hapusAdmin('${a.ID_ADMIN}')">
+               
+                       Hapus
+               
+                   </button>
+               
+               </td>
 
             </tr>
 
@@ -5744,5 +5760,67 @@ async function updateAdmin(){
         );
 
     }
+
+}
+
+async function resetPasswordAdmin(idAdmin){
+
+    if(
+        !confirm(
+            "Reset password menjadi 123456 ?"
+        )
+    ){
+        return;
+    }
+
+    const result =
+        await postAPI({
+
+            action:
+                "resetPasswordAdmin",
+
+            ID_ADMIN:
+                idAdmin
+
+        });
+
+    alert(
+        result.message
+    );
+
+    showPengaturanTab(
+        "admin"
+    );
+
+}
+
+async function hapusAdmin(idAdmin){
+
+    if(
+        !confirm(
+            "Hapus admin ini ?"
+        )
+    ){
+        return;
+    }
+
+    const result =
+        await postAPI({
+
+            action:
+                "hapusAdmin",
+
+            ID_ADMIN:
+                idAdmin
+
+        });
+
+    alert(
+        result.message
+    );
+
+    showPengaturanTab(
+        "admin"
+    );
 
 }
