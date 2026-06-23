@@ -6065,100 +6065,117 @@ async function bukaMonitoringGedung(
     namaGedung
 ){
 
-      const data =
-          await getAPI(
-              "getMonevGedung"
-          );
+    const instrumen = [
+
+        "Struktur Gedung",
+        "Lantai",
+        "Dinding",
+        "Atap",
+        "Pintu",
+        "Jendela",
+        "Tangga",
+        "Air",
+        "Listrik",
+        "Toilet",
+        "Parkir",
+        "Sarana Disabilitas"
+
+    ];
+
+    const data =
+        await getAPI(
+            "getMonevGedung"
+        );
 
     let rows = "";
 
-      instrumen.forEach(i=>{
-      
-          const terakhir =
-      
-              data
-              .filter(
-                  m =>
-      
-                  String(
-                      m.KODE_GEDUNG
-                  ) ===
-                  String(
-                      kodeGedung
-                  )
-      
-                  &&
-      
-                  String(
-                      m.INSTRUMEN
-                  ) ===
-                  String(
-                      i
-                  )
-      
-              )
-              .sort(
-                  (a,b)=>
-      
-                  new Date(
-                      b.TANGGAL
-                  ) -
-      
-                  new Date(
-                      a.TANGGAL
-                  )
-      
-              )[0];
-      
-          rows += `
-      
-          <tr>
-      
-              <td>${i}</td>
-      
-              <td>
-      
-                  ${
-                      terakhir
-                      ? terakhir.KONDISI
-                      : "-"
-                  }
-      
-              </td>
-      
-              <td>
-      
-                  ${
-                      terakhir
-                      ? terakhir.TANGGAL
-                      : "-"
-                  }
-      
-              </td>
-      
-              <td>
-      
-                  <button
-                      class="btn btn-warning"
-                      onclick="
-                      formMonitoringGedung(
-                      '${kodeGedung}',
-                      '${namaGedung}',
-                      '${i}'
-                      )">
-      
-                      Edit
-      
-                  </button>
-      
-              </td>
-      
-          </tr>
-      
-          `;
-      
-      });
-   
+    instrumen.forEach(i=>{
+
+        const terakhir =
+
+            data
+            .filter(
+                m =>
+
+                String(
+                    m.KODE_GEDUNG
+                ) ===
+                String(
+                    kodeGedung
+                )
+
+                &&
+
+                String(
+                    m.INSTRUMEN
+                ) ===
+                String(
+                    i
+                )
+
+            )
+            .sort(
+                (a,b)=>
+
+                new Date(
+                    b.TANGGAL
+                ) -
+
+                new Date(
+                    a.TANGGAL
+                )
+
+            )[0];
+
+        rows += `
+
+        <tr>
+
+            <td>${i}</td>
+
+            <td>
+
+                ${
+                    terakhir
+                    ? terakhir.KONDISI
+                    : "-"
+                }
+
+            </td>
+
+            <td>
+
+                ${
+                    terakhir
+                    ? terakhir.TANGGAL
+                    : "-"
+                }
+
+            </td>
+
+            <td>
+
+                <button
+                    class="btn btn-warning"
+                    onclick="
+                    formMonitoringGedung(
+                    '${kodeGedung}',
+                    '${namaGedung}',
+                    '${i}'
+                    )">
+
+                    Edit
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
     setPageTitle(
         namaGedung
     );
