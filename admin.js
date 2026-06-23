@@ -6467,7 +6467,7 @@ async function simpanMonitoringGedung(
                     ).value,
 
                 DOKUMEN:
-                    dokumenUrl
+                    dokumenUrl,
 
                 PETUGAS:
                     NAMA_ADMIN
