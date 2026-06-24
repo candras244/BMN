@@ -4930,447 +4930,438 @@ async function hapusGedung(
 
 }
 
+/* =====================================================
+RUANGAN
+===================================================== */
+
 async function lihatRuangan(
-    kodeGedung
+kodeGedung
 ){
 
-    const data =
-        await getAPI(
-            "getRuanganByGedung"
-            +
-            "&kodeGedung="
-            +
-            kodeGedung
-        );
-
-    let rows = "";
-
-    data.forEach((r,index)=>{
-
-        rows += `
-
-        <tr>
-
-            <td>${index+1}</td>
-
-            <td>${r.KODE_RUANGAN || ""}</td>
-
-            <td>${r.NAMA_RUANGAN || ""}</td>
-
-            <td>${r.JENIS_RUANGAN || ""}</td>
-            <td>
-            
-                <button
-                    class="btn btn-warning"
-                    onclick="editRuangan('${r.KODE_RUANGAN}')">
-            
-                    Edit
-            
-                </button>
-            
-            </td>
-
-
-        </tr>
-
-        `;
-
-    });
-
-    setContent(`
-
-    <div class="card">
-
-        <button
-            class="btn"
-            onclick="loadGedungAdmin()">
-
-            Kembali
-
-        </button>
-
-        <br><br>
-
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            margin-bottom:20px;
-            ">
-            
-                <h3>
-                    Daftar Ruangan
-                </h3>
-            
-                <button
-                    class="btn btn-success"
-                    onclick="formTambahRuangan('${kodeGedung}')">
-            
-                    + Tambah Ruangan
-            
-                </button>
-            
-            </div>
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>No</th>
-                    <th>Kode</th>
-                    <th>Nama Ruangan</th>
-                    <th>Jenis</th>
-                    <th>Status</th>
-                    <th>Ukuran</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${rows}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    `);
-
-}
-
-async function editRuangan(
-    kodeRuangan
-){
-
-    const data =
-        await getAPI(
-            "getRuanganByKode"
-            +
-            "&kodeRuangan="
-            +
-            kodeRuangan
-        );
-
-    setPageTitle(
-        "Edit Ruangan"
+```
+const data =
+    await getAPI(
+        "getRuanganByGedung"
+        +
+        "&kodeGedung="
+        +
+        kodeGedung
     );
 
-    setContent(`
+let rows = "";
 
-    <div class="card">
+data.forEach((r,index)=>{
+
+    rows += `
+
+    <tr>
+
+        <td>${index+1}</td>
+
+        <td>${r.KODE_RUANGAN || ""}</td>
+
+        <td>${r.NAMA_RUANGAN || ""}</td>
+
+        <td>${r.JENIS_RUANGAN || ""}</td>
+
+        <td>${r.STATUS_RUANGAN || ""}</td>
+
+        <td>${r.UKURAN_RUANGAN || ""} m²</td>
+
+        <td>
+
+            <button
+                class="btn btn-warning"
+                onclick="editRuangan('${r.KODE_RUANGAN}')">
+
+                Edit
+
+            </button>
+
+        </td>
+
+    </tr>
+
+    `;
+
+});
+
+setContent(`
+
+<div class="card">
+
+    <button
+        class="btn"
+        onclick="loadGedungAdmin()">
+
+        Kembali
+
+    </button>
+
+    <br><br>
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:20px;
+    ">
 
         <h3>
-            Edit Ruangan
+            Daftar Ruangan
         </h3>
-
-        <br>
-
-        <div class="form-group">
-
-            <label>
-                Kode Ruangan
-            </label>
-
-            <input
-                id="kodeRuangan"
-                class="form-control"
-                value="${data.KODE_RUANGAN}"
-                readonly>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Nama Ruangan
-            </label>
-
-            <input
-                id="namaRuangan"
-                class="form-control"
-                value="${data.NAMA_RUANGAN || ""}">
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Jenis Ruangan
-            </label>
-
-            <input
-                id="jenisRuangan"
-                class="form-control"
-                value="${data.JENIS_RUANGAN || ""}">
-
-        </div>
-
-        <div class="form-group">
-             <label>Status Ruangan</label>
-         
-             <select
-                 id="statusRuangan"
-                 class="form-control">
-         
-                 <option
-                 ${data.STATUS_RUANGAN==="Aktif"?"selected":""}>
-                 Aktif
-                 </option>
-         
-                 <option
-                 ${data.STATUS_RUANGAN==="Tidak Aktif"?"selected":""}>
-                 Tidak Aktif
-                 </option>
-         
-             </select>
-         
-         </div>
-         
-         <div class="form-group">
-         
-             <label>Ukuran Ruangan</label>
-         
-             <input
-                 id="ukuranRuangan"
-                 class="form-control"
-                 value="${data.UKURAN_RUANGAN || ""}">
-         
-         </div>
 
         <button
             class="btn btn-success"
-            onclick="updateRuanganForm()">
+            onclick="formTambahRuangan('${kodeGedung}')">
 
-            Update
-
-        </button>
-
-        <button
-            class="btn"
-            onclick="loadGedungAdmin()">
-
-            Batal
+            + Tambah Ruangan
 
         </button>
 
     </div>
 
-    `);
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>No</th>
+                <th>Kode</th>
+                <th>Nama Ruangan</th>
+                <th>Jenis</th>
+                <th>Status</th>
+                <th>Ukuran</th>
+                <th>Aksi</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            ${rows}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+`);
+```
+
+}
+
+/* =====================================================
+TAMBAH RUANGAN
+===================================================== */
+
+async function formTambahRuangan(
+kodeGedung
+){
+
+```
+setPageTitle(
+    "Tambah Ruangan"
+);
+
+setContent(`
+
+<div class="card">
+
+    <h3>
+        Tambah Ruangan
+    </h3>
+
+    <br>
+
+    <div class="form-group">
+
+        <label>
+            Kode Ruangan
+        </label>
+
+        <input
+            id="kodeRuangan"
+            class="form-control">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Nama Ruangan
+        </label>
+
+        <input
+            id="namaRuangan"
+            class="form-control">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Jenis Ruangan
+        </label>
+
+        <input
+            id="jenisRuangan"
+            class="form-control">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Status Ruangan
+        </label>
+
+        <select
+            id="statusRuangan"
+            class="form-control">
+
+            <option>Aktif</option>
+            <option>Tidak Aktif</option>
+
+        </select>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Ukuran Ruangan (m²)
+        </label>
+
+        <input
+            type="number"
+            id="ukuranRuangan"
+            class="form-control"
+            placeholder="Contoh: 30">
+
+    </div>
+
+    <button
+        class="btn btn-success"
+        onclick="simpanRuangan('${kodeGedung}')">
+
+        Simpan
+
+    </button>
+
+</div>
+
+`);
+```
+
+}
+
+async function simpanRuangan(
+kodeGedung
+){
+
+```
+const result =
+    await postAPI({
+
+        action:
+            "tambahRuangan",
+
+        KODE_RUANGAN:
+            document.getElementById(
+                "kodeRuangan"
+            ).value,
+
+        KODE_GEDUNG:
+            kodeGedung,
+
+        NAMA_RUANGAN:
+            document.getElementById(
+                "namaRuangan"
+            ).value,
+
+        JENIS_RUANGAN:
+            document.getElementById(
+                "jenisRuangan"
+            ).value,
+
+        STATUS_RUANGAN:
+            document.getElementById(
+                "statusRuangan"
+            ).value,
+
+        UKURAN_RUANGAN:
+            document.getElementById(
+                "ukuranRuangan"
+            ).value
+
+    });
+
+if(result.success){
+
+    alert(
+        "Ruangan berhasil disimpan"
+    );
+
+    lihatRuangan(
+        kodeGedung
+    );
+
+}
+```
+
+}
+
+/* =====================================================
+EDIT RUANGAN
+===================================================== */
+
+async function editRuangan(
+kodeRuangan
+){
+
+```
+const data =
+    await getAPI(
+        "getRuanganByKode"
+        +
+        "&kodeRuangan="
+        +
+        kodeRuangan
+    );
+
+setPageTitle(
+    "Edit Ruangan"
+);
+
+setContent(`
+
+<div class="card">
+
+    <h3>
+        Edit Ruangan
+    </h3>
+
+    <br>
+
+    <input
+        type="hidden"
+        id="kodeGedung"
+        value="${data.KODE_GEDUNG || ""}">
+
+    <div class="form-group">
+
+        <label>
+            Kode Ruangan
+        </label>
+
+        <input
+            id="kodeRuangan"
+            class="form-control"
+            value="${data.KODE_RUANGAN || ""}"
+            readonly>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Nama Ruangan
+        </label>
+
+        <input
+            id="namaRuangan"
+            class="form-control"
+            value="${data.NAMA_RUANGAN || ""}">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Jenis Ruangan
+        </label>
+
+        <input
+            id="jenisRuangan"
+            class="form-control"
+            value="${data.JENIS_RUANGAN || ""}">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Status Ruangan
+        </label>
+
+        <select
+            id="statusRuangan"
+            class="form-control">
+
+            <option
+            ${data.STATUS_RUANGAN==="Aktif"?"selected":""}>
+            Aktif
+            </option>
+
+            <option
+            ${data.STATUS_RUANGAN==="Tidak Aktif"?"selected":""}>
+            Tidak Aktif
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Ukuran Ruangan (m²)
+        </label>
+
+        <input
+            type="number"
+            id="ukuranRuangan"
+            class="form-control"
+            value="${data.UKURAN_RUANGAN || ""}">
+
+    </div>
+
+    <button
+        class="btn btn-success"
+        onclick="updateRuanganForm()">
+
+        Update
+
+    </button>
+
+    <button
+        class="btn"
+        onclick="lihatRuangan('${data.KODE_GEDUNG}')">
+
+        Batal
+
+    </button>
+
+</div>
+
+`);
+```
 
 }
 
 async function updateRuanganForm(){
 
-    try{
-
-        const result =
-            await postAPI({
-
-                action:
-                    "updateRuangan",
-
-                KODE_RUANGAN:
-                    document.getElementById(
-                        "kodeRuangan"
-                    ).value,
-
-                NAMA_RUANGAN:
-                    document.getElementById(
-                        "namaRuangan"
-                    ).value,
-
-                JENIS_RUANGAN:
-                    document.getElementById(
-                        "jenisRuangan"
-                    ).value,
-
-                STATUS_RUANGAN:
-                   document.getElementById(
-                       "statusRuangan"
-                   ).value,
-                  
-                UKURAN_RUANGAN:
-                   document.getElementById(
-                       "ukuranRuangan"
-                   ).value
-
-            });
-
-        if(result.success){
-
-            alert(
-                "Ruangan berhasil diperbarui"
-            );
-
-            loadGedungAdmin();
-
-        }else{
-
-            alert(
-                result.message
-            );
-
-        }
-
-    }catch(err){
-
-        alert(
-            "ERROR : " + err
-        );
-
-    }
-
-}
-
-async function hapusRuangan(
-    kodeRuangan
-){
-
-    const konfirmasi =
-        confirm(
-            "Yakin hapus ruangan ini?"
-        );
-
-    if(!konfirmasi){
-        return;
-    }
-
-    try{
-
-        const result =
-            await postAPI({
-
-                action:
-                    "hapusRuangan",
-
-                KODE_RUANGAN:
-                    kodeRuangan
-
-            });
-
-        if(result.success){
-
-            alert(
-                "Ruangan berhasil dihapus"
-            );
-
-            loadGedungAdmin();
-
-        }else{
-
-            alert(
-                result.message
-            );
-
-        }
-
-    }catch(err){
-
-        alert(
-            "ERROR : " + err
-        );
-
-    }
-
-}
-
-async function formTambahRuangan(
-    kodeGedung
-){
-
-    setPageTitle(
-        "Tambah Ruangan"
-    );
-
-    setContent(`
-
-    <div class="card">
-
-        <h3>
-            Tambah Ruangan
-        </h3>
-
-        <br>
-
-        <div class="form-group">
-
-            <label>
-                Kode Ruangan
-            </label>
-
-            <input
-                id="kodeRuangan"
-                class="form-control">
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Nama Ruangan
-            </label>
-
-            <input
-                id="namaRuangan"
-                class="form-control">
-
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Jenis Ruangan
-            </label>
-
-            <input
-                id="jenisRuangan"
-                class="form-control">
-
-        </div>
-
-        <div class="form-group">
-            <label>Status Ruangan</label>
-            <select id="statusRuangan" class="form-control">
-                <option>Aktif</option>
-                <option>Tidak Aktif</option>
-            </select>
-        </div>
-      
-        <div class="form-group">
-            <label>Ukuran Ruangan</label>
-            <input
-                id="ukuranRuangan"
-                class="form-control"
-                placeholder="Contoh: 8 x 12 m">
-        </div>
-
-        <button
-            class="btn btn-success"
-            onclick="simpanRuangan('${kodeGedung}')">
-
-            Simpan
-
-        </button>
-
-    </div>
-
-    `);
-
-}
-
-async function simpanRuangan(
-    kodeGedung
-){
+```
+try{
 
     const result =
         await postAPI({
 
             action:
-                "tambahRuangan",
+                "updateRuangan",
 
             KODE_RUANGAN:
                 document.getElementById(
@@ -5378,7 +5369,9 @@ async function simpanRuangan(
                 ).value,
 
             KODE_GEDUNG:
-                kodeGedung,
+                document.getElementById(
+                    "kodeGedung"
+                ).value,
 
             NAMA_RUANGAN:
                 document.getElementById(
@@ -5394,25 +5387,41 @@ async function simpanRuangan(
                 document.getElementById(
                     "statusRuangan"
                 ).value,
-            
+
             UKURAN_RUANGAN:
                 document.getElementById(
                     "ukuranRuangan"
                 ).value
-           
+
         });
 
     if(result.success){
 
         alert(
-            "Ruangan berhasil disimpan"
+            "Ruangan berhasil diperbarui"
         );
 
         lihatRuangan(
-            kodeGedung
+            document.getElementById(
+                "kodeGedung"
+            ).value
+        );
+
+    }else{
+
+        alert(
+            result.message
         );
 
     }
+
+}catch(err){
+
+    alert(
+        "ERROR : " + err
+    );
+
+}
 
 }
 
