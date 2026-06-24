@@ -5418,6 +5418,21 @@ async function loadRiwayatPenghapusan(){
 
             <td>${p.PETUGAS || ""}</td>
 
+            <td>
+            
+                <button
+                    class="btn btn-warning"
+                    onclick="
+                    batalkanPenghapusan(
+                    '${p.ID_ASET}'
+                    )">
+            
+                    Batalkan
+            
+                </button>
+            
+            </td>
+
         </tr>
 
         `;
@@ -5441,6 +5456,7 @@ async function loadRiwayatPenghapusan(){
                 <th>Nilai</th>
                 <th>Keterangan</th>
                 <th>Petugas</th>
+                <th>Aksi</th>
 
             </tr>
 
@@ -5455,6 +5471,394 @@ async function loadRiwayatPenghapusan(){
     </table>
 
     `;
+
+}
+
+async function formTambahPenghapusan(){
+
+    setContent(`
+
+    <div class="card">
+
+        <h3>
+            Penghapusan Aset
+        </h3>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>
+                Kode Barang
+            </label>
+
+            <input
+                id="filterKodeBarang"
+                class="form-control">
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="cariAsetPenghapusan()">
+
+            Cari
+
+        </button>
+
+        <br><br>
+
+        <div id="hasilPenghapusan">
+
+            Silakan cari aset.
+
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+
+            <label>
+                Nomor Risalah Lelang
+            </label>
+
+            <input
+                id="nomorRisalah"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Nilai Penghapusan
+            </label>
+
+            <input
+                id="nilaiPenghapusan"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Dokumen
+            </label>
+
+            <input
+                id="dokumenPenghapusan"
+                class="form-control">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Keterangan
+            </label>
+
+            <textarea
+                id="keteranganPenghapusan"
+                class="form-control"></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-danger"
+            onclick="simpanPenghapusan()">
+
+            Simpan Penghapusan
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadPenghapusan()">
+
+            Batal
+
+        </button>
+
+    </div>
+
+    `);
+
+}
+
+async function cariAsetPenghapusan(){
+
+    try{
+
+        const kodeBarang =
+            document.getElementById(
+                "filterKodeBarang"
+            ).value
+            .toLowerCase();
+
+        let aset =
+            await getAPI(
+                "getMasterAset"
+            );
+
+        if(
+            ROLE ===
+            "ADMIN_GEDUNG"
+        ){
+
+            aset =
+            aset.filter(
+                a =>
+                String(
+                    a.KODE_GEDUNG
+                ) ===
+                String(
+                    KODE_GEDUNG
+                )
+            );
+
+        }
+
+        aset =
+        aset.filter(
+            a =>
+            String(
+                a.STATUS_ASET || ""
+            )
+            .toLowerCase()
+            !==
+            "dihapus"
+        );
+
+        const hasil =
+            aset.filter(a=>{
+
+                return (
+                    !kodeBarang ||
+
+                    String(
+                        a.KODE_BARANG || ""
+                    )
+                    .toLowerCase()
+                    .includes(
+                        kodeBarang
+                    )
+
+                );
+
+            });
+
+        let rows = "";
+
+        hasil.forEach(a=>{
+
+            rows += `
+
+            <tr>
+
+                <td>
+
+                    <input
+                        type="checkbox"
+                        class="asetPenghapusan"
+                        value="${a.ID_ASET}">
+
+                </td>
+
+                <td>${a.KODE_BARANG || ""}</td>
+
+                <td>${a.NAMA_BARANG || ""}</td>
+
+                <td>${a.NAMA_GEDUNG || ""}</td>
+
+                <td>${a.NAMA_RUANGAN || ""}</td>
+
+                <td>${a.KONDISI || ""}</td>
+
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "hasilPenghapusan"
+        ).innerHTML = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Pilih</th>
+                    <th>Kode Barang</th>
+                    <th>Nama Barang</th>
+                    <th>Gedung</th>
+                    <th>Ruangan</th>
+                    <th>Kondisi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows}
+
+            </tbody>
+
+        </table>
+
+        `;
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
+async function simpanPenghapusan(){
+
+    try{
+
+        const checked =
+            document.querySelectorAll(
+                ".asetPenghapusan:checked"
+            );
+
+        if(
+            checked.length === 0
+        ){
+
+            alert(
+                "Pilih minimal 1 aset"
+            );
+
+            return;
+
+        }
+
+        for(
+            const c of checked
+        ){
+
+            const result =
+                await postAPI({
+
+                    action:
+                        "tambahPenghapusan",
+
+                    ID_ASET:
+                        c.value,
+
+                    NOMOR_RISALAH_LELANG:
+                        document.getElementById(
+                            "nomorRisalah"
+                        ).value,
+
+                    NILAI_PENGHAPUSAN:
+                        document.getElementById(
+                            "nilaiPenghapusan"
+                        ).value
+                        .replace(/\./g,""),
+
+                    DOKUMEN:
+                        document.getElementById(
+                            "dokumenPenghapusan"
+                        ).value,
+
+                    KETERANGAN:
+                        document.getElementById(
+                            "keteranganPenghapusan"
+                        ).value,
+
+                    PETUGAS:
+                        (
+                            localStorage.getItem(
+                                "SIMDBR_NAMA"
+                            ) || ""
+                        )
+
+                });
+
+            if(
+                !result.success
+            ){
+
+                alert(
+                    result.message
+                );
+
+                return;
+
+            }
+
+        }
+
+        alert(
+            "Penghapusan berhasil disimpan"
+        );
+
+        loadPenghapusan();
+
+    }catch(err){
+
+        alert(
+            "ERROR : " + err
+        );
+
+    }
+
+}
+
+async function batalkanPenghapusan(
+    idAset
+){
+
+    if(
+        !confirm(
+            "Batalkan penghapusan aset ini?"
+        )
+    ){
+        return;
+    }
+
+    const result =
+        await postAPI({
+
+            action:
+                "batalkanPenghapusan",
+
+            ID_ASET:
+                idAset,
+
+            PETUGAS:
+                localStorage.getItem(
+                    "SIMDBR_NAMA"
+                ) || ""
+
+        });
+
+    if(result.success){
+
+        alert(
+            "Penghapusan dibatalkan"
+        );
+
+        loadPenghapusan();
+
+    }else{
+
+        alert(
+            result.message
+        );
+
+    }
 
 }
 
