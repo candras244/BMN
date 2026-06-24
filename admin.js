@@ -5345,13 +5345,116 @@ async function simpanRuangan(
 
 async function loadPenghapusan(){
 
-    setPageTitle("Penghapusan");
+    setPageTitle(
+        "Penghapusan Aset"
+    );
 
     setContent(`
-        <div class="card">
-            Modul Penghapusan
+
+    <div class="card">
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:20px;
+            ">
+
+            <h3>
+                Riwayat Penghapusan
+            </h3>
+
+            <button
+                class="btn btn-danger"
+                onclick="formTambahPenghapusan()">
+
+                + Penghapusan Aset
+
+            </button>
+
         </div>
+
+        <div id="listPenghapusan">
+
+            Loading...
+
+        </div>
+
+    </div>
+
     `);
+
+    await loadRiwayatPenghapusan();
+
+}
+
+async function loadRiwayatPenghapusan(){
+
+    let data =
+        await getAPI(
+            "getPenghapusan"
+        );
+
+    let rows = "";
+
+    data.reverse().forEach((p,index)=>{
+
+        rows += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${p.TANGGAL || ""}</td>
+
+            <td>${p.ID_ASET || ""}</td>
+
+            <td>${p.NOMOR_RISALAH_LELANG || ""}</td>
+
+            <td>${p.NILAI_PENGHAPUSAN || ""}</td>
+
+            <td>${p.KETERANGAN || ""}</td>
+
+            <td>${p.PETUGAS || ""}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById(
+        "listPenghapusan"
+    ).innerHTML = `
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>No</th>
+                <th>Tanggal</th>
+                <th>ID Aset</th>
+                <th>Nomor Risalah</th>
+                <th>Nilai</th>
+                <th>Keterangan</th>
+                <th>Petugas</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            ${rows}
+
+        </tbody>
+
+    </table>
+
+    `;
 
 }
 
