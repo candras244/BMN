@@ -4485,6 +4485,10 @@ async function loadRuanganPanel(
 
             <td>${r.JENIS_RUANGAN || ""}</td>
 
+            <td>${r.STATUS_RUANGAN || ""}</td>
+
+            <td>${r.UKURAN_RUANGAN || ""}</td>
+
             <td>
 
                 <button
@@ -4548,6 +4552,8 @@ async function loadRuanganPanel(
                     <th>Kode</th>
                     <th>Nama Ruangan</th>
                     <th>Jenis</th>
+                    <th>Status</th>
+                    <th>Ukuran</th>
                     <th>Aksi</th>
 
                 </tr>
@@ -5015,6 +5021,8 @@ async function lihatRuangan(
                     <th>Kode</th>
                     <th>Nama Ruangan</th>
                     <th>Jenis</th>
+                    <th>Status</th>
+                    <th>Ukuran</th>
 
                 </tr>
 
@@ -5101,6 +5109,38 @@ async function editRuangan(
 
         </div>
 
+        <div class="form-group">
+             <label>Status Ruangan</label>
+         
+             <select
+                 id="statusRuangan"
+                 class="form-control">
+         
+                 <option
+                 ${data.STATUS_RUANGAN==="Aktif"?"selected":""}>
+                 Aktif
+                 </option>
+         
+                 <option
+                 ${data.STATUS_RUANGAN==="Tidak Aktif"?"selected":""}>
+                 Tidak Aktif
+                 </option>
+         
+             </select>
+         
+         </div>
+         
+         <div class="form-group">
+         
+             <label>Ukuran Ruangan</label>
+         
+             <input
+                 id="ukuranRuangan"
+                 class="form-control"
+                 value="${data.UKURAN_RUANGAN || ""}">
+         
+         </div>
+
         <button
             class="btn btn-success"
             onclick="updateRuanganForm()">
@@ -5149,7 +5189,14 @@ async function updateRuanganForm(){
                     ).value,
 
                 STATUS_RUANGAN:
-                    "Aktif"
+                   document.getElementById(
+                       "statusRuangan"
+                   ).value,
+                  
+                UKURAN_RUANGAN:
+                   document.getElementById(
+                       "ukuranRuangan"
+                   ).value
 
             });
 
@@ -5285,6 +5332,22 @@ async function formTambahRuangan(
 
         </div>
 
+        <div class="form-group">
+            <label>Status Ruangan</label>
+            <select id="statusRuangan" class="form-control">
+                <option>Aktif</option>
+                <option>Tidak Aktif</option>
+            </select>
+        </div>
+      
+        <div class="form-group">
+            <label>Ukuran Ruangan</label>
+            <input
+                id="ukuranRuangan"
+                class="form-control"
+                placeholder="Contoh: 8 x 12 m">
+        </div>
+
         <button
             class="btn btn-success"
             onclick="simpanRuangan('${kodeGedung}')">
@@ -5325,8 +5388,18 @@ async function simpanRuangan(
             JENIS_RUANGAN:
                 document.getElementById(
                     "jenisRuangan"
-                ).value
+                ).value,
 
+            STATUS_RUANGAN:
+                document.getElementById(
+                    "statusRuangan"
+                ).value,
+            
+            UKURAN_RUANGAN:
+                document.getElementById(
+                    "ukuranRuangan"
+                ).value
+           
         });
 
     if(result.success){
